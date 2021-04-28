@@ -1,0 +1,154 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #fcf7f7 !important;
+}
+
+html, body, #container {
+    height: 100%;
+    background: none !important;
+}
+
+#container {
+    width: 1000px !important;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    padding: .4em 1em;
+    position: relative;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-bottom: none;
+    border-right: none;
+    color: #231F20;
+}
+
+.ui-dialog .ui-dialog-title {
+    float: left;
+    margin: .1em 16px .1em 0;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+    display: block !important;
+    background-image: url('/themes/maennaco/images/close-icon-off.png') !important;
+    width: 33px;
+    height: 32px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close span {
+    display: block;
+    margin: 1px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close:hover {
+    background-image: url('/themes/maennaco/images/close-icon-on.png') !important;
+}
+
+.ui-dialog .ui-dialog-titlebar-close:focus {
+    padding: 0;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+    position: absolute;
+    top: 23% !important;
+    right: -0.2em;
+    margin: -10px 0 0 0;
+    padding: 1px;
+}
+
+.ui-widget-content {
+    color: #929497 !important;
+    font-family: 'LatoRegular', sans-serif;
+}
+
+#eveditdlg {
+    padding: .5em 1em !important;
+}
+
+#wrapper {
+    margin-top: -25px;
+    background-color: #ffffff;
+}
+
+#container {
+    margin-top: 15px !important;
+}
+
+p {
+    font-family: 'LatoRegular', sans-serif;
+    font-size: 12px;
+}
+
+li {
+    font-family: 'LatoRegular', sans-serif;
+    font-size: 14px;
+}
+
+ul li, ul.menu li, .item-list ul li, li.leaf {
+    height: 30px;
+    background: #E8E8E9 !important;
+}
+
+ul li, ul.menu li, .item-list ul li, li.list-a {
+    background: none !important;
+    height: auto;
+}
+
+.ui-dialog .ui-dialog-content {
+    padding: 0 !important;
+}
+
+.ui-dialog {
+    padding: 0 !important;
+}
+
+.ui-widget-overlay {
+    opacity: 0.8 !important;
+}
+
+.cmp-title {
+    font: 30px Lato Bold;
+    color: #284b5a;
+}
+
+.content_box {
+    margin-top: 14px;
+}
+
+.professionals .act-content div.content_box .box_title.shaded_title {
+    height: 32px;
+    line-height: 32px;
+    color: #fff;
+    background-color: #94c9da;
+    padding-left: 15px;
+}
+
+#docprev {
+    text-align: left !important;
+}
+
+#loading {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#calendar {
+    background-color: #fafbfb;
+    width: 220px;
+    margin: 0 auto 20px -10px;
+}
+
+.fc-event-inner {
+    width: 28px !important;
+}
+
+.show_more_cmp {
+    cursor: pointer;
+    width: 120px;
+    color: #00A2BF;
+    font: 13px Lato Italic;
+    display: block;
+    margin: 10px auto;
+}

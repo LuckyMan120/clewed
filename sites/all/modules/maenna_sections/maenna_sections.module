@@ -1,0 +1,9 @@
+<?php
+function maenna_sections()
+{
+    global $user;
+    test_array($user);
+}
+
+
+/* EOF */

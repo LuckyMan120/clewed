@@ -1,0 +1,17 @@
+<div id="cardholder" style="width:auto !important; height: auto !important; border: none !important;">
+    <div class="pro_card" style="width: auto; height:auto;margin:5px 0 !important;">
+        <img width="50" height="50" src="{{ baseUrl ~ '/themes/maennaco/phpthumb/phpThumb.php?src=' ~ pro.avatar ~ '&zc=1&w=50&h=50' }}">
+
+        <div style="float:left;width:340px;">
+            <div class="name_title">{{ pro.full_name }}</div>
+            <br style="clear:both;">
+            <div class="pro_summary line-clamp">{{ pro.profile }}</div>
+        </div>
+        <br style="clear:both">
+        <hr style="width:97%; background-color:#D0D2D3; margin-left:5px;margin-top:11px;">
+        <div class="pro_exp">{{ pro.exp }}</div>
+        <div class="pro_exp">{{ pro.education }}</div>
+        <hr style="width:97%; background-color:#D0D2D3; margin-left:5px;margin-top:11px;margin-bottom:11px;">
+        <div class="pro_summary line-clamp2" style="margin-left:20px;padding-bottom: 10px;">{{ pro.expertise }}</div>
+    </div>
+</div>

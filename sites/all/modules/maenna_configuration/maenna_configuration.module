@@ -1,0 +1,1452 @@
+<?php
+/*
+function maenna_configuration_menu()
+{
+    $items = array();
+    $items['maennaco_configuration'] = array(
+            'title'             => t('Maennaco Configuration Options'),
+            'access arguments'  =>  array('access content'),
+            'description'       =>  t('Maennaco Configuration Options'),
+            'type'              =>  MENU_CALLBACK
+    );
+    return $items;
+}
+*/
+function _admin_types() {
+    return array(
+        "15" => "Sales",
+        "6"  => "Moderator"
+    );
+}
+
+function _categories() {
+    return array(
+        "Customers"     => "Customers",
+        "Employees"     => "Employees",
+        "Products"      => "Products",
+        "Moat"          => "Moat",
+        "Pricing"       => "Pricing",
+        "Market"        => "Market",
+        "Competition"   => "Competition",
+        "Plan"          => "Plan",
+        "Priorities"    => "Priorities",
+        "Metrics"       => "Metrics",
+        "Financials"    => "Financials",
+        "Risks"         => "Risks",
+        "Opportunities" => "Opportunities",
+        "Sales"         => "Sales",
+        "Distribution"  => "Distribution"
+    );
+}
+
+//CP DEV
+function _TAGS() {
+    return array(
+        'requirements'  => 'Deliverable Requirements',
+        'screening'     => 'Expert screening',
+        'deliverables'  => 'Expert Deliverables',
+        'questionnaire' => 'Project Due Diligence',
+        'financial'     => 'Financials',
+        'analysis'      => 'Analysis / Pitches',
+        'agreements'    => 'Legal',
+        'other'         => 'Other'
+    );
+}
+
+function PROF_INVEST_SORT() {
+    return array(
+        'name'      => 'NAME',
+        'a.type'    => 'TYPE',
+        'a.amount'  => 'FUNDED',
+        'a.ion'     => 'IOI',
+        'a.created' => 'DATE',
+        'a.status'  => 'STATUS',
+    );
+}
+
+function ADMIN_INVEST_SORT() {
+    return array(
+        'type'      => 'TYPE',
+        'date'      => 'DATE',
+        'status'    => 'STATUS',
+        'ioi'       => 'IOI',
+        'amount'    => 'FUNDED',
+    );
+}
+
+function INVESTOR_TYPE() {
+    return array(
+        'accredited'       => 'Accredited',
+        'unaccredited'     => 'Unaccredited',
+    );
+}
+
+function V_INVESTOR_TYPE() {
+    return array(
+        ''                 => '',
+        'accredited'       => 'Accredited (V)',
+        'unaccredited'     => 'Unaccredited (V)',
+    );
+}
+
+function PAYMENT_METHOD() {
+    return array(
+        'paypal'       => 'Pay thorough PayPal(you can use credit cards)',
+        'ach_wire'     => 'Send ACH or Wire and reduce your processing fee',
+    );
+}
+
+function INVEST_STATUS() {
+    return array(
+        '0'          => 'Pending',
+        '1'     => 'LOI approved',
+        '2'         => 'Declined',
+        '3'           => 'Funding Sent',
+        '4'           => 'Funded',
+    );
+}
+
+function _SHORT_TAGS() {
+    return array(
+        'requirements'  => 'RQMT',
+        'screening'     => 'Screening',
+        'deliverables'  => 'Deliverables',
+        'questionnaire' => 'Due Diligence',
+        'financial'     => 'Financials',
+        'analysis'      => 'Analysis',
+        'agreements'    => 'Legal',
+        'other'         => 'Other'
+    );
+}
+
+function OPTION_TAGS($_Tags, $selected = null) {
+    $option_roles = '';
+    foreach ($_Tags as $key => $value) {
+        $sel = '';
+        if ($selected == $key) $sel = 'selected';
+        $option_roles .= "<option value='$key' $sel>$value</option>";
+    }
+    return $option_roles;
+}
+
+// END CP DEV
+function _ROLES() {
+    return array(
+        'Owner & Chief Executive Officer',
+        'Chief Executive Officer',
+        'Managing Director',
+        'President',
+        'Chief Financial Officer',
+        'Chief Technology Officer',
+        'Chief Marketing Officer',
+        'General Management',
+        'Management - Marketing',
+        'Management - Sales',
+        'Business Development',
+        'General Management',
+        'Managing Director',
+        'Advisor',
+        'Consultant',
+    );
+}
+
+function OPTION_ROLES($_Roles, $selected = null) {
+    $option_roles = '';
+    foreach ($_Roles as $r) {
+        $sel = '';
+        if ($selected == $r) $sel = 'selected';
+        $option_roles .= "<option $sel>$r</option>";
+    }
+    return $option_roles;
+}
+
+function _proRatingAnchors() {
+    /*$Anchors =  array(
+                 'Beharvioral Competency' => array('Leadership',
+                                                   'Integrity',
+                                                   'Trustworthiness',
+                                                   'Develop Relationships',
+                                                   'Action orientation',
+                                                   'Strategic Perspective',
+                                                   'Concern for Quality',
+                                                   'Focus',
+                                                   'Other'),
+                 'Technical Competency' => array('Sales Strategy',
+                                                 'Lead generation',
+                                                 'Follow up processes',
+                                                 'Active customer contact',
+                                                 'Leading Meetings',
+                                                 'Customer focus',
+                                                 'Closing',
+                                                 'Knowledge of products',
+                                                 'Communication skills',
+                                                 'Process management and decuple',
+                                                 'Others')
+                 );
+    */
+    $Anchors = array(
+        'Beharvioral Competency' => array(
+            'Trustworthiness, loyalty, dependability',
+            'Passion, focus, self-discipline',
+            'Resourcefulness, initiative, action',
+            'Judgment & confidence',
+            'Listening, diplomacy and tact',
+            'Clear thinking, curiosity, learning',
+            'Develop relationships',
+            'Going the extra mile',
+            'Long-term orientation',
+            'Strategic perspective'
+        ),
+        'Technical Competency'   => array(
+            'Client focus',
+            'Communication effectiveness, listening',
+            'Subject matter knowledge',
+            'Closing, delivering results',
+            'Process management ',
+            'Follow up process',
+            'Knowledge of products',
+            'Knowledge of customers'
+        )
+    );
+    $Output = array();
+    foreach ($Anchors as $key => $Items) {
+        $Output["$key"] = array();
+        $prefix = strtolower($key);
+        $prefix = substr($key, 0, 3) . '_';
+        foreach ($Items as $title) {
+            $shortKey = $prefix . preg_replace("/[^a-z]/i", '', $title);
+            $shortKey = strtolower($shortKey);
+            $Output["$key"]["$shortKey"] = $title;
+        }
+    }
+    return $Output;
+}
+
+function _IndustryDefaultLogo($key = null) {
+    $Data = array(
+        "Agriculture"                   => "19",
+        "BuildingMaterials"             => "19",
+        "Chemical"                      => "17",
+        "Coal"                          => "19",
+        "ForestProducts"                => "19",
+        "MetalsMining"                  => "18",
+        "Steel"                         => "18",
+        "AdvertisingMarketingSvcs"      => "14",
+        "Autos"                         => "36",
+        "Entertainment"                 => "40",
+        "HomebuildingConstruction"      => "16",
+        "ManufApparelFurniture"         => "15",
+        "PackagingContainers"           => "13",
+        "PersonalServices"              => "12",
+        "Publishing"                    => "10",
+        "Restaurants"                   => "29",
+        "RetailApparelSpecialty"        => "23",
+        "TravelLeisure"                 => "9",
+        "BeveragesAlcoholic"            => "30",
+        "BeveragesNonAlcoholic"         => "30",
+        "ConsumerPackagedGoods"         => "33",
+        "Education"                     => "8",
+        "RetailDefensive"               => "35",
+        "TobaccoProducts"               => "7",
+        "AssetManagement"               => "6",
+        "Banks"                         => "6",
+        "BrokersExchanges"              => "6",
+        "CreditServices"                => "6",
+        "Insurance"                     => "6",
+        "InsuranceLife"                 => "6",
+        "InsurancePropertyCasualty"     => "6",
+        "InsuranceSpecialty"            => "6",
+        "RealEstateServices"            => "5",
+        "REITs"                         => "5",
+        "Healthcare"                    => "25",
+        "Biotechnology"                 => "39",
+        "DrugManufacturers"             => "41",
+        "HealthCarePlans"               => "38",
+        "HealthCareProviders"           => "37",
+        "MedicalDevices"                => "35",
+        "MedicalDiagnosticsResearch"    => "25",
+        "MedicalDistribution"           => "25",
+        "MedicalInstrumentsEquipment"   => "25",
+        "CommunicationServices"         => "25",
+        "OilGasDrilling"                => "4",
+        "OilGasEP"                      => "4",
+        "OilGasIntegrated"              => "4",
+        "OilGasMidstream"               => "4",
+        "OilGasRefiningMarketing"       => "4",
+        "OilGasServices"                => "4",
+        "Business Services"             => "24",
+        "Conglomerates"                 => "3",
+        "Consulting & Outsourcing"      => "24",
+        "Farm & construction machinary" => "2",
+        "Technology"                    => "32",
+        "ApplicationSoftware"           => "32",
+        "CommunicationEquipment"        => "32",
+        "ComputerHardware"              => "32",
+        "OnlineMedia"                   => "32",
+        "Semiconductors"                => "32",
+        "Utility"                       => "1",
+        "IndependentPowerProducers"     => "1",
+        "Regulated"                     => "1"
+    );
+    if ($key == null) {
+        return $Data;
+    } else return $Data[$key];
+}
+
+function _INDUSTRY() {
+    $Data = array(
+        ''                   => array(''),
+        "Basic Materials"    => array(
+            'Basic Materials',
+            'Agriculture',
+            'Building Materials',
+            'Chemicals',
+            'Coal',
+            'Forest Products',
+            'Metals & Mining',
+            'Steel',
+        ),
+        "Consumer Cyclical"  => array(
+            'Consumer Cyclical',
+            'Advertising & Marketing Svcs',
+            'Autos',
+            'Entertainment',
+            'Homebuilding & Construction',
+            'Manuf. - Apparel & Furniture',
+            'Packaging & Containers',
+            'Personal Services',
+            'Publishing',
+            'Restaurants',
+            'Retail - Apparel & Specialty',
+            'Travel & Leisure',
+        ),
+        "Consumer Defensive" => array(
+            'Consumer Defensive',
+            'Beverages - Alcoholic',
+            'Beverages - Non-Alcoholic',
+            'Consumer Packaged Goods',
+            'Education',
+            'Retail - Defensive',
+            'Tobacco Products',
+        ),
+        "Financial Services" => array(
+            'Financial Services',
+            'Asset Management',
+            'Banks',
+            'Brokers & Exchanges',
+            'Credit Services',
+            'Insurance',
+            'Insurance - Life',
+            'Insurance - Property & Casualty',
+            'Insurance - Specialty',
+        ),
+        "Real Estate"        => array(
+            'Real Estate Services',
+            'REITs',
+        ),
+        "Healthcare"         => array(
+            'Healthcare',
+            'Biotechnology',
+            'Drug Manufacturers',
+            'Health Care Plans',
+            'Health Care Providers',
+            'Medical Devices',
+            'Medical Diagnostics & Research',
+            'Medical Distribution',
+            'Medical Instruments & Equipment',
+            'Communication Services',
+        ),
+        "Energy"             => array(
+            'Energy',
+            'Oil & Gas - Drilling',
+            'Oil & Gas - E&P',
+            'Oil & Gas - Integrated',
+            'Oil & Gas - Midstream',
+            'Oil & Gas - Refining & Marketing',
+            'Oil & Gas - Services',
+        ),
+        "Industrial"         => array(
+            'Industrial',
+            'Aerospace & Defense',
+            'Airlines',
+            'Business Services',
+            'Conglomerates',
+            'Consulting & Outsourcing',
+            'Employment Services',
+            'Engineering & Construction',
+            'Farm & Construction Machinery',
+            'Industrial Distribution',
+            'Industrial Products',
+            'Transportation & Logistics',
+            'Truck Manufacturing',
+            'Waste Management',
+        ),
+        "Technology"         => array(
+            'Technology',
+            'Application Software',
+            'Communication Equipment',
+            'Computer Hardware',
+            'Online Media',
+            'Semiconductors',
+        ),
+        "Utility"            => array(
+            'Utility',
+            'Independent Power Producers',
+            'Regulated',
+        ),
+        'Other'              => array(
+            'Other'
+        )
+    );
+    $Output = array();
+    foreach ($Data as $categoryTitle => $CategoryArray) {
+        $M = array();
+        foreach ($CategoryArray as $val) {
+            $mKey = preg_replace('/[^a-z0-9\s]/i', '', $val);
+            $M["$mKey"] = $val;
+        }
+        $Output["$categoryTitle"] = $M;
+    }
+    return $Output;
+}
+
+function OPTION_INDUSTRY($selected = null) {
+    $option_industry = '';
+    $_Industry = _INDUSTRY();
+    foreach ($_Industry as $key => $array) {
+        $option_industry .= "<optgroup label='$key'>";
+        foreach ($array as $kkey => $val) {
+            $sel = '';
+            if (($selected == $kkey) && (!empty($selected))) $sel = 'selected';
+            $option_industry .= "<option value='$kkey' $sel>$val</option>";
+        }
+        $option_industry .= "</optgroup>";
+    }
+    return $option_industry;
+}
+
+function getSelectedCompanyPage2($cid) {
+    if ($cid) {
+        $sel = array();
+        $q = mysql_query("SELECT
+                data_value, data_value2, data_value3,
+                round_amount_raising, funding_purpose, percent_ownership_offered, raised_prior, estimated_share_price, security_type, interest_rate, term,
+                max_per_investor, min_per_investor, close_date
+            FROM maenna_company_data
+            WHERE data_type = 'financial' AND companyid = '" . ((int) $cid) . "' ORDER BY data_attr DESC LIMIT 2");
+
+        if (!$q) {
+            return false;
+        }
+
+        while ($r = mysql_fetch_assoc($q)) {
+            $sel[] = $r;
+        }
+
+        $res = mysql_query("SELECT firstname,lastname,contact,role,sector,founded,hear_about,referral_code,description,web,company_type,company,projname,city,state,phone,empnum,address1,country,email,fundraising,paypal_instructions,ach_wire_bank_name,ach_wire_bank_addr,ach_wire_account_name,ach_wire_ach_aba_no,ach_wire_wire_aba_no,ach_wire_account_no, billing_address1, billing_address2, billing_address_city, billing_address_state, billing_address_zip, started_fundraising, clewed_fee,ach_fee,paypal_fee,card_fee, paypal_client_id, paypal_client_secret,deal_summary_title, deal_summary_statement ,access_key_finance,access_use_of_funds,access_management_discussion FROM maenna_company WHERE companyid = '" . ((int) $cid) . "'");
+        $q = mysql_fetch_array($res);
+        $sel['year'] = htmlspecialchars_decode($q['founded'],ENT_QUOTES);
+        $sel['sector'] = htmlspecialchars_decode($q['sector'],ENT_QUOTES);
+        $sel['hear_about'] = htmlspecialchars_decode($q['hear_about'],ENT_QUOTES);
+        $sel['ref'] = htmlspecialchars_decode($q['referral_code'],ENT_QUOTES);
+        $sel['desc'] = htmlspecialchars_decode($q['description'],ENT_QUOTES);
+        $sel['website'] = htmlspecialchars_decode($q['web'],ENT_QUOTES);
+        $sel['cmp_type'] = htmlspecialchars_decode($q['company_type'],ENT_QUOTES);
+        $sel['cmp_name'] = htmlspecialchars_decode($q['company'],ENT_QUOTES);
+        $sel['proj_name'] = htmlspecialchars_decode($q['projname'],ENT_QUOTES);
+        $sel['city'] = htmlspecialchars_decode($q['city'],ENT_QUOTES);
+        $sel['country'] = htmlspecialchars_decode($q['country'],ENT_QUOTES);
+        $sel['state'] = htmlspecialchars_decode($q['state'],ENT_QUOTES);
+        $sel['phone'] = htmlspecialchars_decode($q['phone'],ENT_QUOTES);
+        $sel['empnum'] = htmlspecialchars_decode($q['empnum'],ENT_QUOTES);
+        $sel['address'] = htmlspecialchars_decode($q['address1'],ENT_QUOTES);
+        $sel['email'] = htmlspecialchars_decode($q['email'],ENT_QUOTES);
+        $sel['contact'] = htmlspecialchars_decode($q['contact'],ENT_QUOTES);
+        $sel['role'] = htmlspecialchars_decode($q['role'],ENT_QUOTES);
+        $sel['paypal_instructions'] = htmlspecialchars_decode($q['paypal_instructions'],ENT_QUOTES);
+        $sel['ach_wire_bank_name'] = htmlspecialchars_decode($q['ach_wire_bank_name'],ENT_QUOTES);
+        $sel['ach_wire_bank_addr'] = htmlspecialchars_decode($q['ach_wire_bank_addr'],ENT_QUOTES);
+        $sel['ach_wire_account_name'] = htmlspecialchars_decode($q['ach_wire_account_name'],ENT_QUOTES);
+        $sel['ach_wire_ach_aba_no'] = htmlspecialchars_decode($q['ach_wire_ach_aba_no'],ENT_QUOTES);
+        $sel['ach_wire_wire_aba_no'] = htmlspecialchars_decode($q['ach_wire_wire_aba_no'],ENT_QUOTES);
+        $sel['ach_wire_account_no'] = htmlspecialchars_decode($q['ach_wire_account_no'],ENT_QUOTES);
+        $sel['firstname'] = htmlspecialchars_decode($q['firstname'],ENT_QUOTES);
+        $sel['lastname'] = htmlspecialchars_decode($q['lastname'],ENT_QUOTES);
+        $sel['billing_address1'] = htmlspecialchars_decode($q['billing_address1'],ENT_QUOTES);
+        $sel['billing_address2'] = htmlspecialchars_decode($q['billing_address2'],ENT_QUOTES);
+        $sel['billing_address_city'] = htmlspecialchars_decode($q['billing_address_city'],ENT_QUOTES);
+        $sel['billing_address_state'] = htmlspecialchars_decode($q['billing_address_state'],ENT_QUOTES);
+        $sel['billing_address_zip'] = htmlspecialchars_decode($q['billing_address_zip'],ENT_QUOTES);
+
+        $sel['access_management_discussion'] = $q['access_management_discussion'];
+        $sel['access_key_finance'] = $q['access_key_finance'];
+        $sel['access_use_of_funds'] = $q['access_use_of_funds'];
+
+        // Flag
+        $sel['fundraising'] = $q['fundraising'];
+        $sel['started_fundraising'] = $q['started_fundraising'];
+
+        $sel['clewed_fee'] = $q['clewed_fee'];
+        $sel['ach_fee'] = $q['ach_fee'];
+        $sel['paypal_fee'] = $q['paypal_fee'];
+        $sel['card_fee'] = $q['card_fee'];
+        $sel['paypal_client_id'] = htmlspecialchars_decode($q['paypal_client_id'],ENT_QUOTES);
+        $sel['paypal_client_secret'] = htmlspecialchars_decode($q['paypal_client_secret'],ENT_QUOTES);
+        $sel['deal_summary_title'] = htmlspecialchars_decode($q['deal_summary_title'],ENT_QUOTES);
+        $sel['deal_summary_statement'] = htmlspecialchars_decode($q['deal_summary_statement'],ENT_QUOTES);
+
+        //
+        $funded_sql = "SELECT SUM(amount) AS total_funded FROM maenna_professional_investment WHERE company_id = 217 AND STATUS=3";
+        $sql_qurey = mysql_query($funded_sql);
+        $res = mysql_fetch_array($sql_qurey);
+        $sel['total_funded'] = htmlspecialchars_decode($res['total_funded'],ENT_QUOTES);
+
+        return $sel;
+    }
+
+    return '0';
+}
+
+function getSelectedProPage2($pid) {
+    if ($pid) {
+        $sel = array();
+        $q = mysql_query("SELECT firstname,lastname,real_first_name,real_last_name,gender,address1,email,phone,city,state,industry,industry2,experties,experties2,experties3,yearwork,brief_intro,referral_code,hear_about,protype,profile,pic,username_type,proj_name,code_to_refer,trained_at,title_tag,cmp_member_email, hourly_rate, billing_address1, billing_address2, billing_address_city, billing_address_state, billing_address_zip, billing_address_country, billing_address_interest, investor_type, previous_appruved_investor_type, investor_type_appruved_flag,investor_type_last_appruved_datetime FROM maenna_people WHERE pid = '" . $pid . "'") or die(mysql_error());
+        $q = mysql_fetch_assoc($q);
+        foreach ($q as $key => $value) {
+            $sel[$key] = htmlspecialchars_decode($value,ENT_QUOTES);
+        }
+        //Get emplyment info
+        $q = mysql_query("SELECT * FROM maenna_people_data WHERE data_type = 'employment' AND pid = '" . $pid . "' ORDER BY dataid DESC LIMIT 1");
+        $q = mysql_fetch_assoc($q);
+        $sel['company'] = htmlspecialchars_decode($q['data_value'],ENT_QUOTES);
+        //$sel['experties'] = htmlspecialchars_decode($q['data_value2']);
+        $sel['mlvl'] = htmlspecialchars_decode($q['data_value3'],ENT_QUOTES);
+        $sel['plres'] = htmlspecialchars_decode($q['data_value4'],ENT_QUOTES);
+        //Get education info
+        $q = mysql_query("SELECT * FROM maenna_people_data WHERE data_type = 'education' AND pid = '" . $pid . "' ORDER BY dataid DESC LIMIT 1");
+        $q = mysql_fetch_assoc($q);
+        $sel['graduate'] = htmlspecialchars_decode($q['data_value'],ENT_QUOTES);
+        $sel['undergraduate'] = htmlspecialchars_decode($q['data_value3'],ENT_QUOTES);
+        $sel['degree'] = htmlspecialchars_decode($q['data_value2'],ENT_QUOTES);
+        //Get discussion tool status
+        $sql_schedule = "SELECT pid, discussion_status FROM maenna_people WHERE pid=" . $pid;
+        $dis_query = mysql_query($sql_schedule);
+        $result_dis = mysql_fetch_object($dis_query);
+        $sel['discussion_tool'] = $result_dis->discussion_status;
+        return $sel;
+    } else return '0';
+}
+
+function GenderOptions() {
+    $Values = array(
+        ''  => '',
+        'm' => 'MALE',
+        'f' => 'FEMALE'
+    );
+    return $Values;
+}
+
+function RevenuesData($input = null) {
+    $Values = array(
+        ''            => '',
+        '10000000'    => '< $10 Million',
+        '25000000'    => '< $25 Million',
+        '50000000'    => '< $50 Million',
+        '100000000'   => '< $100 Million',
+        '200000000'   => '< $200 Million',
+        '500000000'   => '< $500 Million',
+        '1000000000'  => '< $1 Billion',
+        '10000000000' => '< $10 Billion',
+        '10000000001' => '> $10 Billion'
+        /*            ''  => '',
+                     '1000000'   =>          '$10,000,000',
+                     '3000000'   =>          '$3,000,000',
+                     '5000000'   =>          '$5,000,000',
+                    '10000000'   =>          '$10,000,000',
+                    '15000000'   =>          '$15,000,000',
+                    '20000000'   =>          '$20,000,000',
+                    '25000000'   =>          '$25,000,000',
+                    '35000000'   =>          '$35,000,000',
+                    '45000000'   =>          '$45,000,000',
+                    '55000000'   =>          '$55,000,000',
+                    '65000000'   =>          '$65,000,000',
+                    '75000000'   =>          '$75,000,000',
+                   '100000000'   =>          '$100,000,000',
+                   '125000000'   =>          '$125,000,000',
+                   '150000000'   =>          '$150,000,000',
+                   '175000000'   =>          '$175,000,000',
+                   '200000000'   =>          '$200,000,000',
+                   '200000001'   =>          'over $200,000,000'*/
+    );
+    return $Values;
+}
+
+function CmpData($input = null) {
+    $Values = array(
+        ''        => '',
+        // 'product' => 'Product Company',
+        // 'service' => 'Service Company'
+        'advisory'      => 'Advisory',
+        'consulting'    => 'Consulting',
+        'investment'    => 'Investment'
+    );
+    return $Values;
+}
+
+function RevenuesOption($input = '', $search = false) {
+    $output_str = '';
+    $Revenus = RevenuesData();
+    foreach ($Revenus as $key => $val) {
+        if ($search) {
+            if ($key == '10000000001') continue;
+            $val = substr($val, 1);
+        }
+        $selected = '';
+        if (($input == $key) && (!empty($input))) $selected = 'selected';
+        $output_str .= "\n<option value='$key' $selected>$val</option>";
+    }
+    return $output_str;
+}
+
+function CompanyOption($input = '') {
+    $output_str = '';
+    $Types = CmpData();
+    foreach ($Types as $key => $val) {
+        $selected = '';
+        if (($input == $key) && (!empty($input))) $selected = 'selected';
+        $output_str .= "\n<option value='$key' $selected>$val</option>";
+    }
+    return $output_str;
+}
+
+function CompanyTypeData($input = null) {
+//    $Values = array(
+//        ''        => '',
+//        'regular' => 'REGULAR',
+//        'premium' => 'PREMIUM',
+//        'level1'  => 'LEVEL 1',
+//        'level2'  => 'LEVEL 2',
+//    );
+    $Values = array(
+        ''        => '',
+        'fundraising' => 'Investments',
+        'service' => 'Services',
+
+    );
+    return $Values;
+}
+
+function CompanyTypeOption($input = '') {
+    $output_str = '';
+    $cmp_types = CompanyTypeData();
+    foreach ($cmp_types as $key => $val) {
+        $selected = '';
+        if (($input == $key) && (!empty($input))) $selected = 'selected';
+        $output_str .= "\n<option value='$key' $selected>$val</option>";
+    }
+    return $output_str;
+}
+
+function EarningsData($input = '') {
+    $Values = array(
+        ''         => '',
+        '500000'   => '$500,000',
+        '1000000'  => '$1,000,000',
+        '2000000'  => '$2,000,000',
+        '5000000'  => '$5,000,000',
+        '10000000' => '$10,000,000',
+        '15000000' => '$15,000,000',
+        '20000000' => '$20,000,000',
+        '25000000' => '$25,000,000',
+        '30000000' => '$30,000,000',
+        '35000000' => '$35,000,000',
+        '40000000' => '$40,000,000',
+        '50000000' => '$50,000,000',
+        '60000000' => '$60,000,000',
+        '75000000' => '$75,000,000',
+        '75000001' => 'over $75,000,000'
+    );
+    return $Values;
+}
+
+function _EquityData($input = '') {
+    $Values = array(
+        ''          => '',
+        '500000'    => '$500,000',
+        '1000000'   => '$1,000,000',
+        '2000000'   => '$2,000,000',
+        '5000000'   => '$5,000,000',
+        '10000000'  => '$10,000,000',
+        '15000000'  => '$15,000,000',
+        '20000000'  => '$20,000,000',
+        '25000000'  => '$25,000,000',
+        '30000000'  => '$30,000,000',
+        '35000000'  => '$35,000,000',
+        '40000000'  => '$40,000,000',
+        '50000000'  => '$50,000,000',
+        '60000000'  => '$60,000,000',
+        '75000000'  => '$75,000,000',
+        '100000000' => '$100,000,000',
+        '125000000' => '$125,000,000',
+        '150000000' => '$150,000,000',
+        '175000000' => '$175,000,000',
+        '200000000' => '$200,000,000',
+        '200000001' => 'over $200,000,000'
+    );
+    return $Values;
+}
+
+function EarningsOption($input = '') {
+    $output_str = '';
+    $Earnings = EarningsData();
+    foreach ($Earnings as $key => $val) {
+        $selected = '';
+        if (($input == $key) && (!empty($input))) $selected = 'selected';
+        $output_str .= "\n<option value='$key' $selected>$val</option>";
+    }
+    return $output_str;
+}
+function ServicesOption($input = '') {
+    $output_str = '';
+    $array = array (
+        '' => '',
+        'top' => 'Most Services',
+        'latest' => 'Latest Created'
+    );
+    foreach ($array as $key => $val) {
+        $selected = '';
+        if (($input == $key) && (!empty($input))) $selected = 'selected';
+        $output_str .= "\n<option value='$key' $selected>$val</option>";
+    }
+    return $output_str;
+
+}
+
+function _pro_interested() {
+    return array(
+        "10" => t("Advisory Network"),
+        "20" => t("Special Projects"),
+        "30" => t("Research"),
+    );
+}
+
+function _pro_roles() {
+    return array(
+        4  => 'Analyst',
+        5  => 'Operator',
+        11 => 'Investor',
+        12 => 'Company Member',
+        7  => 'Other Expert',
+        13 => 'Author',
+        14 => 'Consultant',
+    );
+}
+
+function _cmp_types() {
+    return array("regular" => "REGULAR", "premium" => "PREIMUM", "level1" => "LEVEL 1", "level2" => "LEVEL 2", "level3" => "LEVEL 3", "level4" => "LEVEL 4", "level5" => "LEVEL 5", "level6" => "LEVEL 6", "level7" => "LEVEL 7", "level8" => "LEVEL 8", "level9" => "LEVEL 9", "level10" => "LEVEL 10");
+}
+
+function _ProTypes() {
+    return array(
+        'analyst'   => 'Analyst',
+        'executive' => 'Operator',
+        'other'     => 'Other'
+    );
+}
+
+function _Degrees() {
+    return array(
+        ''          => array(''),
+        'Bachelors' => array(
+            "bart"      => "Arts",
+            "bbizadmin" => "Business Administration",
+            "bs"        => "Science",
+            "bother"    => "Other",
+        ),
+        'Masters'   => array(
+            "marts"     => "Arts",
+            "mbizadmin" => "Business Administration",
+            "ms"        => "Science",
+            "mother"    => "Other",
+        ),
+        'PhD'       => array(
+            "phdart"      => "Arts",
+            "phdbizadmin" => "Business Administration",
+            "phds"        => "Science",
+            "phdother"    => "Other",
+        ),
+        'JD'        => array("jd" => "JD"),
+        'MD'        => array("md" => "MD"),
+        'Other'     => array("other" => "Other"),
+    );
+}
+
+function _Positions() {
+    return array(
+        array(
+            'title'     => 'Retired Executive Board Role',
+            'positions' => array(
+                'chairman'     => 'Chairman',
+                "vicechairman" => "Vice-Chairman",
+                "director"     => "director",
+            )
+        ),
+        array(
+            'title'     => 'C-Level Management Roles',
+            'positions' => array(
+                "president" => "President",
+                "ceo"       => "Chief Executive Officer(CEO)",
+                "cfo"       => "Chief Fianacial Officer(CFO)",
+                "coo"       => "Chief Operating Officer(COO)",
+                "cmo"       => "Chief Marketing Officer(CMO)",
+                "cto"       => "Chief Technology Officer(CTO)",
+                "mgmtother" => "",
+            )
+        ),
+        array(
+            'title'     => 'Non C-Level Management Roles',
+            'positions' => array(
+                'af'           => "Accounting & Finance",
+                'bd'           => "Business Development",
+                'legal'        => "Legal",
+                'marketing'    => "Marketing",
+                'operations'   => "Operations",
+                'rd'           => "Research & Development",
+                'risk'         => "Risk",
+                'sales'        => "Sales",
+                'strategy'     => "Strategy",
+                'technology'   => "Technology",
+                'nonmgmtother' => "Other",
+            )
+        ),
+        array('title' => 'Partner', 'positions' => array('partner' => 'Partner',)),
+        array('title' => 'Managing Director', 'positions' => array('md' => 'Managing Director',)),
+        array('title' => 'Principal', 'positions' => array('principal' => 'Principal',)),
+        array('title' => 'Engagement Manager', 'positions' => array('em' => 'Engagement Manager',)),
+        array('title' => 'Consultant', 'positions' => array('consultant' => 'Consultant',)),
+        array('title' => 'Associate', 'positions' => array('associate' => 'Associate',)),
+        array('title' => 'Business Analyst', 'positions' => array('ba' => 'Business Analyst',)),
+        array('title' => 'Industry Analyst', 'positions' => array('ia' => 'Industry Analyst',)),
+        array('title' => 'Other', 'positions' => array('other' => 'Other',)),
+    );
+}
+
+//delete
+function _year_in_business() {
+    return array(
+        "0"  => " ",
+        "5"  => t('< 5'),
+        "10" => t('< 10'),
+        "20" => t('< 20'),
+        "21" => t('> 20')
+    );
+}
+
+function _sectors() {
+    return array(
+        "0"  => " ",
+        "10" => t('Basic Materials'),
+        "20" => t('Consumer Goods'),
+        "30" => t('Financial'),
+        "40" => t('Healthcare'),
+        "50" => t('Industrial Goods'),
+        "60" => t('Services'),
+        "70" => t('Sustainability'),
+        "80" => t('Technology'),
+        "90" => t('Utilities')
+    );
+}
+
+function _investors_type() {
+    return array(
+        '0'  => ' ',
+        '10' => 'Individual',
+        '20' => 'Family Office',
+        '30' => 'Public Pension Fund',
+        '40' => 'Endowment',
+        '50' => 'Hedge funds',
+        '60' => 'Private corporation',
+        '70' => 'Public corporation',
+        '80' => 'Bank',
+        '90' => 'Other',
+    );
+}
+
+function _investor_interests() {
+    return array(
+        '0'  => '',
+        '10' => 'Invest in Main Fund',
+        '20' => 'Invest in Select Companies',
+    );
+}
+
+function _hear_about_us() {
+    return array(
+        "0"  => " ",
+        '10' => t('Referred by Clewed Network'),
+        '20' => t('Clewed Email'),
+        '30' => t('Internet search'),
+        '40' => t('Other')
+    );
+}
+
+function _company_interest() {
+    return array(
+        "10" => t("Capital"),
+        "20" => t("Service"),
+        "30" => t("Talent for special project"),
+    );
+}
+
+//delete
+function _revenue() {
+    return array(
+        "0"  => " ",
+        "10" => t('< $10 million'),
+        "20" => t('< $25 million'),
+        "30" => t('< $50 million'),
+        "40" => t('< $100 million'),
+        "50" => t('> $100 million')
+    );
+}
+
+//delete
+function _earnings() {
+    return array(
+        "0"  => " ",
+        "10" => t('< $1 million'),
+        "20" => t('< $5 million'),
+        "30" => t('< $10 million'),
+        "40" => t('< $25 million'),
+        "50" => t('> $25 million')
+    );
+}
+
+function _pro_types() {
+    return array(
+        'analyst'    => t('Analyst'),
+        'executive'  => t('Operator'),
+        'investor'   => t('Investor'),
+        'client'     => t('Member Company Team'),
+        'author'     => t('Author'),
+        'consultant' => t('Consultant'),
+        'other'      => t('Other Expert'),
+    );
+}
+
+function get_us_states() {
+    return array(
+        ''   => "",
+        'AL' => "Alabama",
+        'AK' => "Alaska",
+        'AZ' => "Arizona",
+        'AR' => "Arkansas",
+        'CA' => "California",
+        'CO' => "Colorado",
+        'CT' => "Connecticut",
+        'DE' => "Delaware",
+        'DC' => "District Of Columbia",
+        'FL' => "Florida",
+        'GA' => "Georgia",
+        'HI' => "Hawaii",
+        'ID' => "Idaho",
+        'IL' => "Illinois",
+        'IN' => "Indiana",
+        'IA' => "Iowa",
+        'KS' => "Kansas",
+        'KY' => "Kentucky",
+        'LA' => "Louisiana",
+        'ME' => "Maine",
+        'MD' => "Maryland",
+        'MA' => "Massachusetts",
+        'MI' => "Michigan",
+        'MN' => "Minnesota",
+        'MS' => "Mississippi",
+        'MO' => "Missouri",
+        'MT' => "Montana",
+        'NE' => "Nebraska",
+        'NV' => "Nevada",
+        'NH' => "New Hampshire",
+        'NJ' => "New Jersey",
+        'NM' => "New Mexico",
+        'NY' => "New York",
+        'NC' => "North Carolina",
+        'ND' => "North Dakota",
+        'OH' => "Ohio",
+        'OK' => "Oklahoma",
+        'OR' => "Oregon",
+        'PA' => "Pennsylvania",
+        'RI' => "Rhode Island",
+        'SC' => "South Carolina",
+        'SD' => "South Dakota",
+        'TN' => "Tennessee",
+        'TX' => "Texas",
+        'UT' => "Utah",
+        'VT' => "Vermont",
+        'VA' => "Virginia",
+        'WA' => "Washington",
+        'WV' => "West Virginia",
+        'WI' => "Wisconsin",
+        'WY' => "Wyoming"
+    );
+}
+
+function get_funding_purposes_list() {
+  return array(
+     "" => "",
+     "licuidity" => "Liquidity",
+     "expansion" => "Expansion",
+     "workingcapital" => "Working Capital",
+     "generaloperatingpurposes" => "General operating purposes"
+  );
+}
+
+function _Month() {
+    $Month = array(
+        '' => '',
+        1  => "January",
+        2  => "February",
+        3  => "March",
+        4  => "April",
+        5  => "May",
+        6  => "June",
+        7  => "July",
+        8  => "Augest",
+        9  => "September",
+        10 => "October",
+        11 => "November",
+        12 => "December"
+    );
+    return $Month;
+}
+
+function _Year($minus = 75) {
+    $Year = array();
+    $Year[' '] = '';
+    $thisYear = date("Y");
+    for ($i = $thisYear; $i >= $thisYear - $minus; $i--) {
+        $Year["$i"] = $i;
+    }
+    return $Year;
+}
+
+/*function _managementLevel() {
+    return array(
+        ''                        => '',
+        'OwnerCEO'                => 'Founder & CEO',
+        'NonOwnerCEO'             => 'CEO',
+        //'President' => 'Other C-Level' ,
+        'OtherAdministrative'     => 'Other C-Level',
+        'MidTopLevelManagement'   => 'Mid-Level Executive',
+        'researcher'              => 'Researcher / Author',
+        //'MidTopLevelManagement' =>'Mid Top Level Management' ,
+        'IndependentProfessional' => 'Independent Consultant',
+        'Other'                   => 'Other'
+    );
+}*/
+
+function _managementLevel() {
+    return array(
+        '' => '',
+		'Inprogress' => 'In progress',
+		'Meetsrequirement' => 'Meets requirement',
+		'DoesNotMeetRequirement' => 'Does not meet requirement',
+		'Failed' => 'Failed',
+    );
+}
+
+function _plResponsibility() {
+    return array(
+        ''     => '',
+        '9'    => '< $10 million',
+        '24'   => '< $25 million',
+        '49'   => '< $50 million',
+        '99'   => '< $100 million',
+        '249'  => '< $250 million',
+        '499'  => '< $500 million',
+        '999'  => '< $1 billion',
+        '1001' => '> $1 billion',
+        '0'    => 'N/A'
+    );
+}
+
+function new_expertise() {
+    $e = array(
+        ''                                       => array(''),
+        'Accounting'                             => array(
+            'Accounting',
+            'Audit',
+            'Tax',
+            'Advisory',
+            /*      'Other',*/
+        ),
+        'Administration'                         => array(),
+        'Business Development'                   => array(),
+        'Buyer / Merchandising'                  => array(),
+        'Consulting'                             => array(),
+        'Corporate Development'                  => array(),
+        'Economic Analysis / Research'           => array(),
+        'Finance'                                => array(
+            'Finance',
+            'Analyst / Research',
+            'Buy Side Research',
+            'Commercial Banking',
+            'Corporate Finance',
+            'Investment Banking',
+            'Investment Management',
+            'Lending',
+            'Mergers & Acquisitions',
+            'Portfolio Management',
+            'Wealth Mgmt',
+            'Private Equity / LBOs',
+            'Public Finance',
+            'Restructure',
+            'Risk Management',
+            'Sales & Trading',
+            'Sell Side Research',
+            'Treasury',
+            'Venture Capital',
+            /*      'Other',*/
+        ),
+        'Fundraising'              => array(),
+        'Health Care Professional'     => array(),
+        'Human Resources'                        => array(
+            /*      'General',*/
+            'Human Resources',
+            'Recruiter / Exec. Search',
+        ),
+        'Journalist / Author'  => array(),
+        'Legal Professional'            => array(),
+        'Legislative Aide / Lobbying' => array(),
+        'Management'                             => array(
+            'General Management',
+            'Customer Relations',
+            'International / Multinational',
+            'Operations',
+            'Project Mgmt.',
+            'Retail Mgmt.',
+            'Logistics',
+            /*      'Other',*/
+        ),
+        'Manufacturing'                          => array(
+            'Manufacturing',
+            'Materials',
+            'Facility Mgmt.',
+            'Quality Control',
+            /*      'Other',*/
+        ),
+        'Marketing'                              => array(
+            'Marketing',
+            'Advertising',
+            'Brand Management',
+            'Business Development',
+            'Public Relations',
+            'Direct Mail',
+            'Market Research',
+            'Merchandising',
+            'Product Development',
+            /*      'Other',*/
+        ),
+        'Multimedia' => array(),
+        'Purchasing'                             => array(),
+        'Real Estate'                            => array(
+            'Real Estate',
+            'Asset Mgmt',
+            'Development / Construction',
+            'Finance',
+            /*      'Other',*/
+        ),
+        'Research & Development'                 => array(),
+        'Sales'                                  => array(),
+        'Strategic Planning'                     => array(),
+        'Technology'                             => array(
+            'Technology',
+            'Business Analysis',
+            'Ecommerce / Internet',
+            'Integration / Implementation',
+            'Systems Management',
+            'Training and Development',
+        ),
+        'Other'                                  => array(),
+    );
+    $Output_array = array();
+    foreach ($e as $categoryTitle => $Category) {
+        $M = array();
+        if (is_array($Category) && !empty($Category)) {
+            foreach ($Category as $val) {
+                $mKey = preg_replace('/[^a-z0-9\s]/i', '', $val);
+                $M["$mKey"] = $val;
+            }
+            $Output_array["$categoryTitle"] = $M;
+        } else {
+            $Output_array["$categoryTitle"] = $categoryTitle;
+        }
+    }
+    return $Output_array;
+}
+
+function _pro_username_types() {
+    return array(
+        '1' => "First Name",
+        '2' => "Full Name"
+    );
+}
+
+function _country() {
+    return array('' => '', 'usa' => 'USA', 'nonusa' => 'Non USA');
+}
+
+function _experties() {
+    return new_expertise();
+    /*    $Data = array(
+                    ''=> array(''),
+                    'Sales' =>array(
+                        'Sales Strategy',
+                        'Sales Force Effectiveness',
+                        'Sales & Channel Management',
+                        'Sales ROI'
+                            ),
+                    'Marketing' =>array(
+                        'Marketing Strategy',
+                        'Market Intelligence / Research',
+                        'Customer Insights / Segmentation',
+                        'Go To Market Strategy',
+                        'Branding',
+                        'Pricing',
+                        'Marketing ROI',
+                        'Digital Marketing',
+                        'Customer Experience / Loyalty'),
+                    'Operations' =>array(
+                        'Manufacturing',
+                        'Lean / Six Sigma',
+                        'Product Development',
+                        'Service Operations',
+                        'Business Process Redesign',
+                        'Supply-Chain Mgmt',
+                        'Cost Efficiency',
+                        'Purchasing / Supply Mgmt',
+                        'Quality Control'),
+                    'Technology' =>array(
+                        'Application Management',
+                        'Enterprise Architecture',
+                        'IT Infrastructure',
+                        'Outsourcing / Offshoring',
+                        'Tech Enabled Mktg & Sales',
+                        'Tech Enabled Operations'),
+                    'Risk' =>array(
+                        'Enterprise Risk',
+                        'Business / Commercial Risk Mgmt',
+                        'Financial Risk Mgmt',
+                        'Operational Risk'
+                        ),
+                    'Other' => array('other')
+                );
+        $Output_array = array();
+        foreach($Data as $categoryTitle => $Category)
+        {
+            $M = array();
+            if(is_array($Category))
+            {
+                foreach($Category as $val)
+                {
+                    $mKey = preg_replace('/[^a-z0-9]/i','',$val);
+                    $M["$mKey"] = $val;
+                }
+                $Output_array["$categoryTitle"] = $M;
+            }else{
+                $Output_array["$categoryTitle"] = $Category;
+            }
+
+        }
+    //    drupal_set_message("<pre>".print_r($Output_array,true)."</pre>");
+        return $Output_array;
+    */
+}
+
+function date_menu($Array) {
+    $html = '';
+    if (isset($Array['month'])) {
+        $Month = _Month();
+        $name = $Array['month']['name'];
+        $value = sget($Array['month'], 'value');
+        $html .= "\n<select name='$name'  style='width:80px;' class='require_string' ><option value=''>Month</option>";
+        foreach ($Month as $key => $val) {
+            $selected = '';
+            if ($value == $key) $selected = 'selected';
+            $html .= "\n<option value=$key $selected>$val</option>";
+        }
+        $html .= "</select>";
+    }
+    //YEAR
+    $Year = _Year();
+    $name = $Array['year']['name'];
+    $value = sget($Array['year'], 'value');
+    if (!empty($html)) $html .= "&nbsp;&nbsp;&nbsp;&nbsp;";
+    $html .= "<select name='${name}' style='width:80px;' class='require_string' ><option value=''> Year</option>";
+    foreach ($Year as $y) {
+        $selected = '';
+        if ($y == $value) $selected = 'selected';
+        $html .= "\n<option $selected>$y</option>";
+    }
+    $html .= "</select>";
+    return $html;
+}
+
+function _Topics() {
+    return array(
+        'economicmodel'  => 'Economic Model',
+        'competitiveadv' => 'Competitive Advantage',
+        'technicalexp'   => 'Technical Experties',
+        'managerialeff'  => 'Managerial Effectiveness',
+        'humanpsy'       => 'Human Psychology',
+        'industryres'    => 'Industry Research',
+        'companypro'     => 'Company Profile',
+        'peoplepro'      => 'People Profile',
+        'market'         => 'Market',
+        'other'          => 'Other',
+    );
+}
+
+function _InfoTypes() {
+    return array(
+        'advisorytra'     => 'Advisory Transript',
+        'prefessionalint' => 'Professional Interviews',
+        'researchart'     => 'Research / Articles'
+    );
+}
+
+
+/**
+* @author Milan
+*/
+function getCompanyCheckboxesDefault() {
+    return [
+        'capital' => [
+            '1' => [
+                'after_tax_min_one_mln' => '',
+                'reasonable_debt_level' => '',
+                'demonstrated_revenue' => '',
+                'over_three_year' => ''
+            ],
+            '2' => [
+                'complete_the_top_right' => '',
+                'tell_us_about' => '',
+                'answer_due_diligence' => '',
+                'add_company_files' => ''
+            ]
+        ],
+
+        'fundraising' => [
+            'about_completed' => '',
+            'fundraising_data' => '',
+            'diligence_qa' => '',
+            'diligence_data' => '',
+            'teaser_in_analtab' => '',
+            'conf_agreement' => '',
+            'key_fundraising' => '',
+            'turn_on_relevant_pages' => '',
+            'fundraising_declined' => '',
+            'fundraising_approved' => ''
+        ]
+    ];
+}
+
+function getCompanyFlagsStatusesDefault() {
+    return [
+        'capital' => [
+            '1' => "saved",
+            '2' => "saved",
+        ],
+        'fundraising' => "saved"
+    ];
+}
+
+function getCompanyFlagsStatuses($company_id) {
+    $company_id = db_escape_string($company_id);
+    if (!$company_id) {
+        return false;
+    }
+
+    $flags = getCompanyFlagsStatusesDefault();
+
+    $result = db_query("SELECT flags_status FROM {maenna_company} WHERE companyid = '%d'", $company_id);
+    $array = db_fetch_array($result);
+    if (!empty($array['flags_status']))
+        $flags = array_replace_recursive($flags, unserialize($array['flags_status']));
+
+    return $flags;
+}
+
+
+
+/**
+* @author Milan
+*/
+function getCompanyCheckboxes($company_id)
+{
+    $company_id = db_escape_string($company_id);
+    if (!$company_id) {
+        return false;
+    }
+
+    $default = getCompanyCheckboxesDefault();
+
+    $result = db_query("SELECT flags FROM {maenna_company} WHERE companyid = '%d'", $company_id);
+    $array = db_fetch_array($result);
+    if (empty($array['flags'])) {
+        $flags = $default;
+    } else {
+        $flags = array_replace_recursive($default, unserialize($array['flags']));
+    }
+
+    // Remove unknown or old flags
+    foreach($flags['capital'] as $step => $stepFlags) {
+        foreach($stepFlags as $key => $flag) {
+            if (!isset($default['capital'][$step][$key])) {
+                unset($flags['capital'][$step][$key]);
+            }
+        }
+    }
+
+    foreach($flags['fundraising'] as $key => $flag) {
+        if (!isset($default['fundraising'][$key])) {
+            unset($flags['fundraising'][$key]);
+        }
+    }
+
+    return $flags;
+}
+
+function saveCompanyCheckboxes($company_id, $new_values, $new_statuses)
+{
+    $company_id = db_escape_string($company_id);
+    if (!$company_id || !$new_values) {
+        return false;
+    }
+
+    $flags_statuses = getCompanyFlagsStatuses($company_id);
+    $flags_statuses = serialize(array_replace_recursive($flags_statuses, $new_statuses));
+
+    $flags = getCompanyCheckboxes($company_id);
+    $flags = serialize(array_replace_recursive($flags, $new_values));
+
+    $result = db_query("UPDATE {maenna_company} SET flags = '%s', flags_status = '%s', access = '%s' WHERE companyid = '%d'", $flags, $flags_statuses, time(), $company_id);
+
+    return $result;
+}
+
+
+/** @deprecated **/
+function getCapitalRaisingCheckboxes($company_id = 0, $step = 1) {
+    $info = getCompanyCheckboxes($company_id);
+
+    return $info['capital'][$step];
+}
+
+/** @deprecated **/
+function getFundraisingAdminCheckboxes($company_id = 0){
+    $info = getCompanyCheckboxes($company_id);
+
+    return $info['fundraising'];
+}
+/* EOF */

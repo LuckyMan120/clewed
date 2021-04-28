@@ -1,0 +1,84 @@
+<table class="payment_stats">
+    {% for service in services[0:5] %}
+        <tr data-href="{{ baseUrl }}/account?tab=companies&page=company_detail&id={{ service.company.id }}&mtab=advice&view_id={{ service.id }}">
+            <td class="image" data-tooltip="{{ service.company.projname }}" style="">
+                <img src="{{ service.company.avatar }}" width="40" height="40">
+            </td>
+            <td class="create-date">{{ service.createDate }}</td>
+            <td class="amount">$ {{ service.budget }}</td>
+        </tr>
+    {% endfor %}
+</table>
+<div class="service-payments-more-btn-container">
+    {% if services | length > 0 %}
+        <a style="margin-top:10px;"
+           class="tool service-payments-more-btn">View all</a>
+    {% endif %}
+</div>
+<div id='service-payments-popup' style='display:none;'>
+    <table>
+        <tr>
+            <th width="80">Projects</th>
+            <th width="150">Service name</th>
+            <th width="130" class="status">Status</th>
+            <th width="100" class="due">Due date</th>
+            <th width="80" class="budget">Amount</th>
+        </tr>
+        {% for service in services %}
+            <tr data-href="{{ baseUrl }}/account?tab=companies&page=company_detail&id={{ service.company.id }}&mtab=advice&view_id={{ service.id }}">
+                <td class="image"><img title="{{ service.company.projname }}" src="{{ service.company.avatar }}" width="40" height="40"></td>
+                <td class="topic">{{ service.title }}</td>
+                <td class="status">
+                    {% if service.isCompleted %}
+                        Completed
+                    {% elseif service.isFunded  %}
+                        Active
+                    {% elseif service.isApprovedByClient %}
+                        Active
+                    {% else %}
+                        Not active
+                    {% endif %}
+                    {% if service.isFunded %}
+                        / Funded
+                    {% endif %}
+                </td>
+                <td class="due">{{ service.dueDate }}</td>
+                <td class="budget">${{ service.budget }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <th colspan="4">Total</th>
+            <th class="budget">${{ total }}</th>
+        </tr>
+        <tr>
+            <th colspan="4">Funded</th>
+            <th class="budget">${{ funded }}</th>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+    function showServicePaymentsPopup() {
+        $('#service-payments-popup').dialog("open");
+    }
+
+    function goToService(el) {
+        var $el = $(el),
+            href = $el.data('href');
+        return href ? window.open(href, '_blank') : false;
+    }
+
+    $(function () {
+        $('.payment_stats tr').attr('onclick', 'goToService(this); return false;');
+        $('.service-payments-more-btn').attr('onclick', 'showServicePaymentsPopup(this); return false;');
+
+        var $popup = $('#service-payments-popup');
+        $popup.find('tr').attr('onclick', 'goToService(this); return false;');
+        $popup.dialog({
+            title: 'Funding Activity Summary',
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            width: 800
+        });
+    });
+</script>

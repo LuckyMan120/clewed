@@ -1,0 +1,100 @@
+<?php
+
+// defines the URL to the page created
+function maenna_login_form($form_state)
+{
+    $form['email'] = array(
+        '#type'         =>  'textfield',
+        '#required' => true,
+        '#default_value' => '',
+        '#description' => '',
+        '#maxlength' => 64,
+        '#prefix' => "<div align='center' class='reg-top'>LOG IN</div><br>",
+    );
+    $form['password'] = array(
+        '#type'         =>  'password',
+        '#required' => true,
+        '#default_value' => '',
+        '#description' => '',
+        '#maxlength' => 30,
+        
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#default_value' => t('Log in'),
+        '#suffix' => "",
+    );
+    $form['cancel'] = array(
+        '#prefix' => '',
+        '#value' => '<button type="button" onclick="location.href=\'/\'" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false"><span class="ui-button-text">Cancel</span></button>',
+        '#suffix' => '<br><br><a class="forgot_login_pass" href="/user/password">Forgot password?</a>',
+    );
+    return $form;
+}
+function maenna_login_form_validate($form, &$form_state)
+{
+    $_valid = true;
+    $Page_one = maenna_check_plain($form_state['values']);
+    $email = $Page_one['email'];
+    $password = $Page_one['password'];
+    if(strlen($email) < 8 || strlen($password) < 8 )
+    {
+        $_valid = false;
+    }
+    if($_valid)
+    {
+        if( $email != 'maenna_investor' && ! check_email($email) )
+        {
+            $_valid = false;
+        }
+    }
+    if( ! $_valid)
+    {
+        form_set_error('','Invalid email and password. Please try again');
+    }else{
+        if($email == 'maenna_investor' && $password = 'access604')
+        {
+            $_SESSION['investor_access'] = 1;
+            drupal_goto("investors");
+        }
+        $SQL = "select name, status from {users} where mail = '%s' AND pass = MD5('%s')";
+        $result = db_query($SQL, $email, $password);
+        $data = db_fetch_object($result);
+        $name = $data->name;
+        $status = $data->status;
+        if($name && $status)
+        {
+            user_authenticate(array('name'=>$name,'pass'=>$password));
+        }else
+        {
+            form_set_error('','Invalid email and password. Please try again');
+        }
+    }
+    
+}
+
+function maenna_login_form_submit($form, &$form_state)
+{
+    unset( $form_state['storage']);
+    $url = substr(request_uri(),1);
+
+    if (0 === strpos($url,'account?tab=')){
+
+        $url = substr($url,8);
+        $form_state['redirect'] = array('account',$url);
+    }
+    else $form_state['redirect'] = 'account';
+
+    if(is_array($form_state['redirect']) && false !== strpos($url, '&pm=1')) {
+        $form_state['redirect'][1] = str_replace('&pm=1', '', $form_state['redirect'][1]);
+        $form_state['redirect'][1] .= '#pm';
+    }
+
+    if(is_array($form_state['redirect']) && false !== strpos($url, '&msg=1')) {
+        $form_state['redirect'][1] = str_replace('&msg=1', '', $form_state['redirect'][1]);
+        $form_state['redirect'][1] .= '#msg';
+    }
+}
+
+
+/* EOF */

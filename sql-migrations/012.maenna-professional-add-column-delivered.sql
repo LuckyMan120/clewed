@@ -1,0 +1,1 @@
+ALTER TABLE  `maenna_professional` ADD  `delivered` TINYINT( 1 ) NOT NULL DEFAULT  '0';

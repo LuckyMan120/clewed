@@ -1,0 +1,1768 @@
+<?php
+
+function maenna_forms_help($path, $arg) {
+    $output = '';
+    switch ($path) {
+        case 'admin/help#maenna_forms':
+            $output = '<p>' . t('no content') . '</p>';
+            break;
+    }
+    return $output;
+}
+
+// defines the URL to the page created
+function maenna_forms_menu() {
+    $items = array();
+    $items['maenna_forms/company_signup'] = array(
+        'title'            => t('Sign Up'),
+        'page callback'    => 'maenna_forms_form',
+        'access arguments' => array('access content'),
+        'description'      => t('Company SignUp Form'),
+        'type'             => MENU_CALLBACK
+    );
+    $items['maenna_forms/professional'] = array(
+        'title'            => t('Sign Up'),
+        'page callback'    => 'maenna_forms_pro',
+        'access arguments' => array('access content'),
+        'description'      => t('Analyst SignUp Form'),
+        'type'             => MENU_CALLBACK
+    );
+    $items['maenna_forms/investor'] = array(
+        'title'            => t('Sign Up'),
+        'page callback'    => 'maenna_forms_investor',
+        'access arguments' => array('access content'),
+        'description'      => t('Investor SignUp Form'),
+        'type'             => MENU_CALLBACK
+    );
+    return $items;
+}
+
+// this function gets called for urls:
+// http://host.com/my_forms/form or
+// http://host.com/?q=my_forms/form
+function maenna_forms_form() {
+    return drupal_get_form('maenna_forms_company_signup_form');
+}
+
+function maenna_forms_company_signup_form($form_state) {
+    if ((!empty($form_state['page_num'])) && $form_state['page_num'] == 2) {
+        return maenna_forms_company_signup_form_page2($form_state);
+    }
+    $form_state['page_num'] = 1;
+    $form['first_name'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('FIRST NAME'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#description'   => '',
+        '#maxlength'     => 30,
+        '#prefix'        => "<table cellpadding=0 cellspacing=0 class='signup_form' ><tr><td><h2>Register Now! <span class='e-text lightgrey normal-text'>(step 1 of 2)</span></h2></td></tr><tr ><td>",
+        '#suffix'        => "</td>",
+    );
+    $form['last_name'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('LAST NAME'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#description'   => '',
+        '#maxlength'     => 30,
+        '#prefix'        => "</tr><tr><td  class='left-column'>",
+        '#suffix'        => "</td></tr>",
+    );
+    $form['company'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('COMPANY NAME'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#maxlength'     => 40,
+        '#prefix'        => "<tr><td>",
+        '#suffix'        => "</td>",
+    );
+    $form['website'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('WEBSITE ADDRESS'),
+        '#default_value' => '',
+        '#maxlength'     => 40,
+        '#prefix'        => "</tr><tr><td  class='left-column'>",
+        '#suffix'        => "</td></tr>",
+    );
+    $form['email'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('EMAIL'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#maxlength'     => 50,
+        '#prefix'        => "<tr><td>",
+        '#suffix'        => "</td>",
+    );
+    $form['password'] = array(
+        '#type'          => 'password',
+        '#title'         => t('PASSWORD'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#maxlength'     => 25,
+        '#prefix'        => "</tr><tr><td  class='left-column'>",
+        '#suffix'        => "<br style='clear:both'><div class='description' style='text-align:left;width:162px;'>8 characters min length, at<br> least one number</div></td></tr>",
+    );
+    $form['City'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('CITY'),
+        '#required'      => false,
+        '#maxlength'     => 25,
+        '#default_value' => '',
+        '#prefix'        => "<tr><td >",
+        '#suffix'        => "</td>",
+    );
+    $Us_states = get_us_states();
+    $form['state'] = array(
+        '#type'          => 'select',
+        '#title'         => t('STATE'),
+        '#default_value' => '',
+        '#options'       => $Us_states,
+        '#prefix'        => "</tr><tr><td class='left-column'>",
+        '#suffix'        => "</td></tr>",
+    );
+    $Interested = _company_interest();
+    /*$form['interested'] = array(
+         '#type'     => 'checkboxes',
+         '#title'    => t('Interested In'),
+         '#options'  => $Interested,
+         '#prefix' => "<tr><td class='cols'>",
+         '#suffix' => "</td></tr>",
+         '#required' => true,
+     );*/
+    $form['term_agree'] = array(
+        '#type'     => 'checkbox',
+        '#title'    => t("I agree with Maenna's <a href='/terms' target='_blank' class='popup' rel='terms'>Term of Use</a>"),
+        '#required' => true,
+        '#prefix'   => "<tr><td>",
+        '#suffix'   => "</td></tr>",
+    );
+    $form['captcha_div'] = array(
+        '#type'   => 'markup',
+        '#value'  => "<div id='captcha_img' style='height:70px;width:200px;'><img src='/captcha/captcha.php' ></div><div><a href='#' id='reload_captcha' style='font-size:11px;'>Not readable? Change text.</a></div>",
+        '#prefix' => '<tr><td >',
+        '#suffix' => '</td></tr>',
+    );
+    $form['my_captcha'] = array(
+        '#type'   => 'textfield',
+        '#title'  => 'SECURITY CODE',
+        '#prefix' => '<tr><td class="left-column">',
+        '#suffix' => '</td></tr>',
+    );
+    $form['next'] = array(
+        '#type'   => 'image_button',
+        '#value'  => 'Continue',
+        '#prefix' => "<tr><td colspan=2 style=''>",
+        '#suffix' => "</td></tr></table>",
+        '#src'    => 'themes/maennaco/images/continue.png',
+    );
+    return $form;
+}
+
+function maenna_forms_company_signup_form_page2(&$form_state) {
+    global $user;
+    global $AccessObj;
+    //Get options for select fields
+    $Revenues = RevenuesData();
+    $Earnings = EarningsData();
+    $Yearinbusiness = _Year();
+    $Sectors = _INDUSTRY();
+    $Hearus = _hear_about_us();
+    $Equity = _EquityData();
+    $Cmp_Types = CmpData();
+    //Get selected fields
+    $selectedOptions = getSelectedCompanyPage2($_REQUEST['id']);
+    //Check if user has write access
+    if ($AccessObj->Com_sections['common']['sections']['company_name']['access'] == 'read') $disabled = true; else $disabled = false;
+    if ($AccessObj->user_type == 'super' || $AccessObj->user_type == 'admin') $adminRights = true; else $adminRights = false;
+    // Neededd for logo upload
+    $form['#attributes'] = array('enctype' => "multipart/form-data");
+    $form['cmp_type'] = array(
+        '#type'          => 'select',
+        '#title'         => t('COMPANY TYPE'),
+        '#options'       => $Cmp_Types,
+        '#prefix'        => '<table cellpadding=0 cellspacing=0 class="signup_form_page2"><tr><td>
+                        <div style="width:90%; margin-top:9px;font-size:12px;font-weight:normal;font-family:arial;color:grey;">Please enter the closest estimate financial information.</div></h2><tr><td class="left-column">',
+        '#suffix'        => '</td></tr>',
+        '#default_value' => $selectedOptions['cmp_type'],
+        '#required'      => true,
+        '#disabled'      => $disabled
+    );
+    $form['cmp_name'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('COMPANY NAME'),
+        '#size'          => 25,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['cmp_name'],
+        '#prefix'        => '</td></tr><tr><td class="left-column">',
+        '#disabled'      => $disabled
+    );
+    $form['proj_name'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('PROJECT NAME'),
+        '#size'          => 25,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['proj_name'],
+        '#prefix'        => '</td></tr><tr><td class="left-column">',
+        '#access'        => $adminRights
+    );
+    $form['revenue_thisyear'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('REVENUES (this year)'),
+        '#required'      => true,
+        '#default_value' => $selectedOptions[0]['data_value'],
+        '#prefix'        => '<tr><td class="left-column">',
+        '#suffix'        => '</td></tr>',
+        '#disabled'      => $disabled
+    );
+    $form['revenue_lastyear'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('REVENUES (last year)'),
+        '#default_value' => $selectedOptions[1]['data_value'],
+        '#required'      => true,
+        '#prefix'        => '<tr><td class="left-column">',
+        '#suffix'        => '</td></tr>',
+        '#disabled'      => $disabled
+    );
+    $form['earnings_thisyear'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('AFTER TAX PROFITS (this year)'),
+        '#required'      => true,
+        '#default_value' => $selectedOptions[0]['data_value2'],
+        '#prefix'        => '<tr><td  class="left-column">',
+        '#disabled'      => $disabled
+    );
+    $form['earnings_lastyear'] = array(
+        '#type'          => 'textfield',
+        '#required'      => true,
+        '#title'         => t('AFTER TAX PROFITS (last year)'),
+        '#default_value' => $selectedOptions[1]['data_value2'],
+        '#prefix'        => '</td></tr><tr><td class="left-column">',
+        '#disabled'      => $disabled
+    );
+    $form['equity_thisyear'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('EQUITY VALUE  (this year)'),
+        '#required'      => true,
+        '#default_value' => $selectedOptions[0]['data_value3'],
+        '#prefix'        => '</td></tr><tr><td  class="left-column">',
+        '#disabled'      => $disabled
+    );
+    $form['equity_lastyear'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('EQUITY VALUE (last year)'),
+        '#required'      => true,
+        '#default_value' => $selectedOptions[1]['data_value3'],
+        '#prefix'        => '</td></tr><tr><td class="left-column">',
+        '#disabled'      => $disabled
+    );
+    $form['yearinbusiness'] = array(
+        '#type'          => 'select',
+        '#title'         => t('YEAR BUSSINES WAS ESTABLISHED'),
+        '#options'       => $Yearinbusiness,
+        '#default_value' => $selectedOptions['year'],
+        '#required'      => true,
+        '#prefix'        => '</td></tr><tr><td  class="left-column">',
+        '#disabled'      => $disabled
+    );
+    $form['sector'] = array(
+        '#type'          => 'select',
+        '#title'         => t('INDUSTRY'),
+        '#options'       => $Sectors,
+        '#required'      => true,
+        '#default_value' => $selectedOptions['sector'],
+        '#prefix'        => '</td></tr><tr><td class="left-column">',
+        '#disabled'      => $disabled
+    );
+    $form['email'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('EMAIL'),
+        '#size'          => 25,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['email'],
+        '#prefix'        => '</td></tr><tr><td class="left-column">',
+        '#suffix'        => "<br style='clear:both;'><div class='description' style='display:none;text-align:left;width:162px;'>ATTENTION! <br>Login data will also be changed!</div>",
+    );
+    $form['website'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('WEBSITE'),
+        '#size'          => 25,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['website'],
+        '#prefix'        => '</td></tr><tr><td class="left-column">',
+        '#disabled'      => $disabled
+    );
+    $form['empnum'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('No OF EMPLOYEES'),
+        '#size'          => 25,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['empnum'],
+        '#prefix'        => '</td></tr><tr><td class="left-column">',
+        '#disabled'      => $disabled
+    );
+    $form['address'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('ADDRESS'),
+        '#size'          => 25,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['address'],
+        '#prefix'        => '</td></tr><tr><td class="left-column">',
+        '#disabled'      => $disabled
+    );
+    $form['phone'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('PHONE'),
+        '#size'          => 25,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['phone'],
+        '#prefix'        => '</td></tr><tr><td class="left-column">',
+        '#disabled'      => $disabled
+    );
+    $form['city'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('CITY'),
+        '#required'      => false,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['city'],
+        '#prefix'        => "<tr><td >",
+        '#suffix'        => "</td>",
+        '#disabled'      => $disabled
+    );
+    $Us_states = get_us_states();
+    $form['state'] = array(
+        '#type'          => 'select',
+        '#title'         => t('STATE'),
+        '#default_value' => $selectedOptions['state'],
+        '#options'       => $Us_states,
+        '#prefix'        => "</tr><tr><td class='left-column'>",
+        '#suffix'        => "</td></tr>",
+        '#disabled'      => $disabled
+    );
+    $form['ref_code'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('HAVE A REFERRAL CODE?'),
+        '#size'          => 25,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['ref'],
+        '#prefix'        => '</td></tr><tr><td class="left-column">',
+        '#disabled'      => $disabled
+    );
+    $form['hearus'] = array(
+        '#type'          => 'select',
+        '#title'         => t('HOW DID YOU HEAR ABOUT US'),
+        '#options'       => $Hearus,
+        '#default_value' => $selectedOptions['hear_about'],
+        '#prefix'        => '</td></tr><tr><td   class="left-column">',
+        '#disabled'      => $disabled
+    );
+    $form['logo'] = array(
+        '#type'      => 'file',
+        '#title'     => t('COMPANY LOGO'),
+        '#size'      => 25,
+        '#maxlength' => 25,
+        '#prefix'    => '</td></tr><tr><td class="left-column">',
+        '#suffix'    => "<br style='clear:both;'><div class='description' style='display:none;text-align:left;width:162px;'>A small square picture, 120X120 pixels is preferred</div>",
+        '#access'    => $adminRights,
+    );
+    $form['description'] = array(
+        '#type'          => 'textarea',
+        '#title'         => 'BRIEF DESCRIPTION',
+        '#cols'          => 35,
+        '#default_value' => $selectedOptions['desc'],
+        '#resizable'     => true,
+        '#rows'          => 6,
+        '#prefix'        => '</td></tr><tr><td class="cols" colspan=2><div style="display:block;width:90%;">',
+        '#suffix'        => '</div>',
+        '#disabled'      => $disabled
+    );
+    $form['next'] = array(
+        '#type'   => 'submit',
+        '#value'  => 'SUBMIT',
+        '#prefix' => '</td></tr><tr><td>',
+        '#suffix' => '</td></tr></table>'
+    );
+    $form['#redirect'] = array('account', 'tab=companies&page=company_detail&id=' . $_REQUEST['id']);
+    return $form;
+}
+
+function maenna_forms_company_signup_form_validate($form, &$form_state) {
+    $_valid = true;
+    $Required = array();
+    if ($form_state['values']['next'] == 'Continue') {
+        $Required = array('first_name', 'last_name', 'email', 'password', 'term_agree', 'my_captcha');
+        if (!check_email($form_state['values']['email'])) {
+            drupal_get_messages('error');
+            form_set_error('email', t('The email address appears to be invalid.'));
+            $_valid = false;
+        }
+        if ($_valid) {
+            $password = $form_state['values']['password'];
+            if (!password_strength($password)) {
+                drupal_get_messages('error');
+                form_set_error('password', t('Your password must be between 8 and 15 characters, and contain at least 1 number.'));
+                $_valid = false;
+            }
+        }
+        if ($_valid) {
+            $email = $form_state['values']['email'];
+            if (!check_duplicate_email($email)) {
+                drupal_get_messages('error');
+                form_set_error('email', t('The email you entered is already Registered.'));
+                $_valid = false;
+            }
+        }
+    } else {
+        // $Required = array( 'term_agree', 'my_captcha');
+    }
+    if ($_valid) {
+        foreach ($Required as $key) {
+            $err_msg = 'Please fill-in required field(s) and try again';
+            if ($key == 'term_agree') {
+                $err_msg = 'Please read and accept Terms of Use';
+            } elseif ($key == 'my_captcha') {
+                $err_msg = 'Please enter the security code';
+            } else {
+                ;
+            }
+            if (!isset($form_state['values']["$key"]) || empty($form_state['values']["$key"])) {
+                drupal_get_messages('error');
+                form_set_error('', $err_msg);
+                $_valid = false;
+                break;
+            }
+        }
+    }
+    if ($_valid && in_array('my_captcha', $Required)) {
+        if (strtolower($_SESSION['my_captcha']) != strtolower($form_state['values']['my_captcha'])) {
+            drupal_get_messages('error');
+            form_set_error('', "The security code you enter is incorrect. Please try again.");
+            $_valid = false;
+        }
+    }
+}
+
+function maenna_forms_company_signup_form_page2_submit($form, &$form_state) {
+    if ($form_state['clicked_button']['#value'] == 'SUBMIT') {
+        $Page_two = maenna_check_plain($form_state['values']);
+        $uid = $_REQUEST['id'];
+        $year_established = $Page_two['yearinbusiness'];
+        $hear_us = $Page_two['hearus'];
+        $sector = $Page_two['sector'];
+        $ref_code = $Page_two['ref_code'];
+        $website = $Page_two['website'];
+        $cmp_type = $Page_two['cmp_type'];
+        $phone = $Page_two['phone'];
+        $city = $Page_two['city'];
+        $state = $Page_two['state'];
+        $address = $Page_two['address'];
+        $empnum = $Page_two['empnum'];
+        $desc = $Page_two['description'];
+        $email = $Page_two['email'];
+        $cmp_name = $Page_two['cmp_name'];
+        $proj_name = $Page_two['proj_name'];
+//die("<pre>".print_r($_FILES,true)."</pre>");
+        $sql = "UPDATE maenna_company SET access = '%s', company = '%s', projname = '%s', founded = '%s', hear_about = '%s', sector = '%s', referral_code = '%s', web = '%s', company_type = '%s', phone = '%s', city = '%s', state = '%s',address1 = '%s', empnum = '%s', email = '%s', description = '%s' WHERE companyid = %d ";
+        $access = time();
+        $Values = array($access, $cmp_name, $proj_name, $year_established, $hear_us, $sector, $ref_code, $website, $cmp_type, $phone, $city, $state, $address, $empnum, $email, $desc, $uid);
+        db_query($sql, $Values);
+        $this_year = date("Y");
+        $last_year = (int) $this_year - 1;
+        $revenue_this = $Page_two['revenue_thisyear'];
+        $revenue_last = $Page_two['revenue_lastyear'];
+        $earnings_this = $Page_two['earnings_thisyear'];
+        $earnings_last = $Page_two['earnings_lastyear'];
+        $equity_thisyear = $Page_two['equity_thisyear'];
+        $equity_lastyear = $Page_two['equity_lastyear'];
+        //Update users table,so mails for notifications are sent to right address. ATTENTION! Login data is also changed
+        mysql_query("UPDATE users SET mail = '" . $email . "' WHERE uid = '" . $uid . "'");
+        // DELETE OLD DATA
+        $sql = mysql_query("DELETE FROM maenna_company_data WHERE companyid = '" . $uid . "' AND data_type = 'financial' ");
+        $sql = "INSERT INTO maenna_company_data (companyid, access, data_type, data_attr,  data_value,data_value2, data_value3) VALUES (%d, '%s' ,'%s' ,'%s','%s' ,'%s','%s')";
+        $access = time();
+        $Values = array($uid, $access, 'financial', $this_year, $revenue_this, $earnings_this, $equity_thisyear);
+        db_query($sql, $Values);
+        $Values = array($uid, $access, 'financial', $last_year, $revenue_last, $earnings_last, $equity_lastyear);
+        db_query($sql, $Values);
+        resize_and_upload_image($_FILES['files'], $uid, 'company', 'logo');
+        drupal_set_message(t("Your form has been Submitted"));
+    }
+}
+
+function maenna_forms_company_signup_form_submit($form, &$form_state) {
+    //if( $form_state['clicked_button']['#value'] == 'Continue' )
+    //{
+    //    $form_state['page_num'] = 2;
+    //    $form_state['storage']['page_one_values'] = $form_state['values'];
+    //}else
+    if ($form_state['clicked_button']['#value'] == 'Submit') {
+    } else {
+        //check_variable($form_state['values']);
+        //check_variable($form_state['storage']['page_one_values']);
+        $form_state['storage']['page_one_values'] = $form_state['values'];
+        $Page_one = maenna_check_plain($form_state['storage']['page_one_values']);
+        //$Page_two = maenna_check_plain($form_state['values']);
+        $New_user = array(
+            'name'   => "Temp" . date('s'),
+            'mail'   => $Page_one['email'],
+            'init'   => $Page_one['email'],
+            'roles'  => array(3 => 'Company'),
+            'pass'   => $Page_one['password'],
+            'status' => 1
+        );
+        $userObj = user_save(null, $New_user);
+        $SQL = 'UPDATE {users} SET NAME = "%s" WHERE uid = %d';
+        db_query($SQL, "SID_" . $userObj->uid, $userObj->uid);
+        $m = db_affected_rows();
+        if ($m != 1) alert_admin("new company db query error");
+        $first_name = $Page_one['first_name'];
+        $last_name = $Page_one['last_name'];
+        $company = $Page_one['company'];
+        $website = $Page_one['website'];
+        $city = $Page_one['City'];
+        $state = $Page_one['state'];
+        //$interests = $Page_one['interested'];
+        foreach ($interests as $k => $v) {
+            if (!empty($v)) {
+                $interests["$k"] = "+" . check_plain($v) . "+";
+            } else {
+                unset($interests["$k"]);
+            }
+        }
+        $interests = implode(";", $interests);
+        //$sector = $Page_two['sector'];
+        //$hear_about = $Page_two['hearus'];
+        //$referral_code = $Page_two['referral_code'];
+        //$description = $Page_two['description'];
+        //$year_in_biz = $Page_two['yearinbusiness'];
+        $uid = $userObj->uid;
+        //$SQL = "insert into {users_extend} (uid, company_name, first_name, last_name, website, city, state, interest, sector, hear_about,". "referral_code, description, year_in_biz) values(%d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %d)";
+        //$Values = array($uid, $company, $first_name, $last_name, $website, $city, $state, $interests, $sector, $hear_about, $referral_code, $description, $year_in_biz);
+        //db_query($SQL, $Values);
+        //$m = db_affected_rows();
+        //drupal_set_message( "db_extend row = " . $m);
+        $this_year = date("Y");
+        $last_year = (int) $this_year - 1;
+        //$revenue_this = $Page_two['revenue_thisyear'];
+        //$revenue_last = $Page_two['revenue_lastyear'];
+        //$earnings_this = $Page_two['earnings_thisyear'];
+        //$earnings_last = $Page_two['earnings_lastyear'];
+        //$equity_thisyear = $Page_two['equity_thisyear'];
+        //$equity_lastyear = $Page_two['equity_lastyear'];
+        /*
+         $User_data = array(
+                           array($uid, 'revenue', $this_year, $revenue_this),
+                           array($uid, 'revenue', $last_year, $revenue_last),
+                           array($uid, 'earnings', $this_year, $earnings_this),
+                           array($uid, 'earnings', $last_year, $earnings_last)
+                          );
+        /*foreach($User_data as $Udata)
+        {
+            //db_query("insert into {users_data} (uid, data_type, data_attr, data_value) values (%d, '%s' ,'%s' ,'%s') ", $Udata);
+        }
+        */
+        // maenna_company and maenna_company_data
+        $sql = "INSERT INTO maenna_company(companyid, company, email, city, state,contact) VALUES " .
+            "(%d, '%s','%s','%s','%s','%s')";
+        $contact = $first_name . ' ' . $last_name;
+        $Values = array($uid, $company, $Page_one['email'], $city, $state, $contact);
+        db_query($sql, $Values);
+        //$sql = "insert into maenna_company_data (companyid, access, data_type, data_attr,  data_value,data_value2, data_value3) values (%d, '%s' ,'%s' ,'%s','%s' ,'%s','%s')";
+        //$access = time();
+        //$Values = array($uid,$access, 'financial', $this_year, $revenue_this, $earnings_this, $equity_thisyear );
+        //db_query($sql, $Values);
+        //$Values = array($uid,$access, 'financial', $last_year, $revenue_last, $earnings_last, $equity_lastyear );
+        //db_query($sql, $Values);
+        //
+        drupal_set_message(t("Your form has been Submitted"));
+        $Param = array('to' => $Page_one['email'], 'from' => 'info@clewed.com', 'firstname' => $first_name, 'lastname' => $last_name, 'pass' => $Page_one['password']);
+        //notify_user('new_user_account', $Param);
+        $Param = array('to' => 'hnega@clewed.com', 'from' => 'info@clewed.com', 'firstname' => $first_name, 'lastname' => $last_name, 'pass' => $Page_one['password']);
+        //notify_user('new_user_account', $Param);
+        $Param = array('to' => 'aharding@clewed.com', 'from' => 'info@clewed.com', 'firstname' => $first_name, 'lastname' => $last_name, 'pass' => $Page_one['password']);
+        //notify_user('new_user_account', $Param);
+        $Param = array('to' => 'neongeo@gmail.com', 'from' => 'info@clewed.com', 'firstname' => $first_name, 'lastname' => $last_name, 'pass' => $Page_one['password']);
+        notify_user('new_user_account', $Param);
+        unset($form_state['storage']);
+        $form_state['redirect'] = 'form-submit';
+    }
+}
+
+/**
+ *professional Sign up form
+
+ */
+function maenna_forms_pro() {
+    return drupal_get_form('maenna_forms_pro_form');
+}
+
+function maenna_forms_pro_form($form_state) {
+    $Experties = _experties();
+    $Degree = _Degrees();
+    $ManagementLevel = _managementLevel();
+    $ProType = _pro_types();
+    $form['#attributes'] = array('class' => 'pro_signup');
+    $form_state['page_num'] = 1;
+    $form['#redirect'] = array('account');
+    $form['pro_type'] = array(
+        '#type'     => 'select',
+        '#title'    => t('I AM'),
+        '#required' => true,
+        '#options'  => $ProType,
+        '#prefix'   => "<table cellpadding=0 cellspacing=0 class='signup_form'><tr><td><h2>Register Now! <span class='e-text lightgrey'>(step 1 of 2)</span> </h2></td></tr><tr><td class = 'left-column'>",
+        '#suffix'   => "</td></tr>",
+    );
+    $form['first_name'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('FIRST NAME'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#description'   => '',
+        '#maxlength'     => 30,
+        '#prefix'        => "<tr><td class= 'left-column'>",
+        '#suffix'        => "</td></tr>",
+    );
+    $form['last_name'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('LAST NAME'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#description'   => '',
+        '#maxlength'     => 30,
+        '#prefix'        => "<tr><td class= 'left-column'>",
+        '#suffix'        => "</td></tr>",
+    );
+    $form['email'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('EMAIL'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#maxlength'     => 50,
+        '#prefix'        => "<tr><td class= 'left-column'>",
+        '#suffix'        => "</td></tr>",
+    );
+    $form['password'] = array(
+        '#type'          => 'password',
+        '#title'         => t('PASSWORD'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#maxlength'     => 25,
+        '#prefix'        => "<tr><td class= 'left-column'>",
+        '#suffix'        => "<div class='description' style='text-align:left;width:162px;'>8 characters min length, at<br> least one number</div></td></tr>",
+    );
+    $form['experties'] = array(
+        '#type'          => 'select',
+        '#required'      => true,
+        '#title'         => t('EXPERTISE'),
+        '#options'       => $Experties,
+        '#default_value' => ($form_state['values']['experties']) ? ($form_state['values']['experties']) : 'Experties',
+        '#prefix'        => '<tr><td class="left-column gray_input_text td_hilightinput" dv="position">',
+        '#suffix'        => '</td></tr>',
+    );
+    $form['managementlevel'] = array(
+        '#type'          => 'select',
+        '#title'         => t('MANAGEMENT LEVEL'),
+        '#required'      => true,
+        '#options'       => $ManagementLevel,
+        '#default_value' => ($form_state['values']['managementlevel']) ? ($form_state['values']['managementlevel']) : 'Management Level',
+        '#prefix'        => '<tr><td  class="left-column">',
+        '#suffix'        => "</td></tr>",
+    );
+    $form['degree'] = array(
+        '#type'     => 'select',
+        '#title'    => t('DEGREE'),
+        '#options'  => $Degree,
+        '#required' => true,
+        '#prefix'   => '<tr><td  class="left-column " dv="degree">',
+        '#suffix'   => '</td></tr>>',
+    );
+    $form['referral_code'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('REFERRAL CODE'),
+        '#size'          => 25,
+        '#maxlength'     => 25,
+        '#default_value' => ($form_state['values']['referral_code']) ? ($form_state['values']['referral_code']) : '',
+        '#prefix'        => '<tr><td  class="left-column">',
+        '#suffix'        => '</td></tr>',
+    );
+    $form['description'] = array(
+        '#type'          => 'textarea',
+        '#title'         => 'BRIEF BIO',
+        '#cols'          => 50,
+        '#required'      => true,
+        '#resizable'     => true,
+        '#rows'          => 6,
+        '#default_value' => ($form_state['values']['description']) ? ($form_state['values']['description']) : '',
+        '#prefix'        => '<tr><td class="left-column" >',
+        '#suffix'        => '</td></tr>',
+    );
+    $form['term_agree'] = array(
+        '#type'          => 'checkbox',
+        '#required'      => true,
+        '#title'         => t("I agree with Maenna's <a href='/terms' target='_blank' class='popup'  rel='terms'>Terms of Use</a>"),
+        //'#required' => true,
+        '#default_value' => ($form_state['values']['term_agree']) ? ($form_state['values']['term_agree']) : 0,
+        '#prefix'        => "<tr><td>",
+        '#suffix'        => "</td></tr>",
+    );
+    $form['captcha_div'] = array(
+        '#type'   => 'markup',
+        '#value'  => "<div id='captcha_img' style='height:70px;width:200px;'><img src='/captcha/captcha.php' ></div><div><a href='#' id='reload_captcha' style='font-size:11px;'>Not readable? Change text.</a></div>",
+        '#prefix' => '<tr><td >',
+        '#suffix' => '</td></tr>',
+    );
+    $form['my_captcha'] = array(
+        '#type'   => 'textfield',
+        '#title'  => 'Please enter the code',
+        '#prefix' => '<tr><td class="left-column">',
+        '#suffix' => '</td></tr>',
+    );
+    /*
+        $form['City']  = array(
+            '#type'         =>  'textfield',
+            '#title' => t('City'),
+            '#required' => false,
+            '#maxlength' => 25,
+            '#default_value' => '',
+            '#prefix' => "<tr><td class= 'left-column'>",
+            '#suffix' => "</td></tr>",
+        );
+        $form['state']  = array(
+            '#type'         =>  'select',
+            '#title' => t('State'),
+            '#options' => get_us_states(),
+            '#default_value' => '',
+            '#prefix' => "<td  class='right-column'>",
+            '#suffix' => "</td></tr>",
+        );
+        $Pro_Interested = _pro_interested();
+        $form['interested']  = array(
+            '#type'         =>  'checkboxes',
+            '#title'        => t('Interested In'),
+            '#options'      => $Pro_Interested,
+            '#required'      => true,
+            '#description'  => '',
+            '#prefix'       => "<tr><td colspan=2 class='checkbox_td'>",
+            '#suffix'       => "</td></tr>",
+
+        );*/
+    $form['next'] = array(
+        '#type'          => 'image_button',
+        '#default_value' => t('Continue'),
+        '#value'         => t('Continue'),
+        '#prefix'        => "<tr><td colspan=2 style=''>",
+        '#suffix'        => "</td></tr></table>",
+        '#src'           => 'themes/maennaco/images/continue.png',
+    );
+    return $form;
+}
+
+function maenna_forms_pro_form_page2(&$form_state) {
+    global $AccessObj;
+    global $user;
+    $Yearinbusiness = _Year(50);
+    $Sectors = _INDUSTRY();
+    $Gender = GenderOptions();
+    $Hearus = _hear_about_us();
+    $ManagementLevel = _managementLevel();
+    $PLResponsibility = _plResponsibility();
+    $Experties = _experties();
+    $Degree = _Degrees();
+    $ProType = _pro_types();
+    $form['#attributes'] = array('class' => 'pro_signup2', 'enctype' => "multipart/form-data");
+    if (isset($_REQUEST['id'])) $sid = $_REQUEST['id']; else $sid = $user->uid;
+    if ($AccessObj->user_type == 'super' || $AccessObj->user_type == 'admin') $adminRights = true; else $adminRights = false;
+    $selectedOptions = getSelectedProPage2($sid);
+//die(print_r($selectedOptions));
+    $form['pro_type'] = array(
+        '#type'          => 'select',
+        '#title'         => t('PROFESSIONAL TYPE'),
+        '#required'      => true,
+        '#default_value' => $selectedOptions['protype'],
+        '#options'       => $ProType,
+        '#maxlength'     => 30,
+        '#prefix'        => '<table cellpadding=0 cellspacing=0 class="signup_form_page2"><tr><td class= "left-column">',
+        '#suffix'        => "</td></tr>",
+        '#access'        => $adminRights,
+    );
+    $form['first_name'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('FIRST NAME'),
+        '#required'      => true,
+        '#default_value' => $selectedOptions['firstname'],
+        '#description'   => '',
+        '#maxlength'     => 30,
+        '#prefix'        => '<tr><td class= "left-column">',
+        '#suffix'        => "</td></tr>",
+    );
+    $form['last_name'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('LAST NAME'),
+        '#required'      => true,
+        '#default_value' => $selectedOptions['lastname'],
+        '#description'   => '',
+        '#maxlength'     => 30,
+        '#prefix'        => "<tr><td class= 'left-column'>",
+        '#suffix'        => "</td></tr>",
+    );
+    $form['gender'] = array(
+        '#type'          => 'select',
+        '#title'         => t('GENDER'),
+        '#default_value' => $selectedOptions['gender'],
+        '#required'      => true,
+        '#options'       => $Gender,
+        '#prefix'        => '<tr><td class="left-column">',
+    );
+    if ($AccessObj->role_id == '12') {
+        $form['proj_name'] = array(
+            '#type'          => 'textfield',
+            '#title'         => t('PROJECT NAME'),
+            '#required'      => true,
+            '#default_value' => $selectedOptions['proj_name'],
+            '#description'   => '',
+            '#maxlength'     => 30,
+            '#prefix'        => "<tr><td class= 'left-column'>",
+            '#suffix'        => "</td></tr>",
+        );
+    }
+    $form['industry'] = array(
+        '#type'          => 'select',
+        '#title'         => t('INDUSTRY'),
+        '#default_value' => $selectedOptions['industry'],
+        '#required'      => true,
+        '#options'       => $Sectors,
+        '#prefix'        => '<tr><td class="left-column">',
+    );
+    $form['yearwork'] = array(
+        '#type'          => 'select',
+        '#required'      => true,
+        '#title'         => t('YEAR STARTED WORKING'),
+        '#options'       => $Yearinbusiness,
+        '#default_value' => $selectedOptions['yearwork'],
+        '#prefix'        => '</td></tr><tr><td class="left-column">',
+        '#suffix'        => "</td></tr>",
+    );
+    $form['company'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('LATEST EMPLOYMENT'),
+        '#size'          => 25,
+        '#required'      => true,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['company'],
+        '#prefix'        => '<tr><td class="gray_input_text td_hilightinput" dv="company">',
+        '#suffix'        => '</td></tr>',
+    );
+    $form['experties'] = array(
+        '#type'          => 'select',
+        '#required'      => true,
+        '#title'         => t('EXPERTIES'),
+        '#options'       => $Experties,
+        '#default_value' => $selectedOptions['experties'],
+        '#prefix'        => '<tr><td class="left-column gray_input_text td_hilightinput" dv="position">',
+        '#suffix'        => '</td></tr>',
+    );
+    $form['managementlevel'] = array(
+        '#type'          => 'select',
+        '#title'         => t('MANAGEMENT LEVEL'),
+        '#required'      => true,
+        '#options'       => $ManagementLevel,
+        '#default_value' => $selectedOptions['mlvl'],
+        '#prefix'        => '<tr><td  class="left-column">',
+        '#suffix'        => "</td></tr>",
+    );
+    $form['plresponsibility'] = array(
+        '#type'          => 'select',
+        '#required'      => true,
+        '#title'         => t('PL RESPONSIBILITY'),
+        '#options'       => $PLResponsibility,
+        '#default_value' => $selectedOptions['plres'],
+        '#prefix'        => '<tr><td  class="left-column ">',
+        '#suffix'        => "</td></tr>",
+    );
+    $form['school'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('HIGHEST EDUCATION BACKGROUND'),
+        '#size'          => 25,
+        '#required'      => true,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['school'],
+        '#prefix'        => '<tr><td class="gray_input_text td_hilightinput" dv="school">',
+        '#suffix'        => '</td></tr>',
+    );
+    $form['degree'] = array(
+        '#type'          => 'select',
+        '#title'         => t('DEGREE'),
+        '#options'       => $Degree,
+        '#required'      => true,
+        '#default_value' => $selectedOptions['degree'],
+        '#prefix'        => '<tr><td  class="left-column " dv="degree">',
+        '#suffix'        => '</td><tr>',
+    );
+    $form['city'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('CITY'),
+        '#required'      => false,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['city'],
+        '#prefix'        => "<tr><td >",
+        '#suffix'        => "</td>",
+        '#disabled'      => $disabled
+    );
+    $Us_states = get_us_states();
+    $form['state'] = array(
+        '#type'          => 'select',
+        '#title'         => t('STATE'),
+        '#default_value' => $selectedOptions['state'],
+        '#options'       => $Us_states,
+        '#prefix'        => "</tr><tr><td class='left-column'>",
+        '#suffix'        => "</td></tr>",
+        '#disabled'      => $disabled
+    );
+    $form['email'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('EMAIL'),
+        '#size'          => 25,
+        '#required'      => true,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['email'],
+        '#prefix'        => '<tr><td class="gray_input_text td_hilightinput" dv="school">',
+        '#suffix'        => "<br style='clear:both;'><div class='description' style='text-align:left;width:162px;'>ATTENTION!<br>Login data will be changed too!</div></td></tr>",
+    );
+    $form['phone'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('PHONE'),
+        '#size'          => 25,
+        '#required'      => true,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['phone'],
+        '#prefix'        => '<tr><td class="gray_input_text td_hilightinput" dv="school">',
+        '#suffix'        => '</td></tr>',
+    );
+    $form['referral_code'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('HAVE A REFERRAL CODE?'),
+        '#size'          => 25,
+        '#maxlength'     => 25,
+        '#default_value' => $selectedOptions['referral_code'],
+        '#prefix'        => '<tr><td class="gray_input_text td_hilightinput" dv="school">',
+        '#suffix'        => '</td></tr>',
+    );
+    $form['hearus'] = array(
+        '#type'          => 'select',
+        '#title'         => t('HOW DID YOU HEAR ABOUT US'),
+        '#options'       => $Hearus,
+        '#default_value' => $selectedOptions['hear_about'],
+        '#prefix'        => '<tr><td  class="left-column">',
+    );
+    $form['logo'] = array(
+        '#type'      => 'file',
+        '#title'     => t('PROFILE PICTURE'),
+        '#size'      => 25,
+        '#maxlength' => 25,
+        '#prefix'    => '</td></tr><tr><td class="left-column">',
+        '#suffix'    => "<br style='clear:both;'><div class='description' style='text-align:left;width:162px;'>A small square picture, 120X120 pixels is preferred</div>",
+        '#access'    => $adminRights,
+    );
+    $form['description'] = array(
+        '#type'          => 'textarea',
+        '#title'         => 'BRIEF DESCRIPTION',
+        '#cols'          => 35,
+        '#default_value' => $selectedOptions['brief_intro'],
+        '#resizable'     => true,
+        '#rows'          => 6,
+        '#prefix'        => '</td></tr><tr><td class="cols" colspan=2><div style="display:block;width:90%;">',
+        '#suffix'        => '</div>',
+    );
+    $form['next'] = array(
+        '#type'   => 'submit',
+        '#value'  => 'SUBMIT',
+        '#prefix' => '</td></tr><tr><td>',
+        '#suffix' => '</td></tr></table>',
+    );
+    return $form;
+}
+
+function maenna_forms_pro_form_newemp_validate($form, &$form_state) {
+    drupal_get_messages('error');
+    if (empty($form_state['values']['company2'])) {
+        $form_state['storage']['company2'] = true;
+    } else {
+        $form_state['storage']['company3'] = true;
+    }
+    $form_state['page_num'] = 2;
+    $form_state['rebuild'] = true;
+}
+
+function maenna_forms_pro_form_validate($form, &$form_state) {
+    $_valid = true;
+    $Required = array();
+    if ($form_state['submit_handlers'][0] == 'maenna_forms_pro_form_newemp_validate') {
+        if (empty($form_state['values']['company2'])) {
+            $form_state['storage']['company2'] = true;
+        } else $form_state['storage']['company3'] = true;
+    } elseif ($form_state['values']['next'] == 'Continue') {
+        $Required = array('pro_type', 'first_name', 'last_name', 'email', 'password', 'experties', 'managementlevel', 'degree', 'term_agree', 'my_captcha');
+        if (!check_email($form_state['values']['email'])) {
+            drupal_get_messages('error');
+            form_set_error('email', t('The email address appears to be invalid.'));
+            $_valid = false;
+        }
+        if ($_valid) {
+            $password = $form_state['values']['password'];
+            if (!password_strength($password)) {
+                drupal_get_messages('error');
+                form_set_error('password', t('Your password must be between 8 and 15 characters, and contain at least 1 number.'));
+                $_valid = false;
+            }
+        }
+        if ($_valid) {
+            $email = $form_state['values']['email'];
+            if (!check_duplicate_email($email)) {
+                drupal_get_messages('error');
+                form_set_error('email', t('The email you entered is already Registered.'));
+                $_valid = false;
+            }
+        }
+    }
+    if ($_valid) {
+        foreach ($Required as $key) {
+            $err_msg = 'Please fill-in required field(s) and try again';
+            if ($key == 'term_agree') {
+                $err_msg = 'Please read and accept Terms of Use';
+            } elseif ($key == 'my_captcha') {
+                $err_msg = 'Please enter the security code';
+            } else {
+                ;
+            }
+            if (!isset($form_state['values']["$key"]) || empty($form_state['values']["$key"])) {
+                drupal_get_messages('error');
+                form_set_error('', $err_msg);
+                $_valid = false;
+                break;
+            }
+        }
+    }
+    if ($_valid && in_array('my_captcha', $Required)) {
+        if (strtolower($_SESSION['my_captcha']) != strtolower($form_state['values']['my_captcha'])) {
+            drupal_get_messages('error');
+            form_set_error('', "The security code you enter is incorrect. Please try again.");
+            $_valid = false;
+        }
+    }
+}
+
+function maenna_forms_pro_form_submit($form, &$form_state) {
+    if ($form_state['clicked_button']['#default_value'] == 'Continue') {
+        $Page_one = maenna_check_plain($form_state['values']);
+        $pro_type = $Page_one['pro_type'];
+        if ($pro_type == "analyst") {
+            $Roles = array(4 => "Analyst");
+        } else {
+            if ($pro_type == "executive") {
+                $Roles = array(5 => "Operator");
+            }
+            elseif ($pro_type == "other") $Roles = array(7 => "Talented Pro");
+            elseif ($pro_type == "partner") $Roles = array(11 => "Partner");
+            elseif ($pro_type == "client") $Roles = array(12 => 'Company Member');
+        }
+        $New_user = array(
+            'name'   => "Temp" . date('s'),
+            'mail'   => $Page_one['email'],
+            'init'   => $Page_one['email'],
+            'roles'  => $Roles,
+            'pass'   => $Page_one['password'],
+            'status' => 1
+        );
+        $userObj = user_save(null, $New_user);
+        $SQL = 'UPDATE {users} SET NAME = "%s" WHERE uid = %d';
+        db_query($SQL, "MU_" . $userObj->uid, $userObj->uid);
+        $m = db_affected_rows();
+        if ($m != 1) alert_admin("new user type $pro_type db query error");
+        $first_name = $Page_one['first_name'];
+        $last_name = $Page_one['last_name'];
+        $uid = $userObj->uid;
+        $email = sget($Page_one, 'email');
+        $experties = sget($Page_one, 'experties');
+        $mng_level = sget($Page_one, 'managementlevel');
+        $degree = sget($Page_one, 'degree');
+        $ref_code = sget($Page_one, 'referral_code');
+        $desc = sget($Page_one, 'description');
+        $DBValues = array(
+            'pid'           => $uid,
+            'firstname'     => $first_name,
+            'lastname'      => $last_name,
+            'email'         => $email,
+            'created'       => time(),
+            'experties'     => $experties,
+            'referral_code' => $referral_code,
+            'brief_intro'   => $desc,
+            'mlvl'          => $mng_level,
+            'protype'       => $pro_type
+        );
+        $DBKeys = array_keys($DBValues);
+        $SQLSTR = array();
+        foreach ($DBValues as $key => $val) {
+            $SQLSTR["$key"] = "'%s'";
+        }
+        $SQLSTR['pid'] = "%d";
+        $SQL = "INSERT INTO maenna_people (" . implode(',', $DBKeys) . ") VALUES (" . implode(',', $SQLSTR) . ")";
+        if (!db_query($SQL, $DBValues)) {
+            //echo $SQL;
+            //test_array($SQLSTR);exit;
+            drupal_set_message(t("There was an error(01) when submitting your information. Please try again later."), 'error');
+            unset($form_state['storage']);
+            $form_state['redirect'] = 'people-apply-form';
+            return;
+        }
+    } else {
+        $Page_two = maenna_check_plain($form_state['values']);
+        $pro_type = $Page_one['pro_type'];
+        if ($pro_type == "analyst") {
+            $Roles = array(4 => "Analyst");
+        } else {
+            if ($pro_type == "executive") {
+                $Roles = array(5 => "Operator");
+            } else {
+                $Roles = array(7 => "Talented Pro");
+            }
+        }
+        $New_user = array(
+            'name'   => "Temp" . date('s'),
+            'mail'   => $Page_one['email'],
+            'init'   => $Page_one['email'],
+            'roles'  => $Roles,
+            'pass'   => $Page_one['password'],
+            'status' => 1
+        );
+        $userObj = user_save(null, $New_user);
+        $SQL = 'UPDATE {users} SET NAME = "%s" WHERE uid = %d';
+        db_query($SQL, "MU_" . $userObj->uid, $userObj->uid);
+        $m = db_affected_rows();
+        if ($m != 1) alert_admin("new user type $pro_type db query error");
+        $first_name = $Page_one['first_name'];
+        $last_name = $Page_one['last_name'];
+        $city = $Page_one['City'];
+        $state = $Page_one['state'];
+        //$sector = $Page_two['sector'];
+        //$interests = $Page_one['interested'];
+        /*foreach($interests as $k => $v)
+        {
+            if(! empty($v)) $interests["$k"] = "+" . check_plain($v) . "+";
+            else{ unset($interests["$k"]); }
+        }*/
+        // $interests = implode(";", $interests);
+        $uid = $userObj->uid;
+        $email = sget($Page_one, 'email');
+        $industry = sget($Page_two, 'industry');
+        $yearWork = sget($Page_two, 'yearwork');
+        $company = sget($Page_two, 'company');
+        $experties = sget($Page_two, 'experties');
+        $managementlevel = sget($Page_two, 'managementlevel');
+        $plresponsibility = sget($Page_two, 'plresponsibility');
+        $school = sget($Page_two, 'school');
+        $degree = sget($Page_two, 'degree');
+        $hear_about = sget($Page_two, 'hearus');
+        $referral_code = sget($Page_two, 'referral_code');
+        $brief_intro = sget($Page_two, 'description');
+        $DBValues = array(
+            'pid'           => $uid,
+            'firstname'     => $first_name,
+            'lastname'      => $last_name,
+            'email'         => $email,
+            'city'          => $city,
+            'state'         => $state,
+            'created'       => time(),
+            'industry'      => $industry,
+            'experties'     => $experties,
+            'yearwork'      => $yearWork,
+            'hear_about'    => $hear_about,
+            'referral_code' => $referral_code,
+            'brief_intro'   => $brief_intro,
+            'mlvl'          => $managementlevel,
+            'plres'         => $plresponsibility,
+            'protype'       => $pro_type
+        );
+        $DBKeys = array_keys($DBValues);
+        $SQLSTR = array();
+        foreach ($DBValues as $key => $val) {
+            $SQLSTR["$key"] = "'%s'";
+        }
+        $SQLSTR['pid'] = "%d";
+        $SQL = "INSERT INTO maenna_people (" . implode(',', $DBKeys) . ") VALUES (" . implode(',', $SQLSTR) . ")";
+        if (!db_query($SQL, $DBValues)) {
+            //echo $SQL;
+            //test_array($SQLSTR);exit;
+            drupal_set_message(t("There was an error(01) when submitting your information. Please try again later."), 'error');
+            unset($form_state['storage']);
+            $form_state['redirect'] = 'people-apply-form';
+            return;
+        }
+        // add employment info
+        $DBArray = array(
+            'pid'         => $uid,
+            'access'      => time(),
+            'data_type'   => 'employment',
+            'data_attr'   => '',
+            'data_value'  => $company,
+            'data_value2' => $experties,
+            'data_value3' => $managementlevel,
+            'data_value4' => $plresponsibility
+        );
+        $DBKeys = array();
+        $DBValues = array();
+        $SQLSTR = array();
+        foreach ($DBArray as $key => $val) {
+            $SQLSTR["$key"] = "'%s'";
+            $DBValues["$key"] = $val;
+            $DBKeys[] = $key;
+        }
+        $SQLSTR["pid"] = "%d";
+        $SQL = "INSERT INTO maenna_people_data (" . implode(',', $DBKeys) . ") VALUES (" . implode(',', $SQLSTR) . ")";
+        if (!db_query($SQL, $DBValues)) {
+            /*echo $SQL;
+            test_array($SQLSTR);
+            test_array($DBValues);
+            exit;*/
+            drupal_set_message(t("There was an error(02) when submitting your information. Please try again later."), 'error');
+            unset($form_state['storage']);
+            $form_state['redirect'] = 'people-apply-form';
+            return;
+        }
+        // add education info
+        $DBArray = array(
+            'pid'         => $uid,
+            'access'      => time(),
+            'data_type'   => 'education',
+            'data_attr'   => '',
+            'data_value'  => $school,
+            'data_value2' => $degree
+        );
+        $DBKeys = array();
+        $DBValues = array();
+        $SQLSTR = array();
+        foreach ($DBArray as $key => $val) {
+            $SQLSTR["$key"] = "'%s'";
+            $DBValues["$key"] = $val;
+            $DBKeys[] = $key;
+        }
+        $SQLSTR["pid"] = "%d";
+        $SQL = "INSERT INTO maenna_people_data (" . implode(',', $DBKeys) . ") VALUES (" . implode(',', $SQLSTR) . ")";
+        if (!db_query($SQL, $DBValues)) {
+            drupal_set_message(t("There was an error(03) when submitting your information. Please try again later."), 'error');
+            unset($form_state['storage']);
+            $form_state['redirect'] = 'people-apply-form';
+            return;
+        }
+        /*
+        $this_year = date("Y");
+        $last_year = (int)$this_year - 1;
+        $employer_this = $Page_two['company1'];
+        $position_this = $Page_two['position1'];
+        $User_data  = array();
+
+        if($employer_this)
+        {
+            $User_data[] = array($uid, 'employer', "", $employer_this, $position_this );
+        }
+
+        $employer_last = $Page_two['company2'];
+        $position_last = $Page_two['position2'];
+        if($employer_last)
+        {
+            $User_data[] = array($uid, 'employer', "", $employer_last, $position_last );
+        }
+
+        $employer_third = $Page_two['company3'];
+        $position_third = $Page_two['position3'];
+        if($employer_last)
+        {
+            $User_data[] = array($uid, 'employer', "", $employer_third, $position_third );
+        }
+        $school = $Page_two['school'];
+        $degree = $Page_two['degree'];
+        if($employer_last)
+        {
+            $User_data[] = array($uid, 'education', "",         $school,        $degree);
+        }
+        if(count($User_data) > 0)
+        {
+            foreach($User_data as $Udata)
+            {
+                db_query("insert into {users_data} (uid, data_type, data_attr, data_value,data_value2) values (%d, '%s' ,'%s' ,'%s','%s') ", $Udata);
+            }
+        }
+        */
+        drupal_set_message(t("Your form has been Submitted"));
+        $Param = array('to' => $Page_one['email'], 'from' => 'info@clewed.com', 'firstname' => $first_name, 'lastname' => $last_name, 'pass' => $Page_one['password']);
+        notify_user('new_user_account', $Param);
+        //$Param = array('to'=>'hnega@clewed.com', 'from'=>'info@clewed.com', 'firstname'=>$first_name,'lastname'=>$last_name, 'pass'=>$Page_one['password']);
+        notify_user('new_user_account', $Param);
+        //$Param = array('to'=>'mkrusin@clewed.com', 'from'=>'info@clewed.com', 'firstname'=>$first_name,'lastname'=>$last_name, 'pass'=>$Page_one['password']);
+        notify_user('new_user_account', $Param);
+        $Param = array('to' => 'neongeo@gmail.com', 'from' => 'info@clewed.com', 'firstname' => $first_name, 'lastname' => $last_name, 'pass' => $Page_one['password']);
+        notify_user('new_user_account', $Param);
+        unset($form_state['storage']);
+        $form_state['redirect'] = 'form-submit';
+        //$form_state['redirect'] = 'node';
+    }
+}
+
+function maenna_forms_pro_form_page2_submit($form, &$form_state) {
+    $Page_two = maenna_check_plain($form_state['values']);
+    if (isset($_REQUEST['id'])) $uid = $_REQUEST['id']; else $uid = $user->uid;
+    $first_name = $Page_two['first_name'];
+    $last_name = $Page_two['last_name'];
+    $proj_name = $Page_two['proj_name'];
+    $city = $Page_two['city'];
+    $state = $Page_two['state'];
+    $email = sget($Page_two, 'email');
+    $industry = sget($Page_two, 'industry');
+    $yearWork = sget($Page_two, 'yearwork');
+    $company = sget($Page_two, 'company');
+    $experties = sget($Page_two, 'experties');
+    $managementlevel = sget($Page_two, 'managementlevel');
+    $plresponsibility = sget($Page_two, 'plresponsibility');
+    $school = sget($Page_two, 'school');
+    $phone = sget($Page_two, 'phone');
+    $degree = sget($Page_two, 'degree');
+    $gender = sget($Page_two, 'gender');
+    $hear_about = sget($Page_two, 'hearus');
+    $referral_code = sget($Page_two, 'referral_code');
+    $brief_intro = sget($Page_two, 'description');
+    $pro_type = sget($Page_two, 'pro_type');
+    if ($pro_type == "analyst") {
+        $Roles = 4;
+    } elseif ($pro_type == "executive") $Roles = 5;
+    elseif ($pro_type == "other") $Roles = 7;
+    elseif ($pro_type == "partner") $Roles = 11;
+    elseif ($pro_type == "client") $Roles = 12;
+//Update general info
+    $sql = "UPDATE maenna_people SET access = '%s',firstname = '%s', lastname = '%s', proj_name = '%s', city = '%s', state = '%s', email = '%s', industry = '%s', yearwork = '%s', experties = '%s', protype = '%s',  mlvl = '%s', plres = '%s', phone = '%s', gender = '%s', hear_about = '%s', referral_code = '%s', brief_intro = '%s' WHERE pid = %d ";
+    $access = time();
+    $Values = array($access, $first_name, $last_name, $proj_name, $city, $state, $email, $industry, $yearWork, $experties, $pro_type, $managementlevel, $plresponsibility, $phone, $gender, $hear_about, $referral_code, $brief_intro, $uid);
+    db_query($sql, $Values);
+    //Update users_roles table
+    mysql_query("UPDATE users_roles SET rid = " . $Roles . " WHERE uid = " . $uid . "");
+    //Update users table,so mails for notifications are sent to right address. ATTENTION! Login data is also changed
+    mysql_query("UPDATE users SET mail = '" . $email . "' WHERE uid = '" . $uid . "'");
+    // add exployment info
+    $DBArray = array(
+        'pid'         => $uid,
+        'access'      => time(),
+        'data_type'   => 'employment',
+        'data_attr'   => '',
+        'data_value'  => $company,
+        'data_value2' => $experties,
+        'data_value3' => $managementlevel,
+        'data_value4' => $plresponsibility
+    );
+    $DBKeys = array();
+    $DBValues = array();
+    $SQLSTR = array();
+    foreach ($DBArray as $key => $val) {
+        $SQLSTR["$key"] = "'%s'";
+        $DBValues["$key"] = $val;
+        $DBKeys[] = $key;
+    }
+    $SQLSTR["pid"] = "%d";
+    $SQL = "INSERT INTO maenna_people_data (" . implode(',', $DBKeys) . ") VALUES (" . implode(',', $SQLSTR) . ")";
+    if (!db_query($SQL, $DBValues)) {
+        drupal_set_message(t("There was an error(02) when submitting your information. Please try again later."), 'error');
+        $form_state['redirect'] = 'people-apply-form';
+        return;
+    }
+    // add education info
+    $DBArray = array(
+        'pid'         => $uid,
+        'access'      => time(),
+        'data_type'   => 'education',
+        'data_attr'   => '',
+        'data_value'  => $school,
+        'data_value2' => $degree
+    );
+    $DBKeys = array();
+    $DBValues = array();
+    $SQLSTR = array();
+    foreach ($DBArray as $key => $val) {
+        $SQLSTR["$key"] = "'%s'";
+        $DBValues["$key"] = $val;
+        $DBKeys[] = $key;
+    }
+    $SQLSTR["pid"] = "%d";
+    $SQL = "INSERT INTO maenna_people_data (" . implode(',', $DBKeys) . ") VALUES (" . implode(',', $SQLSTR) . ")";
+    if (!db_query($SQL, $DBValues)) {
+        drupal_set_message(t("There was an error(03) when submitting your information. Please try again later."), 'error');
+        $form_state['redirect'] = 'people-apply-form';
+        return;
+    }
+    resize_and_upload_image($_FILES['files'], $uid, 'profiles', 'logo');
+}
+
+/* --- INVESTOR --- */
+function maenna_forms_investor() {
+    return drupal_get_form('maenna_forms_investor_form');
+}
+
+function maenna_forms_investor_form($form_state) {
+    if ((!empty($form_state['page_num'])) && $form_state['page_num'] == 2) {
+        return maenna_forms_investor_form_page2($form_state);
+    }
+    $ProType = _pro_types();
+    $form['#attributes'] = array('class' => 'pro_signup');
+    $form_state['page_num'] = 1;
+    $form['first_name'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('First Name'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#description'   => '',
+        '#maxlength'     => 30,
+        '#prefix'        => "<table cellpadding=0 cellspacing=0 class='signup_form'><tr><td colspan=2 ><h3>Register Now! <span class='e-text lightgrey'>(step 1 of 2)</span> </h3></td></tr><tr><td >",
+        '#suffix'        => "</td>",
+    );
+    $form['last_name'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('Last Name'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#description'   => '',
+        '#maxlength'     => 30,
+        '#prefix'        => "<td class='right-column'>",
+        '#suffix'        => "</td></tr>",
+    );
+    $form['email'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('Email'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#maxlength'     => 50,
+        '#prefix'        => "<tr><td>",
+        '#suffix'        => "</td>",
+    );
+    $form['password'] = array(
+        '#type'          => 'password',
+        '#title'         => t('Password'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#maxlength'     => 25,
+        '#prefix'        => "<td class='right-column'>",
+        '#suffix'        => "<br style='clear:both'><div class='description' style='text-align:left;width:162px;'>8 characters min length, at<br> least one number</div></td></tr>",
+    );
+    $form['company'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('Company'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#maxlength'     => 50,
+        '#prefix'        => "<tr><td>",
+        '#suffix'        => "</td>",
+    );
+    $form['phone'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('Phone'),
+        '#required'      => true,
+        '#default_value' => '',
+        '#maxlength'     => 25,
+        '#prefix'        => "<td class='right-column'>",
+        '#suffix'        => "</td></tr>",
+    );
+    $form['City'] = array(
+        '#type'          => 'textfield',
+        '#title'         => t('City'),
+        '#required'      => false,
+        '#maxlength'     => 25,
+        '#default_value' => '',
+        '#prefix'        => "<tr><td>",
+        '#suffix'        => "</td>",
+    );
+    $form['state'] = array(
+        '#type'          => 'select',
+        '#title'         => t('State'),
+        '#options'       => get_us_states(),
+        '#default_value' => '',
+        '#prefix'        => "<td class='right-column'>",
+        '#suffix'        => "</td></tr>",
+    );
+    $investors_type = _investors_type();
+    $form['investor_type'] = array(
+        '#type'          => 'select',
+        '#title'         => t('Investor Type'),
+        '#options'       => $investors_type,
+        '#default_value' => '',
+        '#prefix'        => "<tr><td class='left-column'>",
+        '#suffix'        => "</td>",
+    );
+    $Investor_Interested = _investor_interests();
+    /*$form['interested']  = array(
+        '#type'         =>  'select',
+        '#title'        => t('Interested In'),
+        '#required'     => true,
+        '#options'      => $Investor_Interested,
+        '#description'  => '',
+        '#prefix'       => "<td  class='right-column'>",
+        '#suffix'       => "</td></tr>",
+
+    );*/
+    $form['next'] = array(
+        '#type'          => 'image_button',
+        '#default_value' => t('Continue'),
+        '#value'         => t('Continue'),
+        '#prefix'        => "<tr><td colspan=2 style=''>",
+        '#suffix'        => "</td></tr></table>",
+        '#src'           => 'themes/maennaco/images/continue.png',
+    );
+    return $form;
+}
+
+function maenna_forms_investor_form_page2(&$form_state) {
+    $Yearinbusiness = _year_in_business();
+    $Sectors = _sectors();
+    $Hearus = _hear_about_us();
+    $form['#attributes'] = array('class' => 'pro_signup2');
+    $form['hearus'] = array(
+        '#type'          => 'select',
+        '#title'         => t('How Did You Hear About Us'),
+        '#options'       => $Hearus,
+        '#default_value' => '0',
+        '#prefix'        => '<table cellpadding=0 cellspacing=0 class="signup_form"><tr><td colspan=2>
+                        <h2>Register Now! (step 2 of 2)</h2></td></tr><tr><td>',
+    );
+    $form['referral_code'] = array(
+        '#type'      => 'textfield',
+        '#title'     => t('Have a referral code?'),
+        '#size'      => 25,
+        '#maxlength' => 25,
+        '#prefix'    => '</td><td>',
+        '#suffix'    => '</td><tr>',
+    );
+    $form['term_agree'] = array(
+        '#type'     => 'checkbox',
+        '#title'    => t("I agree with Maenna's <a href='/terms' target='_blank' class='popup'  rel='terms'>Term Of Use</a>"),
+        '#required' => true,
+        '#prefix'   => "<tr><td colspan=2>",
+        '#suffix'   => "</td></tr>",
+    );
+    $form['captcha_div'] = array(
+        '#type'   => 'markup',
+        '#value'  => "<div id='captcha_img' style='height:70px;width:200px;'><img src='/captcha/captcha.php' ></div><div><a href='#' id='reload_captcha' style='font-size:11px;'>Not readable? Change text.</a></div>",
+        '#prefix' => '<tr><td >',
+        '#suffix' => '</td>',
+    );
+    $form['my_captcha'] = array(
+        '#type'   => 'textfield',
+        '#title'  => 'Please enter the code',
+        '#prefix' => '<td class="right-column">',
+        '#suffix' => '</td></tr>',
+    );
+    $form['next'] = array(
+        '#type'   => 'image_button',
+        '#value'  => 'Submit',
+        '#prefix' => '<tr><td colspan=2>',
+        '#suffix' => '</td></tr></table>',
+        '#src'    => 'themes/maennaco/images/submit.png',
+    );
+    return $form;
+}
+
+function maenna_forms_investor_form_validate($form, &$form_state) {
+    $_valid = true;
+    $Required = array();
+    if ($form_state['clicked_button']['#value'] == 'Continue') {
+        $Required = array('first_name', 'last_name', 'email', 'password');
+        if (!check_email($form_state['values']['email'])) {
+            drupal_get_messages('error');
+            form_set_error('email', t('The email address appears to be invalid.'));
+            $_valid = false;
+        }
+        if ($_valid) {
+            $password = $form_state['values']['password'];
+            if (!password_strength($password)) {
+                drupal_get_messages('error');
+                form_set_error('password', t('Your password must be between 8 and 15 characters, and contain at least 1 number.'));
+                $_valid = false;
+            }
+        }
+        if ($_valid) {
+            $email = $form_state['values']['email'];
+            if (!check_duplicate_email($email)) {
+                drupal_get_messages('error');
+                form_set_error('email', t('The email you entered is already Registered.'));
+                $_valid = false;
+            }
+        }
+    } else {
+        $Required = array('term_agree', 'my_captcha');
+    }
+    if ($_valid) {
+        foreach ($Required as $key) {
+            $err_msg = 'Please fill-in required field(s) and try again';
+            if ($key == 'term_agree') {
+                $err_msg = 'Please read and accept Terms of Use';
+            } elseif ($key == 'my_captcha') {
+                $err_msg = 'Please enter the security code';
+            } else {
+                ;
+            }
+            if (!isset($form_state['values']["$key"]) || empty($form_state['values']["$key"])) {
+                drupal_get_messages('error');
+                form_set_error('', $err_msg);
+                $_valid = false;
+                break;
+            }
+        }
+    }
+    if ($_valid && in_array('my_captcha', $Required)) {
+        if (strtolower($_SESSION['my_captcha']) != strtolower($form_state['values']['my_captcha'])) {
+            drupal_get_messages('error');
+            form_set_error('', "The security code you enter is incorrect. Please try again.");
+            $_valid = false;
+        }
+    }
+}
+
+function maenna_forms_investor_form_submit($form, &$form_state) {
+    if ($form_state['clicked_button']['#value'] == 'Continue') {
+        $form_state['page_num'] = 2;
+        $form_state['storage']['page_one_values'] = $form_state['values'];
+    } else {
+        // check_variable($form_state['values']);
+        //check_variable($form_state['storage']['page_one_values']);
+        $Page_one = maenna_check_plain($form_state['storage']['page_one_values']);
+        $Page_two = maenna_check_plain($form_state['values']);
+        $Roles = array(8 => "Investor");
+        $New_user = array(
+            'name'   => "Temp" . date('s'),
+            'mail'   => $Page_one['email'],
+            'init'   => $Page_one['email'],
+            'roles'  => $Roles,
+            'pass'   => $Page_one['password'],
+            'status' => 1
+        );
+        $userObj = user_save(null, $New_user);
+        $SQL = 'UPDATE {users} SET NAME = "%s" WHERE uid = %d';
+        db_query($SQL, "IVST_" . $userObj->uid, $userObj->uid);
+        $m = db_affected_rows();
+        if ($m != 1) alert_admin("new user type Investor db query error");
+        $first_name = $Page_one['first_name'];
+        $last_name = $Page_one['last_name'];
+        $company = $Page_one['company'];
+        $phone = $Page_one['phone'];
+        $investor_type = $Page_one['investor_type'];
+        $city = $Page_one['City'];
+        $state = $Page_one['state'];
+        $interests = $Page_one['interested'];
+        $hear_about = $Page_two['hearus'];
+        $referral_code = $Page_two['referral_code'];
+        $uid = $userObj->uid;
+        $SQL = "INSERT INTO {users_extend} (uid, company_name, first_name, last_name, city, state, interest,hear_about," .
+            "referral_code,phone,investor_type) VALUES(%d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',%d)";
+        $Values = array($uid, $company, $first_name, $last_name, $city, $state, $interests, $hear_about, $referral_code, $phone, $investor_type);
+        db_query($SQL, $Values);
+        //$m = db_affected_rows();
+        //drupal_set_message( "db_extend row = " . $m);
+        $m = db_affected_rows();
+        if ($m != 1) alert_admin("new investor db query error");
+        drupal_set_message(t("Your form has been Submitted"));
+        unset($form_state['storage']);
+        $Param = array('to' => $Page_one['email'], 'from' => 'info@clewed.com', 'firstname' => $first_name, 'lastname' => $last_name, 'pass' => $Page_one['password']);
+        notify_user('new_user_account', $Param);
+        $Param = array('to' => 'hnega@clewed.com', 'from' => 'info@clewed.com', 'firstname' => $first_name, 'lastname' => $last_name, 'pass' => $Page_one['password']);
+        notify_user('new_user_account', $Param);
+        $Param = array('to' => 'aharding@clewed.com', 'from' => 'info@clewed.com', 'firstname' => $first_name, 'lastname' => $last_name, 'pass' => $Page_one['password']);
+        notify_user('new_user_account', $Param);
+        $Param = array('to' => 'neongeo@gmail.com', 'from' => 'info@clewed.com', 'firstname' => $first_name, 'lastname' => $last_name, 'pass' => $Page_one['password']);
+        notify_user('new_user_account', $Param);
+        $form_state['redirect'] = 'form-submit';
+    }
+}
+
+function check_variable($var) {
+    $output = '';
+    if (is_array($var)) {
+        foreach ($var as $k => $v) {
+            $output .= "<br>$k = $v";
+        }
+        drupal_set_message($output);
+    } elseif (is_object($var)) {
+        $output = "typeof var is " . typeof($var);
+        drupal_set_message($output);
+    } else {
+        $output = "var = " . $var . " | typeof is " . typeof($var);
+        drupal_set_message($output);
+    }
+}
+
+/* END - company signup form */
+// defines the URL to the page created
+function maenna_login_form_home($form_state) {
+    $form['#attributes'] = array('class' => 'home_login', 'style' => 'margin-top:11px;');
+    $form['email'] = array(
+        '#type'        => 'textfield',
+        '#required'    => true,
+        '#description' => '',
+        '#maxlength'   => 64,
+        '#prefix'      => "<div class='home_login_input'>",
+        '#suffix'      => "",
+    );
+    $form['password'] = array(
+        '#type'        => 'password',
+        '#required'    => true,
+        '#description' => '',
+        '#maxlength'   => 30,
+        '#prefix'      => "",
+        '#suffix'      => "</div>",
+    );
+    $form['submit'] = array(
+        '#type'   => 'submit',
+        '#prefix' => "<div class='home_login_submit'>",
+        '#suffix' => "</div><br style='clear:both;'><a style=\"font-family:Helvetica; font-size:12px; float:left;\" href='/user/password'>Request new password</a><br>
+        <a id = \"feedback\" style=\"font-family:Helvetica; font-size:11px; color: #A8A5A5; float:left;color:gray; \" href='#'>In Beta. We love feedback</a>",
+    );
+    return $form;
+}
+
+function maenna_login_form_home_validate($form, &$form_state) {
+    $_valid = true;
+    $Page_one = maenna_check_plain($form_state['values']);
+    $email = $Page_one['email'];
+    $password = $Page_one['password'];
+    if (strlen($email) < 8 || strlen($password) < 8) {
+        $_valid = false;
+    }
+    if ($_valid) {
+        if ($email != 'maenna_investor' && !check_email($email)) {
+            $_valid = false;
+        }
+    }
+    if (!$_valid) {
+        form_set_error('', 'Invalid email and password. Please try again');
+    } else {
+        if ($email == 'maenna_investor' && $password = 'access604') {
+            $_SESSION['investor_access'] = 1;
+            drupal_goto("investors");
+        }
+        $SQL = "SELECT name, status FROM {users} WHERE mail = '%s' ";
+        $result = db_query($SQL, $email);
+        $data = db_fetch_object($result);
+        $name = $data->name;
+        $status = $data->status;
+        if ($name) {
+            if ($status == 0) {
+                form_set_error('', 'We are in a private beta. Thanks for visiting.');
+                return;
+            }
+            user_authenticate(array('name' => $name, 'pass' => $password));
+        } else {
+            form_set_error('', 'Invalid email and password. Please try again');
+        }
+    }
+}
+
+function maenna_login_form_home_submit($form, &$form_state) {
+    unset($form_state['storage']);
+    $form_state['redirect'] = 'account';
+}
+
+
+/* EOF */

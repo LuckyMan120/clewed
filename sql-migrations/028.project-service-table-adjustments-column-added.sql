@@ -1,0 +1,1 @@
+ALTER TABLE `maenna_company_events` ADD `subsequent_adjustments` TEXT NULL ;

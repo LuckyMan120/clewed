@@ -1,0 +1,1 @@
+ALTER TABLE `maenna_professional` ADD `industry` VARCHAR( 255 ) NOT NULL, ADD INDEX ( `industry` ) ;

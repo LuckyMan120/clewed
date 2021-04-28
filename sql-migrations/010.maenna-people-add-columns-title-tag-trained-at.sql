@@ -1,0 +1,1 @@
+ALTER TABLE `maenna_people` ADD `title_tag` VARCHAR( 255 ) NOT NULL , ADD `trained_at` VARCHAR( 255 ) NOT NULL ;

@@ -1,0 +1,13 @@
+<div id="cardholder" style="width:auto !important; height: auto !important; border: none !important;">
+    <div class="card" style="margin: 5px 0 5px 0;height: auto;">
+        <div class="projectName">{{ company.full_name }}</div>
+        <div class="avatar"><img src="{{ baseUrl ~ '/themes/maennaco/phpthumb/phpThumb.php?src=' ~ company.avatar ~ '&zc=1&w=191&h=143' }}"/>
+        </div>
+        <div class="sector-revenue">
+            <span class="sector">{{ company.sector | raw }}</span>
+            <span class="revenue">{{ company.revenue | raw }}</span>
+        </div>
+        <div class="city-state">{{ company.city_state | raw }}</div>
+        <div class="mission" style="padding:8px 0;overflow: hidden; height: 60px;">{{ company.mission | raw }}</div>
+    </div>
+</div>

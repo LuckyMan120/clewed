@@ -1,0 +1,3373 @@
+<?php
+global $redirect;
+
+function maenna_helper_menu()
+{
+    $items = array();
+    $items['maennaco_ajax'] = array(
+            'title'             => t('Maennaco Helper'),
+            'page callback'     =>  'maennaco_ajax',
+            'access arguments'  =>  array('access content'),
+            'description'       =>  t('Maennaco Helper - functions, tools, ajax'),
+            'type'              =>  MENU_CALLBACK
+    );
+    $items['open_chart'] = array(
+            'title'             => t('open_chart'),
+            'page callback'     =>  'open_chart',
+            'access arguments'  =>  array('access content'),
+            'description'       =>  t('open_chart'),
+            'type'              =>  MENU_CALLBACK
+    );
+    return $items;
+}
+function open_chart()
+{
+
+    require_once( '/var/www/vhosts/clewed.com/httpdocs/sites/all/modules/maenna_helper/open-flash-chart.php' );
+    //srand((double)microtime()*1000000);
+
+$company_id = 0;
+if(isset($_GET['companyid']) && $_GET['companyid'] != '')
+{
+    $company_id = $_GET['companyid'];
+}
+
+if(  empty($company_id)) return;
+
+$sql= "select company_name from  users_extend where uid = %d";
+$result = db_query($sql, array($company_id));
+$data = db_fetch_object($result);
+
+$company_name = strtoupper($data->company_name);
+
+$Financials = array();
+$sql = "select * from users_data where uid = $company_id and data_type = 'financial' order by data_attr desc limit 5";
+$result = @db_query($sql);
+while( ($data = @db_fetch_object($result)) !== false){
+    $Financials[] = $data;
+}
+
+$bar_revenue = new bar_3d( 75, '#603fe2' );
+$bar_revenue->key( 'Revenue', 10 );
+
+// add random height bars:
+
+//
+// create a 2nd set of bars:
+//
+$bar_earnings = new bar_3d( 75, '#17c820' );
+$bar_earnings->key( 'Eaenings', 10 );
+
+// add random height bars:
+$Labels = array();
+$max = 0;
+$min = 0;
+foreach($Financials as $data)
+{
+    $Labels[] = $data->data_attr;
+    $bar_revenue->data[] = $data->data_value;
+    $bar_earnings->data[] = $data->data_value2;
+    if($max < $data->data_value) $max = $data->data_value;
+    if($max < $data->data_value2) $max = $data->data_value2;
+    if($min > $data->data_value) $min = $data->data_value;
+    if($min > $data->data_value2) $min = $data->data_value2;
+}
+
+// create the graph object:
+$g = new graph();
+$company_name = '';
+$g->title( $company_name, '{font-size:20px; color: #FFFFFF; margin: 5px; background-color: #505050; padding:5px; padding-left: 20px; padding-right: 20px;}' );
+
+$g->data_sets[] = $bar_revenue;
+$g->data_sets[] = $bar_earnings;
+
+$g->set_x_axis_3d( 12 );
+$g->x_axis_colour( '#909090', '#ADB5C7' );
+$g->y_axis_colour( '#909090', '#ADB5C7' );
+
+$g->set_x_labels( $Labels );
+
+if($min >= 0 ){
+    $count = 1;
+    for($i = 1; $max >=  100 ; $i * 10)
+    {
+        $max = $max / 10;
+        $count *= 10;
+    }
+    $step = 5;
+    $max = ceil($max) * $count;
+
+    $min = 0;
+}else{
+    $count = 1;
+    for($i = 1; $max >=  100 ; $i * 10)
+    {
+        $max = $max / 10;
+        $count *= 10;
+    }
+    $max = ceil($max) * $count;
+    $bar_min = -1 * ($max / 5);
+    $step = 6;
+
+    while($min < $bar_min)
+    {
+        $bar_min += -1 * ($max / 5);
+        $step += 1;
+    }
+    $min = $bar_min;
+
+}
+
+
+$g->set_y_max( $max );
+$g->set_y_min( $min );
+
+
+
+$g->y_label_steps( $step );
+$g->set_y_legend( 'Company Financials (USD)', 12, '#736AFF' );
+echo $g->render();
+}
+function maennaco_ajax()
+{
+    $action = sget($_REQUEST, 'action', 'string');
+    switch($action)
+    {
+        case 'assign_admin':
+            ajax_assgin_admin();
+            break;
+        case 'create_captcha':
+            create_captcha();
+            break;
+        case 'overlay_terms':
+            $node = node_load(11);
+            $content = str_replace("\r",'', $node->body);
+            $content = str_replace("\n",'', $content);
+            $content = addslashes($content);
+            echo '{"status":"ok", "content":"'.$content.'"}';
+            exit;
+        case 'maenna_company_logo':
+            $title = "Upload a logo";
+            $content = editwnd_company_logo();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'update_company_logo':
+            $title = "Upload a logo";
+            $content = update_company_logo();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_company_breif_info':
+            $title = "Edit your company information";
+            $content = edit_maenna_company_brief_info();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_company_breif_info':
+            $title = "Edit company information";
+            $content = edit_research_company_brief_info();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_company_management':
+            $title = "List top three management members";
+            $content = edit_company_management();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_company_management':
+            $title = "List top three management members";
+            $content = edit_research_company_management();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_company_management':
+            $title = "List top three management members";
+            $content = edit_maenna_company_management();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_company_milestones':
+            $title = "List top three management Archivements";
+            $content = edit_company_milestones();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_company_description':
+            $title = "Company Description";
+            $content = edit_company_description();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_company_financial':
+            $title = "Company Financials";
+            $content = edit_company_financial();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_company_financial':
+            $title = "Company Financials";
+            $content = edit_research_company_financial();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_company_financial':
+            $title = "Company Financials";
+            $content = edit_maenna_company_financial();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_company_market_info':
+            $title = "Edit market information";
+            $content = edit_company_market_info();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'research_company_market_info':
+            $title = "Edit market information";
+            $content = edit_research_company_market_info();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'maenna_company_market_info':
+            $title = "Edit market information";
+            $content = edit_maenna_company_market_info();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_company_priorities':
+            $title = "Company Priorites";
+            $content = edit_company_priorities();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'add_admin_user':
+            $title = "Add Admin User";
+            $content = ajax_add_admin_user();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'admin_update_info':
+            $title = "Update Admin User Info";
+            $content = ajax_update_admin_user();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case "add_research_company":
+            $title = "Add Company";
+            $content = ajax_add_research_company();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case "research_company_logo":
+            $title = "Upload a logo";
+            $content = update_research_company_logo();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_company_links':
+            $title = "Edit Links";
+            $content = edit_research_company_links();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_company_links':
+            $title = "Edit Links";
+            $content = edit_maenna_company_links();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_company_name':
+            $title = "Edit Company Info";
+            $content = edit_research_company_name();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_company_name':
+            $title = "Edit Company Info";
+            $content = edit_maenna_company_name();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_company_progress':
+            $title = "Add New Progress Status";
+            $content = edit_research_company_progress();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_company_progress':
+            $title = "Add New Progress Status";
+            $content = edit_maenna_company_progress();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_people_progress':
+            $title = "Add New Progress Status";
+            $content = edit_research_people_progress();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_people_progress':
+            $title = "Add New Progress Status";
+            $content = edit_maenna_people_progress();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_people_accomplish':
+            $title = "Accomplishments";
+            $content = edit_research_people_accomplish();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_people_accomplish':
+            $title = "Accomplishments";
+            $content = edit_maenna_people_accomplish();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_people_prospects':
+            $title = "Modify Prospect";
+            $content = edit_research_people_prospects();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_company_prospects':
+            $title = "Modify Prospect";
+            $content = edit_research_company_prospects();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_company_qualified_lead':
+            $title = "Modify Prospect";
+            $content = edit_research_company_qualified_lead();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_followup_priority':
+            $title = "Follow-Up Priority";
+            $content = edit_research_followup_priority();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_followup_priority':
+            $title = "Follow-Up Priority";
+            $content = edit_maenna_followup_priority();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_people_followup':
+            $title = "Follow-Up Priority";
+            $content = edit_research_people_followup();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_people_followup':
+            $title = "Follow-Up Priority";
+            $content = edit_maenna_people_followup();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_company_article':
+            $title = "Articles";
+            $content = edit_research_company_article();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_company_article':
+            $title = "Articles";
+            $content = edit_maenna_company_article();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'research_edit_company':
+            $title = "Research - Edit Company Info";
+            $content = research_edit_company();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'company_edit_company':
+            $title = "Edit Company Info";
+            $content = company_edit_company();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_people_article':
+            $title = "Articles";
+            $content = edit_research_people_article();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_people_article':
+            $title = "Articles";
+            $content = edit_maenna_people_article();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_add_research_people':
+            $title = "Add People";
+            $content = edit_add_research_people();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_people_contact':
+            $title = "Edit Info";
+            $content = edit_research_people_contact();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_people_contact':
+            $title = "Edit Info";
+            $content = edit_maenna_people_contact();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_people_info':
+            $title = "Edit Info";
+            $content = edit_research_people_info();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_people_info':
+            $title = "Edit Info";
+            $content = edit_maenna_people_info();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_people_work':
+            $title = "Employment";
+            $content = edit_research_people_work();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_people_work':
+            $title = "Employment";
+            $content = edit_maenna_people_work();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_people_education':
+            $title = "Education Background";
+            $content = edit_research_people_education();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_people_education':
+            $title = "Education Background";
+            $content = edit_maenna_people_education();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_research_people_links':
+             $title = "Links";
+            $content = edit_research_people_links();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_maenna_people_links':
+             $title = "Links";
+            $content = edit_maenna_people_links();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_employment_panel':
+             $title = "Employment";
+            $content = ajax_edit_employment_panel();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_education_panel':
+             $title = "Employment";
+            $content = ajax_edit_education_panel();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'edit_key_milestones':
+            $title = "Key Milestones";
+            $content = edit_key_milestones();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'ajaxTrigger':
+            $title = "ajaxTrigger";
+            $content = ajaxTrigger();
+            echo '{"status":"ok", "content":"'.$content.'","title":"'.$title.'"}';
+            exit;
+        case 'admin_change_invest_status':
+            $content = ajax_admin_change_invest_status();
+            echo '{"status":"ok", "content":"'.$content.'"}';
+            exit;
+        case 'check_invest_status':
+            $content = ajax_check_invest_status();
+            echo '{"status":"ok", "content":"'.$content.'"}';
+            exit;
+        default:
+            //echo '{"status":"error", "detail":"invalid action type"}';
+            break;
+
+    }
+    exit;
+}
+/**
+*input array: total, limit result per page, limit of links, baseurl
+*
+*/
+function ajaxTrigger() {
+    global $user;
+    $editorid = $user->uid;
+    $time = time();
+    $table = sget($_REQUEST, 'table');
+    $title = '';
+    $sql = '';
+    $DBValues = array();
+    if ($table === 'maenna_insights') {
+        $idname = sget($_REQUEST, 'idname');
+        $idval = sget($_REQUEST, 'idval');
+        $column = sget($_REQUEST, 'column');
+        $val = sget($_REQUEST, 'val');
+        if (empty($table) || empty($idname) || empty($idval) || empty($column)) return "empty parts";
+        if ($column == 'status') {
+            $sql = "UPDATE maenna_insights SET status = '%s', statusuid = '%s', statustime = '%s' WHERE insightid = %d LIMIT 1";
+            $DBValues = array($val, $editorid, $time, $idval);
+        } elseif ($column == 'rating') {
+            $sql = "UPDATE maenna_insights SET rating = '%s', ratinguid = '%s', ratingtime = '%s' WHERE insightid = %d LIMIT 1";
+            $DBValues = array($val, $editorid, $time, $idval);
+        } elseif ($column == 'selection') {
+            $sql = "UPDATE maenna_insights SET selection = %d ,selectionuid = '%s', selectiontime = '%s' WHERE insightid = %d LIMIT 1";
+            $DBValues = array($val, $editorid, $time, $idval);
+        }
+        if ((!empty($sql)) && count($DBValues) > 0) {
+            db_query($sql, $DBValues);
+        }
+        return $column;
+    } elseif ($table === 'maenna_postings_data') {
+        $postingid = sget($_REQUEST, 'postingid');
+        $dataid = sget($_REQUEST, 'dataid');
+        $sql = "select count(*) as cnt from maenna_postings_data where data_type = 'member' and data_attr = '$applyuid' and (data_value1='apply' or data_value='approved')";
+        $result = db_query($sql);
+        $Row = db_fetch_object($result);
+        if ($Row->cnt >= 5) {
+            echo '{"status":"alert", "content":"You have applied five projects","title":"' . $title . '"}';
+            exit;
+        }
+        if ($postingid) {
+            $sql = "SELECT * FROM maenna_postings_data WHERE postingid = %d AND data_type='member'";
+            $result = db_query($sql, array($postingid));
+            $Row = db_fetch_object($result);
+            if (empty($Row)) {
+                $sql = "INSERT INTO maenna_postings_data (postingid, data_type, data_attr, data_value1) VALUES (%d, '%s','%s','%s')";
+                db_query($sql, array($postingid, 'member', $editorid, 'apply'));
+                echo '{"status":"ok", "content":"cancel","title":"' . $title . '"}';
+            } elseif ($Row->data_value1 == 'apply') {
+                $dataid = $Row->dataid;
+                $sql = "UPDATE maenna_postings_data SET data_value1 = 'cancel' WHERE dataid = %d LIMIT 1";
+                db_query($sql, array($dataid));
+                echo '{"status":"ok", "content":"apply","title":"' . $title . '"}';
+            } elseif ($Row->data_value1 == 'cancel') {
+                $dataid = $Row->dataid;
+                $sql = "UPDATE maenna_postings_data SET data_value1 = 'apply' WHERE dataid = %d LIMIT 1";
+                db_query($sql, array($dataid));
+                echo '{"status":"ok", "content":"cancel","title":"' . $title . '"}';
+            } else {
+                //echo '{"status":"alert", "content":""'.$title.'"}';
+            }
+        }
+        exit;
+    } elseif ($table === 'maenna_questionair') {
+        $recordid = sget($_REQUEST, 'idval');
+        $weight = sget($_REQUEST, 'val');
+        $target = sget($_REQUEST, 'column');
+        $id = sget($_REQUEST, 'idname');
+        if (empty($recordid) || empty($weight) || empty($id)) {
+            echo '{"status":"error", "content":"invalid submit data","title":"' . $title . '"}';
+        } else {
+            $sql = "UPDATE maenna_questionair SET weight = %d WHERE recordid = %d LIMIT 1";
+            if (db_query($sql, array($weight, $recordid))) {
+                $url = '/account?a=information&tab=questionair&target=$target&panel=qdetail&id=$id';
+                echo '{"status":"ok", "content":"' . $url . '","title":"' . $title . '"}';
+            } else {
+                echo '{"status":"error", "content":"Operation failed","title":"' . $title . '"}';
+            }
+        }
+        exit;
+    } elseif ($table === 'maenna_question1') {
+        $recordid = sget($_REQUEST, 'idval');
+        $status = sget($_REQUEST, 'val');
+        if (empty($recordid)) {
+            echo '{"status":"error", "content":"invalid submit data","title":"' . $title . '"}';
+        } else {
+            $sql = "UPDATE maenna_questionair SET status = '%s' WHERE recordid = %d LIMIT 1";
+            if (db_query($sql, array($status, $recordid))) {
+                $url = '/account?a=information&tab=questionair&target=$target&panel=qdetail&id=$id';
+                echo '{"status":"ok", "content":"ok","title":"' . $title . '"}';
+            } else {
+                echo '{"status":"error", "content":"Operation failed","title":"' . $title . '"}';
+            }
+        }
+        exit;
+    } elseif ($table === 'update_qa') {
+        $answerid = sget($_REQUEST, 'answerid');
+        $qid = (int) sget($_REQUEST, 'qid');
+        $cid = (int) sget($_REQUEST, 'cid');
+        $text = sget($_REQUEST, 'text');
+        $db = \Clewed\Db::get_instance();
+        if (!empty($answerid)) {
+            $query = 'UPDATE `maenna_qa` SET `answer` = :answer ,`created` = :created WHERE `qaid` = :qaid LIMIT 1';
+            if ($db->run($query, array(':answer' => $text, ':created' => $time, ':qaid' => $answerid))) {
+                printf(
+                    '{"status":"ok","content":"<span class=note>Saved on %s</span>","answerid":"%d"}',
+                    date('H:i:s', $time),
+                    $answerid
+                );
+                exit;
+            }
+        } else {
+            $query = 'INSERT INTO `maenna_qa` (`qid`, `qtype`, `uid`, `answer`, `created`)
+              VALUES (:qid, :qtype, :uid, :answer, :created)
+              ON DUPLICATE KEY UPDATE `answer` = :answer';
+            if ($db->run(
+                $query,
+                array(
+                    ':qid'     => $qid,
+                    ':qtype'   => 'question',
+                    ':uid'     => $cid,
+                    ':answer'  => $text,
+                    ':created' => $time,
+                )
+            )
+            ) {
+                $answerid = $db->get_column(
+                    'SELECT `qaid` FROM `maenna_qa` WHERE `qid` = :qid AND `uid` = :uid LIMIT 1',
+                    array(
+                        ':qid' => $qid,
+                        ':uid' => $cid,
+                    )
+                );
+                printf(
+                    '{"status":"new","content":"<span class=note>Saved on %s</span>","answerid":"%d"}',
+                    date('H:i:s', $time),
+                    $answerid
+                );
+                exit;
+            }
+        }
+        printf(
+            '{"status":"ok","content":"<span class=error>Failed to save the content.</span>","answerid":"%d"}',
+            $answerid
+        );
+        exit;
+    } elseif ($table === 'update_profile') {
+        global $user;
+        $uid = sget($_REQUEST, 'uid');
+        $editor = $user->uid;
+        //$dataid = sget($_REQUEST, 'dataid');
+        $section = sget($_REQUEST, 'section');
+        $text = sget($_REQUEST, 'text');
+        $sql_hlp = "SELECT dataid FROM maenna_people_data
+                    WHERE pid = %d AND data_type = '%s' AND data_attr = '%s' AND data_value3 <> '%s'
+                    ORDER BY access DESC LIMIT 1";
+        $result_hlp = db_query($sql_hlp, array($uid, 'addinfo', $section, 'approved'));
+        $Row_hlp = db_fetch_object($result_hlp);
+        $dataid = $Row_hlp->dataid;
+        if (!empty($dataid)) {
+            $sql = "UPDATE maenna_people_data SET access = '%s', data_value2 = '%s', data_value3 = '%s' WHERE dataid = %d LIMIT 1";
+            if (db_query($sql, array(time(), $text, 'saved', $dataid))) {
+                echo '{"status":"ok", "content":"Saved on ' . date("F d Y @ h:i:s A") . '","dataid":"' . $dataid . '","section":"' . $section . '"}';
+                exit;
+            }
+        } else {
+            $sql = "INSERT INTO maenna_people_data(pid, access, data_type, data_attr, data_value2, data_value3, editorid) VALUES (%d, '%s', '%s', '%s', '%s', '%s', %d)";
+            if (db_query($sql, array($uid, time(), 'addinfo', $section, $text, 'saved', $editor))) {
+                $dataid = db_last_insert_id('maenna_people_data', 'dataid');
+                echo '{"status":"new", "content":"Saved on ' . date("F d Y @ h:i:s A") . '","dataid":"' . $dataid . '","section":"' . $section . '"}';
+                exit;
+            }
+        }
+        echo '{"status":"ok", "content":"<span class=error>Failed to save the content.</span>","dataid":"' . $dataid . '","section":"' . $section . '"}';
+        exit;
+    }
+    return '';
+}
+function edit_key_milestones()
+{
+    $companyid = sget($_REQUEST,'data');
+        $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td>Year</td><td><input type=text name=year value=''> eg. 2011</td></tr>
+                    <tr><td>Milestone Detail</td><td><textarea name='milestone' style='width:400px;height:140px;'></textarea></td></tr>
+                    <tr><td></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=a  value=companies >
+                <input type=hidden name=type  value=company_detail >
+                <input type=hidden name=panel  value=key_milestones_panel >
+                <input type=hidden name=update_section  value='key_milestones' >
+                <input type=hidden name=companyid  value='$companyid'>
+            </form>
+        </div>";
+        return json_nl($html);
+}
+function userType($uid = null)
+{
+    if(empty($uid)) return '';
+    $sql = "select role.name from role, users_roles where role.rid = users_roles.rid and users_roles.uid = %d";
+    $result = db_query($sql, $uid);
+    $Row = db_fetch_object($result);
+    if($Row)
+    {
+        return $Row->name;
+    }
+    return '';
+}
+function userRoleId($uid = null){
+    if(empty($uid)) return '';
+    $sql = 'select rid from users_roles where uid = %d';
+    $result = db_query($sql, array($uid));
+    while($Row = db_fetch_object($result))
+    {
+        return $Row->rid;
+    }
+    return '';
+}
+function ajax_check_invest_status()
+{
+    $prof_id = $_REQUEST['userId'];
+    $company_id = $_REQUEST['companyId'];
+    $sql = "select count(*) count from maenna_professional_investment where prof_id=%d and company_id=%d and status='1' and deleted!=1";
+    $result = db_query($sql, array($prof_id, $company_id));
+    $row = db_fetch_array($result);
+    $ret = $row['count'];
+
+    $sql = "select * from maenna_professional_investment where prof_id=%d and company_id=%d and deleted!=1";
+    $result = db_query($sql, array($prof_id, $company_id));
+    while ($row = db_fetch_array($result))
+        $ret .= '_'.$row[status];
+
+    return $ret;
+}
+function ajax_admin_change_invest_status() {
+    $target_uid = sget($_REQUEST, 'target_uid');
+    $status = sget($_REQUEST, 'status');
+
+    $sql = 'update maenna_professional_investment set status=%d where id=%d';
+    $result = db_query($sql, array($status, $target_uid));
+
+    return $result;
+}
+function ajax_assgin_admin()
+{
+
+    require_once("." . base_path() . path_to_theme() . "/includes/classes/connections.inc");
+    global $user;
+    $user_type = userType($user->uid);
+
+    if(strcasecmp($user_type, 'super admin') != 0)
+    {
+        echo '{"status":"error", "content":"insufficient privilege"}';
+        exit();
+    }
+    $admin = sget($_REQUEST, 'admin');
+    $target_uid = sget($_REQUEST, 'target_uid');
+    if($admin && $target_uid)
+    {
+        if($admin  == 'none')
+        {
+            //echo '{"status":"error", "content":"'.$admin.'"}';exit();
+            $return = Connections::remove_assigned_admin($target_uid);
+        }else{
+            $return = Connections::assign_admin($target_uid, $admin);
+        }
+        if($return )
+        {
+            echo '{"status":"ok","content":"ok"}';exit();
+        }
+    }
+    echo '{"status":"error","content":"err"}';
+    exit();
+}
+function ajax_edit_education_panel(){
+    $dataid = sget($_REQUEST,'data');
+
+    if($dataid)
+    {
+        $sql = "select * from research_people_data where dataid = $dataid";
+        $result = @db_query($sql);
+        $row = db_fetch_object($result);
+        $pid = $row->pid;
+        $year = $row->data_attr;
+        if($year)
+        {
+            $year = preg_replace("/[^0-9]/",'',$year);
+            $year = @date("Y",$year);
+        }
+        $school = $row->data_value;
+        $study = $row->data_value2;
+
+        $content =  "<tr><td>Graducation Year: </td><td>" . date_menu(array('year'=>array('name'=>'year','value'=>$year))) . "</td></tr>" .
+                    "<tr><td>School:</td><td><input type=text name=school value='$school' class='require_string'></td></tr>" .
+                    "<tr><td>Field of Study: </td><td><input type=text name=study value='$study' class='require_string' ></td></tr>" ;
+
+
+        $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td></td><td></td></tr>
+                    $content
+                    <tr><td></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab  value=research >
+                <input type=hidden name=page  value=research_people_detail >
+                <input type=hidden name=update_section  value=education_panel >
+                <input type=hidden name=dataid  value='$dataid'>
+                <input type=hidden name=sub value='education'>
+                <input type=hidden name=do value='update'>
+                <input type=hidden name=pid value='$pid'>
+            </form>
+        </div>";
+        return json_nl($html);
+    }
+
+}
+function ajax_edit_employment_panel(){
+    $dataid = sget($_REQUEST,'data');
+
+    if($dataid)
+    {
+        $sql = "select * from research_people_data where dataid = $dataid";
+        $result = @db_query($sql);
+        $row = db_fetch_object($result);
+        $data_attr = $row->data_attr;
+        $org = $row->data_value;
+        $position = $row->data_value2;
+        $start = $row->data_attr;
+        $end = $row->data_value3;
+        $pid= $row->pid;
+        list($start_month, $start_year ) = split("/",$start);
+        list($end_month,$end_year) = split("/",$end);
+
+        $content =  "<tr><td>Begin: </td><td>" . date_menu(
+                                                       array('month' => array("name" => 'start_month', "value"=>$start_month),
+                                                       'year' => array("name" => 'start_year', "value"=>$start_year),)
+                                                       ) ."</td></tr>" .
+                "<tr><td>End: </td><td>" . date_menu(
+                                                       array('month' => array("name" => 'end_month', "value"=>$end_month),
+                                                       'year' => array("name" => 'end_year', "value"=>$end_year))
+                                                       ) ."</td></tr>" .
+                "<tr><td>Company:</td><td><input type=text name=company value='$org' class='require_string'></td></tr>" .
+                "<tr><td>Position: </td><td><input type=text name=position value='$position' class='require_string' ></td></tr>" ;
+
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=tab  value=research >
+            <input type=hidden name=page  value=research_people_detail >
+            <input type=hidden name=sub  value=work >
+            <input type=hidden name=update_section  value=employment_panel >
+            <input type=hidden name=pid value='$pid'>
+            <input type=hidden name=do value='update'>
+            <input type=hidden name=dataid value='$dataid'>
+        </form>
+    </div>";
+        return json_nl($html);
+    }
+
+}
+function edit_research_people_accomplish(){
+    $pid = sget($_REQUEST,'data');
+    $sql = "select * from research_people_data where pid = $pid and data_type = 'accomplish' order by dataid";
+    $result = @db_query($sql);
+    $content = '';
+    if(db_affected_rows($result) > 0){
+        for($i = 1; $i <= 3; $i++)
+        {
+            $row = @db_fetch_object($result);
+            $value = check_plain($row->data_value);
+            $dataid = $row->dataid;
+            $content .= "<tr><td></td><td><input type=text name='accomplish_$i' value='$value' style='width:380px;'></td></tr>";
+            $content .= "<input type=hidden name=dataid_$i value=$dataid >";
+        }
+    }else{
+        for($i = 1; $i <= 3; $i++)
+        {
+            $content .= "<tr><td>$i.</td><td><input type=text name='accomplish_$i' value='$value' style='width:380px;'></td></tr>";
+        }
+    }
+
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=tab  value=research >
+            <input type=hidden name=page  value=research_people_detail >
+            <input type=hidden name=pid  value='$pid' >
+            <input type=hidden name=update_section  value='research_accomplishments' >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_maenna_people_accomplish(){
+    $pid = sget($_REQUEST,'data');
+    $sql = "select * from maenna_people_data where pid = $pid and data_type = 'accomplish' order by dataid";
+    $result = @db_query($sql);
+    $content = '';
+    if(db_affected_rows($result) > 0){
+        for($i = 1; $i <= 3; $i++)
+        {
+            $row = @db_fetch_object($result);
+            $value = check_plain($row->data_value);
+            $dataid = $row->dataid;
+            $content .= "<tr><td></td><td><input type=text name='accomplish_$i' value='$value' style='width:380px;'></td></tr>";
+            $content .= "<input type=hidden name=dataid_$i value=$dataid >";
+        }
+    }else{
+        for($i = 1; $i <= 3; $i++)
+        {
+            $content .= "<tr><td>$i.</td><td><input type=text name='accomplish_$i' value='$value' style='width:380px;'></td></tr>";
+        }
+    }
+
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a  value=professionals >
+            <input type=hidden name=type  value=people_detail >
+            <input type=hidden name=pid  value='$pid' >
+            <input type=hidden name=update_section  value='maenna_accomplishments' >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_research_people_links()
+{
+    $pid = sget($_REQUEST,'data');
+    $sql = "select * from research_people_data where pid = $pid and data_type = 'links' order by dataid";
+    $result = @db_query($sql);
+    $i = 1;
+    if(db_affected_rows($result) > 0)
+    {
+        for($i = 1; $i <= 5; $i++)
+        {
+            $row = @db_fetch_object($result);
+            $name = check_plain($row->data_value);
+            $link = $row->data_value2;
+            $dataid = $row->dataid;
+            $content .= "<tr><td>$i</td><td><input type=text name='name_$i' value='$name'></td><td><input type=text name='link_$i' value='$link'><input type=hidden name=dataid_$i value=$dataid></td></tr>";
+        }
+    }else{
+        for($i = 1; $i <= 5; $i++)
+        {
+            $name = '';
+            $link = '';
+            $content .= "<tr><td>$i</td><td><input type=text name='name_$i' value='$name'></td><td><input type=text name='link_$i' value='$link'></td></tr>";
+        }
+    }
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td>Title</td><td>URL</td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=tab  value=research >
+            <input type=hidden name=page  value=research_people_detail >
+            <input type=hidden name=pid  value='$pid' >
+            <input type=hidden name=update_section  value='research_people_links' >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_maenna_people_links()
+{
+    $pid = sget($_REQUEST,'data');
+    $sql = "select * from maenna_people_data where pid = $pid and data_type = 'links' order by dataid";
+    $result = @db_query($sql);
+    $i = 1;
+    if(db_affected_rows($result) > 0)
+    {
+        for($i = 1; $i <= 5; $i++)
+        {
+            $row = @db_fetch_object($result);
+            $name = check_plain($row->data_value);
+            $link = $row->data_value2;
+            $dataid = $row->dataid;
+            $content .= "<tr><td>$i</td><td><input type=text name='name_$i' value='$name'></td><td><input type=text name='link_$i' value='$link'><input type=hidden name=dataid_$i value=$dataid></td></tr>";
+        }
+    }else{
+        for($i = 1; $i <= 5; $i++)
+        {
+            $name = '';
+            $link = '';
+            $content .= "<tr><td>$i</td><td><input type=text name='name_$i' value='$name'></td><td><input type=text name='link_$i' value='$link'></td></tr>";
+        }
+    }
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td>Title</td><td>URL</td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a  value=professionals >
+            <input type=hidden name=type  value=people_detail >
+            <input type=hidden name=pid  value='$pid' >
+            <input type=hidden name=update_section  value='maenna_people_links' >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function research_edit_company(){
+    $recordid = sget($_REQUEST,'data');
+    if(! $recordid ) return "not applicable";
+    $sql = "select * from research_company where recordid = $recordid limit 1";
+
+    $result = db_query($sql);
+    $row = db_fetch_array($result);
+
+    $company = htmlentities(sget($row,'company'), ENT_QUOTES);
+    $desc = htmlentities(sget($row, 'sic_desc'),ENT_QUOTES);
+    $sector = sget($row, 'sic');
+    $state = sget($row, 'state');
+    $owner = sget($row, 'contact');
+    $position = sget($row, 'position');
+    $gender = sget($row, 'gender');
+    $phone = sget($row, 'phone');
+    $email = sget($row, 'email');
+    $revenue = sget($row, 'revenue');
+
+    $content =  "<tr><td>Company: </td><td><input type=text name=edit_company value='$company' class='require_string ' style='width:280px;'></td></tr>" .
+                "<tr><td>Description: </td><td><input type=text name=edit_desc value='$desc' class='' style='width:280px;'></td></tr>" .
+                "<tr><td>Sector: </td><td><input type=text name=edit_sector value='$sector' class=''></td></tr>" .
+                "<tr><td>State: </td><td><input type=text name=edit_state value='$state' class=''></td></tr>" .
+                "<tr><td>Owner/Manager: </td><td><input type=text name=edit_owner value='$owner' class=''></td></tr>" .
+                "<tr><td>Position: </td><td><input type=text name=edit_position value='$position' class=''></td></tr>" .
+                "<tr><td>Male/Female: </td><td><input type=text name=edit_gender value='$gender' class=''></td></tr>" .
+                "<tr><td>Phone: </td><td><input type=text name=edit_phone value='$phone' class=''></td></tr>" .
+                "<tr><td>Email: </td><td><input type=text name=edit_email value='$email' class='' style='width:280px;'></td></tr>" .
+                "<tr><td>Revenue: </td><td><input type=text name=edit_revenue value='$revenue' class=''></td></tr>" ;
+
+
+    $_page = sget($_REQUEST,'_page');
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+
+            <input type=hidden name=tab  value=research >
+            <input type=hidden name=page  value=research_company >
+            <input type=hidden name=_page  value=$_page >
+            <input type=hidden name=update_section  value=update_research_edit_company >
+            <input type=hidden name=dataid value='$recordid'>
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function company_edit_company(){
+
+    $recordid = sget($_REQUEST,'data');
+    if(! $recordid ) return "not applicable";
+    $sql = "select (SELECT data_value FROM maenna_company_data WHERE data_type = 'financial' AND companyid = '".((int) $recordid)."' ORDER BY data_attr DESC LIMIT 1) as revenue,mc.*,u.mail as email
+            from maenna_company mc
+            left join users u on mc.companyid = u.uid
+            where companyid = $recordid limit 1";
+
+    $result = db_query($sql);
+    $row = db_fetch_array($result);
+
+    $company = htmlentities(sget($row,'company'), ENT_QUOTES);
+    $sector = sget($row, 'sector');
+    $projname = sget($row,'projname');
+    $revenue = sget($row, 'revenue');
+    $name = sget($row, 'contact');
+    $position = sget($row, 'position');
+    $heard = sget($row, 'hear_about');
+    $email = sget($row, 'email');
+    $website = sget($row, 'web');
+    $ref = sget($row, 'referral_code');
+    $purpose = sget($row, 'invite_purpose');
+
+    $Sectors = _INDUSTRY();
+    $Hearus = _hear_about_us();
+    $ind_sel = "<select style='background:none; border:solid 1px #D6D6D8;width: 241px;height: 32px;font-size: 14px;' name='edit_industry' id='edit_industry'>
+                    <option value=''>Industry</option>";
+                    foreach ($Sectors as $key => $value) {
+                        $ind_sel .= "<optgroup label='$key'>";
+                        foreach ($value as $key1 => $value1) {
+                            if ($key == '') continue;
+                            if ($key1 == $sector) $selected = "selected='selected'"; else $selected = "";
+                            $ind_sel .= "<option $selected value='$key1'>$value1</option>";
+                        }
+                        $ind_sel .= '</optgroup>';
+                    }
+
+    $ind_sel .= '</select>';
+    $hear_sel = "<select style='background:none; border:solid 1px #D6D6D8;width: 241px;height: 32px;font-size: 14px;' name='edit_heard' id='edit_heard''>
+                    <option value=''>How you heard about us...</option>";
+    foreach ($Hearus as $key => $value) {
+        if ($key == '') continue;
+            if ($key == $heard && $heard != '') $selected = "selected='selected'"; else $selected = '';
+            $hear_sel .= "<option $selected value='$key'>$value</option>";
+        }
+
+    $hear_sel .= "</select>";
+    $content =  "<tr><td style='vertical-align:middle;'>Company: </td><td><input type=text name=edit_company value='$company' class='require_string ' style='width:280px;'></td></tr>" .
+                "<tr><td style='vertical-align:middle;'>Project Name: </td><td><input type=text name=edit_project value='$projname' class='' style='width:280px;'></td></tr>" .
+                "<tr><td style='vertical-align:middle;'>Industry: </td><td>$ind_sel</td></tr>" .
+                "<tr><td style='vertical-align:middle;'>Revenue: </td><td><input type=text name=edit_revenue value='$revenue' class=''></td></tr>" .
+                "<tr><td style='vertical-align:middle;'>Your Name: </td><td><input type=text name=edit_name value='$name' class=''></td></tr>" .
+                "<tr><td style='vertical-align:middle;'>Your Position: </td><td><input type=text name=edit_position value='$position' class=''></td></tr>" .
+                "<tr><td style='vertical-align:middle;'>Email: </td><td><input type=text name=edit_email value='$email' class=''></td></tr>" .
+                "<tr><td style='vertical-align:middle;'>Website </td><td><input type=text name=edit_website value='$website' class=''></td></tr>" .
+                "<tr><td style='vertical-align:middle;'>How you heard about us: </td><td>$hear_sel</td></tr>" .
+                "<tr><td style='vertical-align:middle;'>Referred By / Code: </td><td><input type=text name=edit_ref value='$ref' class='' style='width:280px;'></td></tr>" .
+                "<tr><td style='vertical-align:middle;'>Invite purpose: </td><td><input type=text name=edit_purpose value='$purpose' class=''></td></tr>" ;
+
+
+    $page = sget($_REQUEST,'page');
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input style='margin-left:0px !important' type=submit class='button' value='submit'></td></tr>
+            </table>
+            <input type=hidden name=type  value=company >
+            <input type=hidden name=_page  value=$page >
+            <input type=hidden name=update_section  value=update_maenna_edit_company >
+            <input type=hidden name=dataid value='$recordid'>
+        </form>
+    </div>
+    ";
+    return json_nl($html);
+}
+function edit_research_people_education()
+{
+    $pid = sget($_REQUEST,'data');
+    if(! $pid ) return "not applicable";
+
+
+    $content =  "<!--tr><td>Begin: </td><td><input type=text name=start value='' class='require_string monthpicker'></td></tr-->" .
+                "<tr><td>Graducation Year: </td><td>" . date_menu(array('year'=>array('name'=>'end','value'=>''))) . "</td></tr>" .
+                "<tr><td>School:</td><td><input type=text name=school value='' class='require_string'></td></tr>" .
+                "<tr><td>Field of Study: </td><td><input type=text name=study value='' class='require_string' ></td></tr>" ;
+
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=tab  value=research >
+            <input type=hidden name=page  value=research_people_detail >
+            <input type=hidden name=update_section  value=research_people_education >
+            <input type=hidden name=pid value='$pid'>
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_maenna_people_education()
+{
+    $pid = sget($_REQUEST,'data');
+    if(! $pid ) return "not applicable";
+
+
+    $content =  "<!--tr><td>Begin: </td><td><input type=text name=start value='' class='require_string monthpicker'></td></tr-->" .
+                "<tr><td>Graducation Year: </td><td>" . date_menu(array('year'=>array('name'=>'end','value'=>''))) . "</td></tr>" .
+                "<tr><td>School:</td><td><input type=text name=school value='' class='require_string'></td></tr>" .
+                "<tr><td>Field of Study: </td><td><input type=text name=study value='' class='require_string' ></td></tr>" ;
+
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a  value=professionals >
+            <input type=hidden name=type  value=people_detail >
+            <input type=hidden name=update_section  value=maenna_people_education >
+            <input type=hidden name=pid value='$pid'>
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_research_people_work()
+{
+    $pid = sget($_REQUEST,'data');
+    if(! $pid ) return "not applicable";
+
+    $content =  "<tr><td>Begin: </td><td>" . date_menu(
+                                                       array('month' => array("name" => 'start_month', "value"=>''),
+                                                       'year' => array("name" => 'start_year', "value"=>''),)
+                                                       ) ."</td></tr>" .
+                "<tr><td>End: </td><td>" . date_menu(
+                                                       array('month' => array("name" => 'end_month', "value"=>''),
+                                                       'year' => array("name" => 'end_year', "value"=>''))
+                                                       ) ."</td></tr>" .
+                "<tr><td>Company:</td><td><input type=text name=company value='' class='require_string'></td></tr>" .
+                "<tr><td>Position: </td><td><input type=text name=position value='' class='require_string' ></td></tr>" ;
+
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=tab  value=research >
+            <input type=hidden name=page  value=research_people_detail >
+            <input type=hidden name=update_section  value=research_people_work >
+            <input type=hidden name=pid value='$pid'>
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_maenna_people_work()
+{
+    $pid = sget($_REQUEST,'data');
+    if(! $pid ) return "not applicable";
+
+    $content =  "<tr><td>Begin: </td><td>" . date_menu(
+                                                       array('month' => array("name" => 'start_month', "value"=>''),
+                                                       'year' => array("name" => 'start_year', "value"=>''),)
+                                                       ) ."</td></tr>" .
+                "<tr><td>End: </td><td>" . date_menu(
+                                                       array('month' => array("name" => 'end_month', "value"=>''),
+                                                       'year' => array("name" => 'end_year', "value"=>''))
+                                                       ) ."</td></tr>" .
+                "<tr><td>Company:</td><td><input type=text name=company value='' class='require_string'></td></tr>" .
+                "<tr><td>Position: </td><td><input type=text name=position value='' class='require_string' ></td></tr>" ;
+
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a  value=professionals >
+            <input type=hidden name=type  value=people_detail >
+            <input type=hidden name=update_section  value=maenna_people_work >
+            <input type=hidden name=pid value='$pid'>
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_research_people_contact()
+{
+    $pid = sget($_REQUEST,'data');
+    if(! $pid ) return "not applicable";
+    $STATES = get_us_states();
+    $state_html = '';
+
+    $sql = "select * from research_people where pid = $pid limit 1";
+    $result = db_query($sql);
+    $firstname = $lastname = $intro = $sector = $yearofexp = $email = $phone = $fax = $street1 = $street2 = $city = $state = $zip = '';
+    if(db_affected_rows($result) > 0 )
+    {
+        if(($row = db_fetch_object($result)) !== false)
+        {
+            $firstname = $row->firstname;
+            $lastname = $row->lastname;
+            $intro = addslashes($row->brief_intro);
+            $sector = $row->sector;
+            $yearofexp =$row->experience;
+            $email = $row->email;
+            $phone = $row->phone;
+            $fax = $row->fax;
+            $street1 = $row->address1;
+            $street2 = $row->address2;
+            $city = $row->city;
+            $state = $row->state;
+            $zip = $row->zip;
+            $position = $row->position;
+            $sector = $row->sector;
+        }
+    }
+
+    foreach($STATES as $key => $name)
+    {
+        $selected = '';
+        if(strcasecmp($key, $state) == 0)$selected = 'selected';
+        $state_html .= "<option value='$key' $selected>$name</option>";
+    }
+    $content =  "<tr><td>First Name: </td><td><input type=text name=firstname value='$firstname' class='require_string'></td></tr>" .
+                "<tr><td>Last Name: </td><td><input type=text name=lastname value='$lastname' class='require_string'></td></tr>" .
+                "<tr><td>Email: </td><td><input type=text name=email value='$email' ></td></tr>" .
+                "<tr><td>Phone: </td><td><input type=text name=phone value='$phone'></td></tr>" .
+                "<!--tr><td>Industry: </td><td><input type=text name=sector value='$sector'></td></tr>" .
+                "<tr><td>Positions: </td><td><input type=text name=position value='$position'></td></tr>" .
+                "<tr><td>Brief Intro:</td><td><textarea name='intro' style='width:340px;height:110px;'>".str_replace('"','',stripslashes($intro))."</textarea></td></tr-->"  ;
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=tab  value=research >
+            <input type=hidden name=page  value=research_people_detail >
+            <input type=hidden name=update_section  value=research_people_contact >
+            <input type=hidden name=pid value='$pid'>
+        </form>
+    </div>";
+    return json_nl($html);
+
+}
+function edit_maenna_people_contact()
+{
+    $pid = sget($_REQUEST,'data');
+    if(! $pid ) return "not applicable";
+    $STATES = get_us_states();
+    $state_html = '';
+
+    $sql = "select * from maenna_people where pid = $pid limit 1";
+    $result = db_query($sql);
+    $firstname = $lastname = $intro = $sector = $yearofexp = $email = $phone = $fax = $street1 = $street2 = $city = $state = $zip = '';
+    if(db_affected_rows($result) > 0 )
+    {
+        if(($row = db_fetch_object($result)) !== false)
+        {
+            $firstname = $row->firstname;
+            $lastname = $row->lastname;
+            $intro = addslashes($row->brief_intro);
+            $sector = $row->sector;
+            $yearofexp =$row->experience;
+            $email = $row->email;
+            $phone = $row->phone;
+            $fax = $row->fax;
+            $street1 = $row->address1;
+            $street2 = $row->address2;
+            $city = $row->city;
+            $state = $row->state;
+            $zip = $row->zip;
+            $position = $row->position;
+            $sector = $row->sector;
+        }
+    }
+
+    foreach($STATES as $key => $name)
+    {
+        $selected = '';
+        if(strcasecmp($key, $state) == 0)$selected = 'selected';
+        $state_html .= "<option value='$key' $selected>$name</option>";
+    }
+    $content =  "<tr><td>First Name: </td><td><input type=text name=firstname value='$firstname' class='require_string'></td></tr>" .
+                "<tr><td>Last Name: </td><td><input type=text name=lastname value='$lastname' class='require_string'></td></tr>" .
+                "<tr><td>Email: </td><td><input type=text name=email value='$email' ></td></tr>" .
+                "<tr><td>Phone: </td><td><input type=text name=phone value='$phone'></td></tr>" .
+                "<!--tr><td>Industry: </td><td><input type=text name=sector value='$sector'></td></tr>" .
+                "<tr><td>Positions: </td><td><input type=text name=position value='$position'></td></tr>" .
+                "<tr><td>Brief Intro:</td><td><textarea name='intro' style='width:340px;height:110px;'>".str_replace('"','',stripslashes($intro))."</textarea></td></tr-->"  ;
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a  value=professionals >
+            <input type=hidden name=type  value=people_detail >
+            <input type=hidden name=update_section  value=maenna_people_contact >
+            <input type=hidden name=pid value='$pid'>
+        </form>
+    </div>";
+    return json_nl($html);
+
+}
+function edit_research_people_info()
+{
+    $pid = sget($_REQUEST,'data');
+    if(! $pid ) return "not applicable";
+    $STATES = get_us_states();
+    $state_html = '';
+
+    $sql = "select * from research_people where pid = $pid limit 1";
+    $result = db_query($sql);
+    $firstname = $lastname = $intro = $sector = $yearofexp = $email = $phone = $fax = $street1 = $street2 = $city = $state = $zip = '';
+    if(db_affected_rows($result) > 0 )
+    {
+        if(($row = db_fetch_object($result)) !== false)
+        {
+            $firstname = $row->firstname;
+            $lastname = $row->lastname;
+            $intro = addslashes($row->brief_intro);
+            $industry = $row->industry;
+            $yearofexp = $row->experience;
+            $email = $row->email;
+            $phone = $row->phone;
+            $fax = $row->fax;
+            $street1 = $row->address1;
+            $street2 = $row->address2;
+            $city = $row->city;
+            $state = $row->state;
+            $zip = $row->zip;
+            $position = $row->position;
+        }
+    }
+
+    foreach($STATES as $key => $name)
+    {
+        $selected = '';
+        if(strcasecmp($key, $state) == 0)$selected = 'selected';
+        $state_html .= "<option value='$key' $selected>$name</option>";
+    }
+
+    $_Industry = _INDUSTRY();
+    $option_industry = OPTION_INDUSTRY($_Industry);
+
+
+    $_Roles = _ROLES();
+    $option_roles = OPTION_ROLES($_Roles, $position);
+
+    $content =  "<tr><td>Industry: </td><td><select name=industry><option></option>$option_industry</select><input type=text value='$industry'></td></tr>" .
+                "<tr><td>Years of Experience: </td><td><input type=text name=yearofexp value='$yearofexp'></td></tr>" .
+                "<tr><td>Positions: </td><td><input type=text name=position value='$position'></td></tr>" .
+                "<tr><td>Brief Intro:</td><td><textarea name='intro' style='width:340px;height:110px;'>".str_replace('"','',stripslashes($intro))."</textarea></td></tr>"  ;
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=tab  value=research >
+            <input type=hidden name=page  value=research_people_detail >
+            <input type=hidden name=update_section  value=research_people_info >
+            <input type=hidden name=pid value='$pid'>
+        </form>
+    </div>";
+    return json_nl($html);
+
+}
+function edit_maenna_people_info()
+{
+    $pid = sget($_REQUEST,'data');
+    if(! $pid ) return "not applicable";
+    $STATES = get_us_states();
+    $state_html = '';
+
+    $sql = "select * from maenna_people where pid = $pid limit 1";
+    $result = db_query($sql);
+    $firstname = $lastname = $intro = $sector = $yearofexp = $email = $phone = $fax = $street1 = $street2 = $city = $state = $zip = '';
+    if(db_affected_rows($result) > 0 )
+    {
+        if(($row = db_fetch_object($result)) !== false)
+        {
+            $firstname = $row->firstname;
+            $lastname = $row->lastname;
+            $intro = addslashes($row->brief_intro);
+            $industry = $row->industry;
+            $yearofexp = $row->experience;
+            $email = $row->email;
+            $phone = $row->phone;
+            $fax = $row->fax;
+            $street1 = $row->address1;
+            $street2 = $row->address2;
+            $city = $row->city;
+            $state = $row->state;
+            $zip = $row->zip;
+            $position = $row->position;
+        }
+    }
+
+    foreach($STATES as $key => $name)
+    {
+        $selected = '';
+        if(strcasecmp($key, $state) == 0)$selected = 'selected';
+        $state_html .= "<option value='$key' $selected>$name</option>";
+    }
+
+    $_Industry = _INDUSTRY();
+    $option_industry = OPTION_INDUSTRY($_Industry);
+
+
+    $_Roles = _ROLES();
+    $option_roles = OPTION_ROLES($_Roles, $position);
+    $content =  "<tr><td>Industry: </td><td><select name=industry><option></option>$option_industry</select><input type=text value='$industry'></td></tr>" .
+                "<tr><td>Years of Experience: </td><td><input type=text name=yearofexp value='$yearofexp'></td></tr>" .
+                "<tr><td>Positions: </td><td><input type=text name=position value='$position'></td></tr>" .
+                "<tr><td>Brief Intro:</td><td><textarea name='intro' style='width:340px;height:110px;'>".str_replace('"','',stripslashes($intro))."</textarea></td></tr>"  ;
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a  value=professionals >
+            <input type=hidden name=type  value=people_detail >
+            <input type=hidden name=update_section  value=maenna_people_info >
+            <input type=hidden name=pid value='$pid'>
+        </form>
+    </div>";
+    return json_nl($html);
+
+}
+function edit_add_research_people()
+{
+    $STATES = get_us_states();
+    $state_html = '';
+    foreach($STATES as $key => $name)
+    {
+        $state_html .= "<option value='$key'>$name</option>";
+    }
+    $experience_html = '';
+    $thisYear = intval(date("Y"));
+    for($i = 0; $i <= 60; $i++)
+    {
+        $m = $thisYear - $i;
+        $experience_html .= "\n<option>$m</option>";
+    }
+    $_Industry = _INDUSTRY();
+    $option_industry = OPTION_INDUSTRY($_Industry);
+
+
+    $_Roles = _ROLES();
+    $option_roles = OPTION_ROLES($_Roles);
+
+    $content =  "<tr><td>First Name: </td><td><input type=text name=firstname value='' class='require_string'></td></tr>" .
+                "<tr><td>Last Name: </td><td><input type=text name=lastname value='' class='require_string'></td></tr>" .
+                "<tr><td>Email: </td><td><input type=text name=email value='' ></td></tr>" .
+                "<tr><td>Phone: </td><td><input type=text name=phone value=''></td></tr>" .
+                "<tr><td>Industry: </td><td><select name='industry'><option></option>$option_industry</select></td></tr>" .
+                "<tr><td>Started working in: </td><td><select name='experience' style='width:140px;'><option value=''></option>$experience_html</select></td></tr>" .
+                 "<tr><td>Position: </td><td><select name=position><option></option>$option_roles</select></td></tr>" .
+                "<tr><td>Bio: </td><td><textarea name='intro' style='width:280px;height:80px;' ></textarea></td></tr>" .
+                "<!--tr><td>Year of Experience: </td><td><input type=text name=yearofexp value='' ></td></tr>" .
+                "<tr><td>Fax: </td><td><input type=text name=fax value='' ></td></tr>" .
+                "<tr><td>Street: </td><td><input type=text name=street1 value='' ></td></tr>" .
+                "<tr><td>Suite/Room#: </td><td><input type=text name=street2 value='' ></td></tr>" .
+                "<tr><td>City: </td><td><input type=text name=city value=''></td></tr>" .
+                "<tr><td>State: </td><td><select name='state'>$state_html</select></td></tr>" .
+                "<tr><td>Zip code: </td><td><input type=text name=zip value=''></td></tr-->" ;
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=tab  value=research >
+            <input type=hidden name=type  value=people >
+            <input type=hidden name=update_section  value=add_research_people >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+
+function edit_research_company_article()
+{
+    $recordid = sget($_REQUEST,'data');
+    $date = date('m/d/Y');
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td></td><td ><b>Link to a Webpage</b></td></tr>
+                    <tr><td width=100>Title</td><td><input type=text value='' name=title ></td></tr>
+                    <tr><td>URL</td><td><input type=text value='' name=url ><br></td></tr>
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab  value=research >
+                <input type=hidden name=page  value=research_company_detail >
+                <input type=hidden name=recordid  value='$recordid' >
+                <input type=hidden name=update_section  value='research_company_articles' >
+            </form>
+            <form method='post' action='/account' onsubmit='return check_input();' enctype='multipart/form-data'>
+                <table class='edit_table'>
+                    <tr><td></td><td><b>Document</b></td></tr>
+                    <tr><td  width=100>File</td><td><input type=file value='' name=file ></td></tr>
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab value=research >
+                <input type=hidden name=page  value=research_company_detail >
+                <input type=hidden name=recordid  value='$recordid' >
+                <input type=hidden name=update_section  value='research_company_articles' >
+            </form>
+        </div>";
+    return json_nl($html);
+}
+function edit_maenna_company_article()
+{
+    $companyid = sget($_REQUEST,'data');
+    $date = date('m/d/Y');
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td></td><td ><b>Link to a Webpage</b></td></tr>
+                    <tr><td width=100>Title</td><td><input type=text value='' name=title ></td></tr>
+                    <tr><td>URL</td><td><input type=text value='' name=url ><br></td></tr>
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=a  value=companies >
+                <input type=hidden name=type  value=company_detail >
+                <input type=hidden name=recordid  value='$companyid' >
+                <input type=hidden name=update_section  value='maenna_company_articles' >
+            </form>
+            <form method='post' action='/account' onsubmit='return check_input();' enctype='multipart/form-data'>
+                <table class='edit_table'>
+                    <tr><td></td><td><b>Document</b></td></tr>
+                    <tr><td  width=100>File</td><td><input type=file value='' name=file ></td></tr>
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=a  value=companies >
+                <input type=hidden name=type  value=company_detail >
+                <input type=hidden name=recordid  value='$companyid' >
+                <input type=hidden name=update_section  value='maenna_company_articles' >
+            </form>
+        </div>";
+    return json_nl($html);
+}
+function edit_research_people_article()
+{
+    $pid = sget($_REQUEST,'data');
+    $date = date('m/d/Y');
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td></td><td ><b>Link to a Webpage</b></td></tr>
+                    <tr><td width=100>Title</td><td><input type=text value='' name=title ></td></tr>
+                    <tr><td>URL</td><td><input type=text value='' name=url ><br></td></tr>
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab  value=research >
+                <input type=hidden name=page  value=research_people_detail >
+                <input type=hidden name=pid  value='$pid' >
+                <input type=hidden name=update_section  value='research_people_articles' >
+            </form>
+            <form method='post' action='/account' onsubmit='return check_input();' enctype='multipart/form-data'>
+                <table class='edit_table'>
+                    <tr><td></td><td><b>Document</b></td></tr>
+                    <tr><td  width=100>File</td><td><input type=file value='' name=file ></td></tr>
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab  value=research >
+                <input type=hidden name=page  value=research_people_detail >
+                <input type=hidden name=pid  value='$pid' >
+                <input type=hidden name=update_section  value='research_people_articles' >
+            </form>
+        </div>";
+    return json_nl($html);
+}
+function edit_maenna_people_article()
+{
+    $pid = sget($_REQUEST,'data');
+    $date = date('m/d/Y');
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td></td><td ><b>Link to a Webpage</b></td></tr>
+                    <tr><td width=100>Title</td><td><input type=text value='' name=title ></td></tr>
+                    <tr><td>URL</td><td><input type=text value='' name=url ><br></td></tr>
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=a  value=professionals >
+                <input type=hidden name=type  value=people_detail >
+                <input type=hidden name=pid  value='$pid' >
+                <input type=hidden name=update_section  value='maenna_people_articles' >
+            </form>
+            <form method='post' action='/account' onsubmit='return check_input();' enctype='multipart/form-data'>
+                <table class='edit_table'>
+                    <tr><td></td><td><b>Document</b></td></tr>
+                    <tr><td  width=100>File</td><td><input type=file value='' name=file ></td></tr>
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=a  value=professionals >
+                <input type=hidden name=type  value=people_detail >
+                <input type=hidden name=pid  value='$pid' >
+                <input type=hidden name=update_section  value='maenna_people_articles' >
+            </form>
+        </div>";
+    return json_nl($html);
+}
+function edit_research_followup_priority()
+{
+    $recordid = sget($_REQUEST,'data');
+    $date = date('m/d/Y');
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td>Date</td><td><input type=text value='$date' name=date class='datepicker'></td></tr>
+                    <tr><td>Note</td><td><input type=text value='' name=note style='width:300px;' ></td></tr>
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab  value=research >
+                <input type=hidden name=page  value=research_company_detail >
+                <input type=hidden name=recordid  value='$recordid' >
+                <input type=hidden name=update_section  value='research_followup_priority' >
+            </form>
+        </div>";
+    return json_nl($html);
+}
+function edit_maenna_followup_priority()
+{
+    $companyid = sget($_REQUEST,'data');
+    $date = date('m/d/Y');
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td>Date</td><td><input type=text value='$date' name=date class='datepicker'></td></tr>
+                    <tr><td>Note</td><td><input type=text value='' name=note style='width:300px;' ></td></tr>
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=a  value=companies >
+                <input type=hidden name=type  value=company_detail >
+                <input type=hidden name=companyid  value='$companyid' >
+                <input type=hidden name=update_section  value='maenna_followup_priority' >
+            </form>
+        </div>";
+    return json_nl($html);
+}
+
+function edit_research_people_followup()
+{
+    $pid = sget($_REQUEST,'data');
+    $date = date('m/d/Y');
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td>Date</td><td><input type=text value='$date' name=date class='datepicker'></td></tr>
+                    <tr><td>Note</td><td><input type=text value='' name=note style='width:300px;' strlen=70 ></td></tr>
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab  value=research >
+                <input type=hidden name=page  value=research_people_detail >
+                <input type=hidden name=pid  value='$pid' >
+                <input type=hidden name=update_section  value='research_people_followup' >
+            </form>
+        </div>";
+    return json_nl($html);
+}
+function edit_maenna_people_followup()
+{
+    $pid = sget($_REQUEST,'data');
+    $date = date('m/d/Y');
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td>Date</td><td><input type=text value='$date' name=date class='datepicker'></td></tr>
+                    <tr><td>Note</td><td><input type=text value='' name=note style='width:300px;' strlen=70 ></td></tr>
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab  value=professionals >
+                <input type=hidden name=page  value=people_detail >
+                <input type=hidden name=pid  value='$pid' >
+                <input type=hidden name=update_section  value='maenna_people_followup' >
+            </form>
+        </div>";
+    return json_nl($html);
+}
+function edit_research_company_prospects()
+{
+    $Prospects = array('high', 'medium', 'low', 'unlikely');
+    $recordid = sget($_REQUEST, 'data');
+    $content = '';
+    $sql = "select company,recordid,priority from research_company where recordid = $recordid  limit 1";
+    $result = db_query($sql);
+    $dataid = '';
+    if(($row = db_fetch_object($result)) !== false)
+    {
+        $dataid = $row->dataid;
+        $prospect  = $row->priority;
+    }
+    foreach($Prospects as $p)
+    {
+        $selected = '';
+        if($p == "$prospect") $selected = 'selected';
+        $content .= "\n<option $selected>$p</option>";
+    }
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td>Prospect</td><td>
+                        <select name='prospect'><option value=''></option>
+                            $content
+                        </select>
+                    </td></tr>
+
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab  value=research >
+                <input type=hidden name=page  value=research_company_detail >
+                <input type=hidden name=recordid  value='$recordid' >
+                <input type=hidden name=dataid  value='$dataid' >
+                <input type=hidden name=update_section  value='research_company_prospects' >
+            </form>
+        </div>";
+    return json_nl($html);
+}
+
+function edit_research_company_qualified_lead()
+{
+    $Prospects = array('high', 'medium', 'low', 'unlikely');
+    $recordid = sget($_REQUEST, 'data');
+    $content = '';
+    $sql = "select company,recordid,qualified from research_company where recordid = $recordid  limit 1";
+    $result = db_query($sql);
+    $dataid = '';
+    if(($row = db_fetch_object($result)) !== false)
+    {
+        $dataid = $row->dataid;
+        $prospect  = $row->qualified;
+    }
+    foreach($Prospects as $p)
+    {
+        $selected = '';
+        if($p == "$prospect") $selected = 'selected';
+        $content .= "\n<option $selected>$p</option>";
+    }
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td>Qaulified Lead</td><td>
+                        <select name='prospect'><option value=''></option>
+                            $content
+                        </select>
+                    </td></tr>
+
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab value=research >
+                <input type=hidden name=page  value=research_company_detail >
+                <input type=hidden name=recordid  value='$recordid' >
+                <input type=hidden name=dataid  value='$dataid' >
+                <input type=hidden name=update_section  value='research_company_qualified_lead' >
+            </form>
+        </div>";
+    return json_nl($html);
+}
+function edit_research_people_prospects()
+{
+    $Prospects = array('high', 'medium', 'low', 'unlikely');
+    $pid = sget($_REQUEST, 'data');
+    $content = '';
+    $sql = "select concat_ws(',', firstname, lastname) as name, priority from research_people where pid = $pid limit 1";
+    $result = db_query($sql);
+    $dataid = '';
+    if(($row = db_fetch_object($result)) !== false)
+    {
+        $prospect  = $row->priority;
+    }
+    foreach($Prospects as $p)
+    {
+        $selected = '';
+        if($p == "$prospect") $selected = 'selected';
+        $content .= "\n<option $selected>$p</option>";
+    }
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td>Prospect</td><td>
+                        <select name='prospect'><option value=''></option>
+                            $content
+                        </select>
+                    </td></tr>
+
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab  value=research >
+                <input type=hidden name=page  value=research_people_detail >
+                <input type=hidden name=pid  value='$pid' >
+                <input type=hidden name=update_section  value='research_people_prospects' >
+            </form>
+        </div>";
+    return json_nl($html);
+}
+function edit_research_company_progress()
+{
+    $recordid = sget($_REQUEST, 'data');
+    $today = date("m/d/Y");
+    $content = "<tr><td>Date</td><td><input type=text name=date value='$today' class='datepicker' ></td></tr>" .
+                "<tr><td>Contact Person</td><td><input type=text name=contact value=''></td></tr>" .
+                "<tr><td>Message<br><div style='font-size:9px;font-style:italic;font-weight:normal;'>Max allowed characters:240<br>You have <span id='wordcounter'>240
+                </span> character left</div></td><td><textarea name='message' onkeyup='wordcounter(this);' style='width:330px;height:70px' limit='240'></textarea></td></tr>" .
+                "<tr><td>Follow-Up Date</td><td><input type=text name=followup value=''  class='datepicker'></td></tr>" ;
+        $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td></td><td></td></tr>
+                    $content
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab  value=research >
+                <input type=hidden name=page  value=research_company_detail >
+                <input type=hidden name=recordid  value='$recordid' >
+                <input type=hidden name=update_section  value='research_progress_status' >
+            </form>
+        </div>";
+     return json_nl($html);
+}
+function edit_maenna_company_progress()
+{
+    $companyid = sget($_REQUEST, 'data');
+    $today = date("m/d/Y");
+    $content = "<tr><td>Date</td><td><input type=text name=date value='$today' class='datepicker' ></td></tr>" .
+                "<tr><td>Contact Person</td><td><input type=text name=contact value=''></td></tr>" .
+                "<tr><td>Message<br><div style='font-size:9px;font-style:italic;font-weight:normal;'>Max allowed characters:240<br>You have <span id='wordcounter'>240
+                </span> character left</div></td><td><textarea name='message' onkeyup='wordcounter(this);' style='width:330px;height:70px' limit='240'></textarea></td></tr>" .
+                "<tr><td>Follow-Up Date</td><td><input type=text name=followup value=''  class='datepicker'></td></tr>" ;
+        $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td></td><td></td></tr>
+                    $content
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab  value=companies >
+                <input type=hidden name=page  value=company_detail >
+                <input type=hidden name=companyid  value='$companyid' >
+                <input type=hidden name=update_section  value='maenna_progress_status' >
+            </form>
+        </div>";
+     return json_nl($html);
+}
+function edit_research_people_progress()
+{
+    $pid = sget($_REQUEST, 'data');
+    $today = date("m/d/Y");
+    $content = "<tr><td>Date</td><td><input type=text name=date value='$today' class='datepicker' ></td></tr>" .
+                "<tr><td>Contact Person</td><td><input type=text name=contact value=''></td></tr>" .
+                "<tr><td>Message</td><td><textarea name='message' style='width:330px;height:100px'></textarea></td></tr>" .
+                "<tr><td>Follow-Up Date</td><td><input type=text name=followup value=''  class='datepicker'></td></tr>" ;
+        $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td></td><td></td></tr>
+                    $content
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab  value=research >
+                <input type=hidden name=page  value=research_people_detail >
+                <input type=hidden name=pid  value='$pid' >
+                <input type=hidden name=update_section  value='research_people_status' >
+            </form>
+        </div>";
+     return json_nl($html);
+}
+function edit_maenna_people_progress()
+{
+    $pid = sget($_REQUEST, 'data');
+    $today = date("m/d/Y");
+    $content = "<tr><td>Date</td><td><input type=text name=date value='$today' class='datepicker' ></td></tr>" .
+                "<tr><td>Contact Person</td><td><input type=text name=contact value=''></td></tr>" .
+                "<tr><td>Message</td><td><textarea name='message' style='width:330px;height:100px'></textarea></td></tr>" .
+                "<tr><td>Follow-Up Date</td><td><input type=text name=followup value=''  class='datepicker'></td></tr>" ;
+        $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td></td><td></td></tr>
+                    $content
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=a  value=professionals >
+                <input type=hidden name=type  value=people_detail >
+                <input type=hidden name=pid  value='$pid' >
+                <input type=hidden name=update_section  value='maenna_people_status' >
+            </form>
+        </div>";
+     return json_nl($html);
+}
+function edit_research_company_name(){
+    $recordid = sget($_REQUEST, 'data');
+    $html = '';
+    if($recordid)
+    {
+        $sql = "select company, description from research_company where recordid = $recordid limit 1";
+        $result = db_query($sql);
+        $row = db_fetch_object($result);
+        $company_name = $row->company;
+        $company_desc = $row->description;
+        $content = "<tr><td>Company Name</td><td><input type=text name=company value='$company_name' style='width:330px;'></td></tr>" .
+                    "<tr><td>Description</td><td><textarea name='desc' style='width:330px;height:100px'>$company_desc</textarea></td></tr>" ;
+        $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td></td><td></td></tr>
+                    $content
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=tab  value=research >
+                <input type=hidden name=page  value=research_company_detail >
+                <input type=hidden name=recordid  value='$recordid' >
+                <input type=hidden name=update_section  value='research_company_name' >
+            </form>
+        </div>";
+
+    }
+    return json_nl($html);
+}
+function edit_maenna_company_name(){
+    $companyid = sget($_REQUEST, 'data');
+    $html = '';
+    if($companyid)
+    {
+        $sql = "select company, description from maenna_company where companyid = $companyid limit 1";
+        $result = db_query($sql);
+        $row = db_fetch_object($result);
+        $company_name = $row->company;
+        $company_desc = $row->description;
+        $content = "<tr><td>Company Name</td><td><input type=text name=company value='$company_name' style='width:330px;'></td></tr>" .
+                    "<tr><td>Description</td><td><textarea name='desc' style='width:330px;height:100px'>$company_desc</textarea></td></tr>" ;
+        $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+            <form method='post' action='/account' onsubmit='return check_input();'>
+                <table class='edit_table'>
+                    <tr><td></td><td></td></tr>
+                    $content
+                    <tr><td ></td><td><input type=submit value='submit'></td></tr>
+                </table>
+                <input type=hidden name=a  value=companies >
+                <input type=hidden name=type  value=company_detail >
+                <input type=hidden name=companyid  value='$companyid' >
+                <input type=hidden name=update_section  value='maenna_company_name' >
+            </form>
+        </div>";
+
+    }
+    return json_nl($html);
+}
+function edit_research_company_links()
+{
+    $recordid = sget($_REQUEST, 'data');
+    $sql = "select * from research_company_data where recordid = $recordid and data_type = 'links' order by dataid";
+    $result = @db_query($sql);
+    $i = 1;
+    if(db_affected_rows($result) > 0)
+    {
+        for($i = 1; $i <= 5; $i++)
+        {
+            $row = @db_fetch_object($result);
+            $name = check_plain($row->data_value);
+            $link = $row->data_value2;
+            $dataid = $row->dataid;
+            $content .= "<tr><td>$i</td><td><input type=text name='name_$i' value='$name'></td><td><input type=text name='link_$i' value='$link'><input type=hidden name=dataid_$i value=$dataid></td></tr>";
+        }
+    }else{
+        for($i = 1; $i <= 5; $i++)
+        {
+            $name = '';
+            $link = '';
+            $content .= "<tr><td>$i</td><td><input type=text name='name_$i' value='$name'></td><td><input type=text name='link_$i' value='$link'></td></tr>";
+        }
+    }
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td>Title</td><td>URL</td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=tab value=research >
+            <input type=hidden name=page  value=research_company_detail >
+            <input type=hidden name=recordid  value='$recordid' >
+            <input type=hidden name=update_section  value='research_company_links' >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_maenna_company_links()
+{
+    $companyid = sget($_REQUEST, 'data');
+    $sql = "select * from maenna_company_data where companyid = $companyid and data_type = 'links' order by dataid";
+    $result = @db_query($sql);
+    $i = 1;
+    if(db_affected_rows($result) > 0)
+    {
+        for($i = 1; $i <= 5; $i++)
+        {
+            $row = @db_fetch_object($result);
+            $name = check_plain($row->data_value);
+            $link = $row->data_value2;
+            $dataid = $row->dataid;
+            $content .= "<tr><td>$i</td><td><input type=text name='name_$i' value='$name'></td><td><input type=text name='link_$i' value='$link'><input type=hidden name=dataid_$i value=$dataid></td></tr>";
+        }
+    }else{
+        for($i = 1; $i <= 5; $i++)
+        {
+            $name = '';
+            $link = '';
+            $content .= "<tr><td>$i</td><td><input type=text name='name_$i' value='$name'></td><td><input type=text name='link_$i' value='$link'></td></tr>";
+        }
+    }
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td>Title</td><td>URL</td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a  value=companies >
+            <input type=hidden name=type  value=company_detail >
+            <input type=hidden name=companyid  value='$companyid' >
+            <input type=hidden name=update_section  value='maenna_company_links' >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function update_research_company_logo()
+{
+    $recordid = sget($_REQUEST,'data');
+    return "<div style='width:400px;padding:20px 20px 20px 0;'><form method='post' action='/account' enctype='multipart/form-data'><input type=file name='logo'><br><br><input type='submit' value='upload'><input type=hidden name=tab value='research'><input type=hidden name=page value='research_company_detail'><input type=hidden name=update_section value='research_company_logo'><input type=hidden name=recordid value='$recordid'></form></div>";
+}
+function admin_group($table = 'company')
+{
+    $Result = array();
+    if($table == 'company')
+    {
+        $sql = "select users.mail, users.uid, concat_ws(',',users_extend.last_name, users_extend.first_name) as name from users, users_roles,users_extend where users.uid = users_extend.uid and users.uid = users_roles.uid and users_roles.rid = 6 order by users_extend.last_name ";
+        $result = db_query($sql);
+        if(db_affected_rows($result) > 0)
+        {
+            while(($row = db_fetch_object($result) ) !== false)
+            {
+                $name = $row->name;
+                $uid = $row->uid;
+                $Result[] = array($uid, $name);
+            }
+        }
+    }
+    return $Result;
+}
+
+function ajax_add_research_company()
+{
+        global $user;
+
+    $STATES = get_us_states();
+    $state_html = '';
+    foreach($STATES as $key => $name)
+    {
+        $state_html .= "<option value='$key'>$name</option>";
+    }
+    $Admins = admin_group();
+    $admin_html = '';
+    foreach($Admins as $a)
+    {
+        $id = $a[0]; $name = $a[1];
+        $admin_html .= "\n". "<option value=$id>$name</option>";
+    }
+    $admin_html = "<select name='managerid' style='width:140px;'><option value=''>Manager</option>$admin_html</select>";
+
+    $content = "<tr><td>Company: </td><td><input type=text name=company value='' class='require_string' style='width:280px;'></td></tr>" .
+                "<tr><td>Owner/Manager Name: </td><td><input type=text name=contact value=''></td></tr>" .
+                "<tr><td>Email: </td><td><input type=text name=email value=''></td></tr>" .
+                "<tr><td>Phone: </td><td><input type=text name=phone value=''></td></tr>" .
+                "<tr><td>Estimated Revenue: </td><td><input type=text name=revenue value='' ></td></tr>" .
+                "<tr><td>Sector: </td><td><input type=text name=sector value='' class='require_string'></td></tr>" .
+                "<tr><td>Website: </td><td><input type=text name=website value=''></td></tr>" .
+                "<tr><td>City: </td><td><input type=text name=city value='' ></td></tr>" .
+                "<tr><td>State: </td><td><select name='state' style='width:140px;'>$state_html</select></td></tr>" .
+                "<tr><td>Manager: </td><td>$admin_html</td></tr>" .
+                "<!--tr><td>Address: </td><td><input type=text name=address1 value='' class='require_string'></td></tr>" .
+                "<tr><td>Fax: </td><td><input type=text name=fax value=''></td></tr>" .
+                "<tr><td>Suite/Room#: </td><td><input type=text name=address2 value='' ></td></tr>" .
+                "<tr><td>Zip code: </td><td><input type=text name=zip value=''></td></tr-->" ;
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=tab  value=research >
+            <input type=hidden name=type  value=company >
+            <input type=hidden name=update_section  value=add_research_company >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function ajax_add_admin_user($admin_uid = null)
+{
+    $content = "<tr><td>First Name: </td><td><input type=text name=fname value='' class='require_string'></td></tr>" .
+                "<tr><td>Last Name: </td><td><input type=text name=lname value='' class='require_string'></td></tr>" .
+                "<tr><td>Email: </td><td><input type=text name=email value='' class='require_email'></td></tr>" .
+                "<tr><td>Phone: </td><td><input type=text name=phone value=''></td></tr>" .
+                "<tr><td>Street Address: </td><td><input type=text name=street1 value=''></td></tr>" .
+                "<tr><td>Apt/Suite: </td><td><input type=text name=street2 value=''></td></tr>" .
+                "<tr><td>City: </td><td><input type=text name=city value=''></td></tr>" .
+                "<tr><td>State: </td><td><input type=text name=state value=''></td></tr>" .
+                "<tr><td>Zip: </td><td><input type=text name=zip value=''></td></tr>" ;
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a  value=admins >
+            <input type=hidden name=update_section  value=add_admin_user >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+
+function ajax_update_admin_user($admin_uid = null)
+{
+    $uid = sget($_REQUEST, 'data');
+    if(empty($uid) ) return "";
+    $sql = "select * from users,users_extend where users.uid = users_extend.uid and users.uid = $uid limit 1";
+    $result = db_query($sql);
+    $row = db_fetch_object($result);
+    $firstname = $row->first_name;
+    $lastname = $row->last_name;
+    $email = $row->mail;
+    $phone = $row->phone;
+    $street1 = $row->street1;
+    $street2 = $row->street2;
+    $city = $row->city;
+    $state = $row->state;
+    $zip = $row->zip;
+
+
+    $content = "<tr><td>First Name: </td><td><input type=text name=fname value='$firstname' class='require_string'></td></tr>" .
+                "<tr><td>Last Name: </td><td><input type=text name=lname value='$lastname' class='require_string'></td></tr>" .
+                "<tr><td>Email: </td><td><input type=text name=email value='$email' class='require_email'></td></tr>" .
+                "<tr><td>Phone: </td><td><input type=text name=phone value='$phone'></td></tr>" .
+                "<tr><td>Street Address: </td><td><input type=text name=street1 value='$street1'></td></tr>" .
+                "<tr><td>Apt/Suite: </td><td><input type=text name=street2 value='$street2'></td></tr>" .
+                "<tr><td>City: </td><td><input type=text name=city value='$city'></td></tr>" .
+                "<tr><td>State: </td><td><input type=text name=state value='$state'></td></tr>" .
+                "<tr><td>Zip: </td><td><input type=text name=zip value='$zip'></td></tr>" .
+                "<tr><td>New Password: </td><td><input type=password name=password1 value=''></td></tr>" .
+                "<tr><td>Confirm Password: </td><td><input type=password name=password2 value=''></td></tr>";
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account' onsubmit='return check_input();'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a  value=admins >
+            <input type=hidden name=type  value=detail >
+            <input type=hidden name=update_section  value=admin_update_info >
+            <input type=hidden name=id  value=$uid >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_company_priorities()
+{
+    global $user;
+    $uid = $user->uid;
+    $content = '';
+
+    $sql = "select * from users_data where uid = $uid and data_type = 'priority' order by data_id";
+    $result = db_query($sql);
+
+    for($i = 1; $i <= 3; $i++)
+    {
+        $p = '';
+        $recid = '';
+        if(($data = db_fetch_object($result) ) !== false)
+        {
+            $p = check_plain($data->data_value);
+            $recid = (int)$data->data_id;
+        }
+        $content .= "<tr><td>$i</td><td><input type=text name='priority_$i' value='$p' style='width:300px;'>";
+        if($recid) $content .= "<input type=hidden name='recid_$i' value='$recid'>";
+        $content .="</td></tr>";
+    }
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                <tr><td></td><td></td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a  value=edit_company_detail >
+            <input type=hidden name=update_section  value=company_priorities >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_company_market_info()
+{
+    global $user;
+    $uid = $user->uid;
+    $content = '';
+
+    $sql = "select * from users_data where uid = $uid and data_type = 'marketinfo' order by data_id";
+
+    $result = db_query($sql);
+
+    $content .= "<tr><td></td><td ><b>Top three competitors</b></td></tr>";
+    for($i = 1; $i <= 3; $i++)
+    {
+        $recid = '';
+        $input = '';
+        if( ($data = db_fetch_object($result) ) !== false)
+        {
+            $recid = (int)$data->data_id;
+            $company = check_plain($data->data_value2);
+        }
+        $content .= "<tr><td>${i}.</td><td><input type=text name=competitor_${i} value='" . $company ."'>";
+        if($recid > 0) $content .= "<input type=hidden name='competitor_id_${i}' value='$recid'>";
+        $content .= "</td></tr>";
+    }
+
+    $content .= "<tr><td></td><td ><b>Top three markets you currently sell in</b></td></tr>";
+
+    for($i = 1; $i <= 3; $i++)
+    {
+        $recid = '';
+        $input = '';
+        if( ($data = db_fetch_object($result)) !== false)
+        {
+            $recid = (int)$data->data_id;
+            $company = check_plain($data->data_value2);
+        }
+        $content .= "<tr><td>${i}.</td><td><input type=text name='market_${i}' value='" . $company ."'>";
+        if($recid > 0) $content .= "<input type=hidden name='market_id_${i}' value='$recid'>";
+        $content .= "</td></tr>";
+    }
+    if((! isset($user->roles[3])))
+    {
+        $content .= "<tr><td></td><td ><b>Top three priority expansion markets</b></td></tr>";
+        for($i = 1; $i <= 3; $i++)
+        {
+            $recid = '';
+            $input = '';
+            if( ($data = db_fetch_object($result)) !== false)
+            {
+                $recid = (int)$data->data_id;
+                $company = check_plain($data->data_value2);
+            }
+            $content .= "<tr><td>${i}.</td><td><input type=text name=explansion_${i} value='" . $company ."'>";
+            if($recid > 0) $content .= "<input type=hidden name='explansion_id_${i}' value='$recid'>";
+            $content .= "</td></tr>";
+        }
+    }
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a value='cactivities'><input type=hidden name=p value='edit_company_detail'>
+            <input type=hidden name=update_section  value=company_market_info >
+        </form>
+    </div>";
+     return json_nl($html);
+}
+function edit_research_company_market_info()
+{
+    global $user;
+    $editor = $user->uid;
+    $recordid = sget($_REQUEST,'data');
+    $content = '';
+
+    $sql = "select * from research_company_data where recordid = $recordid and data_type = 'marketinfo' order by data_value3 desc";
+
+    $result = db_query($sql);
+
+    $content .= "<tr><td></td><td ><b>Top Markets</b></td><td>Estimated % Share</td></tr>";
+    for($i = 1; $i <= 5; $i++)
+    {
+        $dataid = '';
+        $input = '';
+        if( ($data = db_fetch_object($result) ) !== false)
+        {
+            $dataid = (int)$data->dataid;
+            $market = check_plain($data->data_value2);
+            $share = $data->data_value3;
+        }
+        $content .= "<tr><td>${i}.</td><td><input type=text name=market_${i} value='" . $market ."'>";
+        if($dataid > 0) $content .= "<input type=hidden name='market_id_${i}' value='$dataid'>";
+        $content .= "</td><td><input type=text name=share_${i} value='" . $share ."'  style='width:30px;'>%</td></tr>";
+    }
+
+
+
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=tab value='research'>
+            <input type=hidden name=page value='research_company_detail'>
+            <input type=hidden name=recordid value='$recordid'>
+            <input type=hidden name=update_section  value=research_company_market_info >
+        </form>
+    </div>";
+     return json_nl($html);
+}
+function edit_maenna_company_market_info()
+{
+    global $user;
+    $editor = $user->uid;
+    $companyid = sget($_REQUEST,'data');
+    $content = '';
+
+    $sql = "select * from maenna_company_data where companyid = $companyid and data_type = 'marketinfo' order by data_value3 desc";
+
+    $result = db_query($sql);
+
+    $content .= "<tr><td></td><td ><b>Top Markets</b></td><td>Estimated % Share</td></tr>";
+    for($i = 1; $i <= 5; $i++)
+    {
+        $dataid = '';
+        $input = '';
+        if( ($data = db_fetch_object($result) ) !== false)
+        {
+            $dataid = (int)$data->dataid;
+            $market = check_plain($data->data_value2);
+            $share = $data->data_value3;
+        }
+        $content .= "<tr><td>${i}.</td><td><input type=text name=market_${i} value='" . $market ."'>";
+        if($dataid > 0) $content .= "<input type=hidden name='market_id_${i}' value='$dataid'>";
+        $content .= "</td><td><input type=text name=share_${i} value='" . $share ."'  style='width:50px;'></td></tr>";
+    }
+
+
+
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a value='companies'>
+            <input type=hidden name=type value='company_detail'>
+            <input type=hidden name=companyid value='$companyid'>
+            <input type=hidden name=update_section  value=maenna_company_market_info >
+        </form>
+    </div>";
+     return json_nl($html);
+}
+function edit_company_financial()
+{
+    global $user;
+    $uid = $user->uid;
+    $content = '';
+    $this_year = date("Y");
+    $Years = array();
+    $Financial = array();
+    for($i = 0; $i < 5 ; $i++)
+    {
+        $Years[] = $this_year - $i;
+    }
+    $sql = "select * from users_data where uid = $uid and data_type = 'financial' order by data_attr desc limit 5";
+    $result = @db_query($sql);
+    while( ($data = @db_fetch_object($result)) !== false){
+        $year = $data->data_attr;
+        $Financial["$year"] = $data;
+    }
+
+    foreach($Years as $y)
+    {
+        $revenue = '';
+        $earnings = '';
+        if(isset($Financial["$y"]))
+        {
+            $revenue = number_format((int)$Financial["$y"]->data_value);
+            $earnings = number_format((int)$Financial["$y"]->data_value2);
+            $recid = (int)$Financial["$y"]->data_id;
+
+        }
+        $content .= "<tr><td>$y</td><td>&#36; <input type=text name='revenue_$y' value='${revenue}'></td><td>&#36; <input type=text name='earnings_$y' value='$earnings' ><input type=hidden name='recid_$y' value='${recid}'></td></td>";
+    }
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                <tr><td>Year</td><td style=''>Revenue</td><td>After-Tax Earnings</td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td><td></td></tr>
+            </table>
+            <input type=hidden name=a value='cactivities'><input type=hidden name=p value='edit_company_detail'>
+            <input type=hidden name=update_section  value=company_financial >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_research_company_financial()
+{
+    global $user;
+    $uid = $user->uid;
+    $recordid = sget($_REQUEST,'data');
+
+    $content = '';
+    $this_year = date("Y");
+    $Years = array();
+    $Financial = array();
+    for($i = 0; $i < 5 ; $i++)
+    {
+        $Years[] = $this_year - $i;
+    }
+    $sql = "select * from research_company_data where recordid = $recordid and data_type = 'financial' order by data_attr desc limit 5";
+    $result = @db_query($sql);
+    while( ($data = @db_fetch_object($result)) !== false){
+        $year = $data->data_attr;
+        $Financial["$year"] = $data;
+    }
+
+    foreach($Years as $y)
+    {
+        $revenue = '';
+        $earnings = '';
+        if(isset($Financial["$y"]))
+        {
+            $revenue = number_format((int)$Financial["$y"]->data_value);
+            $earnings = number_format((int)$Financial["$y"]->data_value2);
+            $dataid = (int)$Financial["$y"]->dataid;
+
+        }
+        $content .= "<tr><td>$y</td><td>&#36; <input type=text name='revenue_$y' value='${revenue}'></td><td>&#36; <input type=text name='earnings_$y' value='$earnings' ><input type=hidden name='dataid_$y' value='${dataid}'></td></td>";
+    }
+
+    $html ="<div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                <tr><td>Year</td><td style=''>Revenue</td><td>After-Tax Earnings</td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td><td></td></tr>
+            </table>
+            <input type=hidden name=tab value='research'>
+            <input type=hidden name=page value='research_company_detail'>
+            <input type=hidden name=recordid value='$recordid'>
+            <input type=hidden name=update_section  value=research_company_financials >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_maenna_company_financial()
+{
+    global $user;
+    $uid = $user->uid;
+    $companyid = sget($_REQUEST,'data');
+
+    $content = '';
+    $this_year = date("Y");
+    $Years = array();
+    $Financial = array();
+    for($i = 0; $i < 5 ; $i++)
+    {
+        $Years[] = $this_year - $i;
+    }
+    $sql = "select * from maenna_company_data where companyid = $companyid and data_type = 'financial' order by data_attr desc limit 5";
+    $result = @db_query($sql);
+    while( ($data = @db_fetch_object($result)) !== false){
+        $year = $data->data_attr;
+        $Financial["$year"] = $data;
+    }
+
+    foreach($Years as $y)
+    {
+        $revenue = '';
+        $earnings = '';
+        $dataid = '';
+        if(isset($Financial["$y"]))
+        {
+            $revenue = number_format((int)$Financial["$y"]->data_value);
+            $earnings = number_format((int)$Financial["$y"]->data_value2);
+            $equity = number_format((int)$Financial["$y"]->data_value3);
+            $dataid = (int)$Financial["$y"]->dataid;
+
+        }
+        $content .= "\n<tr><td>$y</td><td>&#36; <input type=text name='revenue_$y' value='${revenue}'></td><td>&#36; <input type=text name='earnings_$y' value='$earnings' ><input type=hidden name='dataid_$y' value='${dataid}'></td><td>&#36; <input type=text name='equity_$y' value='$equity' ></td>";
+    }
+
+    $html ="<div style='width:700px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                <tr><td>Year</td><td style=''>Revenue</td><td>After-Tax Earnings</td><td>Equity</td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td><td></td></tr>
+            </table>
+            <input type=hidden name=a value='companies'>
+            <input type=hidden name=type value='company_detail'>
+            <input type=hidden name=companyid value='$companyid'>
+            <input type=hidden name=update_section  value=maenna_company_financials >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_company_description()
+{
+    global $user;
+    $uid = $user->uid;
+    $content = '';
+    $sql = "select description from users_extend where uid = $uid limit 1";
+    $result = db_query($sql);
+    $data = db_fetch_object($result);
+    if($data->description) $content = check_plain($data->description);
+    $content = "<tr><td ></td><td><textarea name='description' style='width:400px;height:100px;'>$content</textarea></td></tr>";
+
+$html ="
+    <div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                <tr><td></td><td>Update your company description</td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a value='cactivities'><input type=hidden name=p value='edit_company_detail'>
+            <input type=hidden name=update_section  value=company_name >
+        </form>
+    </div>";
+    return json_nl($html);
+
+}
+function edit_company_milestones()
+{
+    global $user;
+    $uid = $user->uid;
+    $content = '';
+    $sql = "select * from users_data where uid = '$uid' and data_type = 'milestone' order by data_attr";
+
+    $result = db_query($sql);
+
+    for($i = 1; $i <= 3; $i++)
+    {
+        $row = db_fetch_object($result);
+        if($row !== false)
+        {
+           // $title = check_plain($row->data_value);
+            $milestone = check_plain($row->data_value2);
+            $data_id = ($row->data_id) ? $row->data_id : '';
+            $content .= "\n<tr><td style='vertical-align:top;'>${i}. </td><td><input type=text  name='content${i}' style='width:300px;' value='$milestone'><input type='hidden' name='recid${i}' value='$data_id'></td></tr>";
+        }else
+        {
+            $content .= "<tr><td class='vtop'>${i}. </td><td><textarea name='content${i}' value='' style='width:300px;height:80px;'></textarea></td></tr>";
+        }
+
+    }
+$html ="
+    <div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                <tr><td></td><td>Archivements</td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a value='cactivities'><input type=hidden name=p value='edit_company_detail'>
+            <input type=hidden name=update_section  value=company_milestone >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_company_management()
+{
+    global $user;
+    $uid = $user->uid;
+    $content = '';
+    $sql = "select * from users_data where uid = '$uid' and data_type = 'management' order by data_attr";
+
+    $result = db_query($sql);
+
+    for($i = 1; $i <= 3; $i++)
+    {
+        $row = db_fetch_object($result);
+        if($row !== false)
+        {
+            $name = check_plain($row->data_value);
+            $position = check_plain($row->data_value2);
+            $data_id = $row->data_id;
+            $content .= "<tr><td>${i}. </td><td><input type='text' name='position${i}' value='$position'></td><td><input type='text' name='name${i}' value='$name'><input type='hidden' name='recid${i}' value='$data_id'></td></tr>";
+        }else
+        {
+            $content .= "<tr><td>${i}. </td><td><input type='text' name='position${i}' value=''></td><td><input type='text' name='name${i}' value=''></td></tr>";
+        }
+
+    }
+$html ="
+    <div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                <tr><td></td><td style='width:35%'>Title:</td><td>Name</td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a value='cactivities'><input type=hidden name=p value='edit_company_detail'>
+            <input type=hidden name=update_section  value=company_management >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_research_company_management()
+{
+    global $user;
+    $editorid = $user->uid;
+    $recordid = sget($_REQUEST,'data');
+    $content = '';
+    $sql = "select * from research_company_data where recordid = $recordid and data_type = 'management' order by data_attr";
+
+    $result = db_query($sql);
+
+    for($i = 1; $i <= 3; $i++)
+    {
+        $row = db_fetch_object($result);
+        if($row !== false)
+        {
+            $name = check_plain($row->data_value);
+            $position = check_plain($row->data_value2);
+            $phone = check_plain($row->data_value3);
+            $email = check_plain($row->data_value4);
+            $data_id = $row->dataid;
+            $content .= "\n<tr><td>${i}. </td><td><input type='text' name='position${i}' value='$position'></td>
+                        <td><input type='text' name='name${i}' value='$name'><input type='hidden' name='recid${i}' value='$data_id'></td>
+                        <td><input type='text' name='phone${i}' value='$phone'><input type='hidden' name='recid${i}' value='$data_id'></td>
+                        <td><input type='text' name='email${i}' value='$email'><input type='hidden' name='recid${i}' value='$data_id'></td>
+                        </tr>";
+        }else
+        {
+            $content .= "\n<tr><td>${i}. </td><td><input type='text' name='position${i}' value=''></td>
+                                                <td><input type='text' name='name${i}' value=''></td>
+                                                <td><input type='text' name='phone${i}' value=''></td>
+                                                <td><input type='text' name='email${i}' value=''></td>
+                                                </tr>";
+        }
+
+    }
+$html ="
+    <div style='width:700px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                <tr><td></td><td>Title:</td><td>Name</td><td>Phone</td><td>Email</td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=tab value='research'>
+            <input type=hidden name=page value='research_company_detail'>
+            <input type=hidden name=recordid value='$recordid'>
+            <input type=hidden name=update_section  value=research_company_management >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+
+function edit_maenna_company_management()
+{
+    global $user;
+    $editorid = $user->uid;
+    $companyid = sget($_REQUEST,'data');
+    $content = '';
+    $sql = "select * from maenna_company_data where companyid = $companyid and data_type = 'management' order by data_attr";
+
+    $result = db_query($sql);
+
+    for($i = 1; $i <= 3; $i++)
+    {
+        $row = db_fetch_object($result);
+        if($row !== false)
+        {
+            $name = check_plain($row->data_value);
+            $position = check_plain($row->data_value2);
+            $phone = check_plain($row->data_value3);
+            $email = check_plain($row->data_value4);
+            $data_id = $row->dataid;
+            $content .= "\n<tr><td>${i}. </td><td><input type='text' name='position${i}' value='$position'></td>
+                        <td><input type='text' name='name${i}' value='$name'><input type='hidden' name='recid${i}' value='$data_id'></td>
+                        <td><input type='text' name='phone${i}' value='$phone'><input type='hidden' name='recid${i}' value='$data_id'></td>
+                        <td><input type='text' name='email${i}' value='$email'><input type='hidden' name='recid${i}' value='$data_id'></td>
+                        </tr>";
+        }else
+        {
+            $content .= "\n<tr><td>${i}. </td><td><input type='text' name='position${i}' value=''></td>
+                                                <td><input type='text' name='name${i}' value=''></td>
+                                                <td><input type='text' name='phone${i}' value=''></td>
+                                                <td><input type='text' name='email${i}' value=''></td>
+                                                </tr>";
+        }
+
+    }
+$html ="
+    <div style='width:700px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                <tr><td></td><td>Title:</td><td>Name</td><td>Phone</td><td>Email</td></tr>
+                $content
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a value='companies'>
+            <input type=hidden name=type value='company_detail'>
+            <input type=hidden name=companyid value='$companyid'>
+            <input type=hidden name=update_section  value=maenna_company_management >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function edit_maenna_company_brief_info()
+{
+    global $user;
+    $uid = $user->uid;
+    $companyid = sget($_REQUEST,'data');
+    $sql = "select * from maenna_company where companyid = $companyid ";
+    $result = db_query($sql);
+    $Data_A = db_fetch_object($result);
+
+    $website = ($Data_A->web);
+    $street1 = ($Data_A->address1);
+    $street2 = ($Data_A->address2);
+    $city = ($Data_A->city);
+    $state = ($Data_A->state);
+    $desc = ($Data_A->description);
+    $phone = ($Data_A->phone);
+    $zip = $Data_A->zip;
+
+    // State select code
+    $S = get_us_states();
+    $select_state = "<select name=state>";
+    foreach($S as $i => $d)
+    {
+        $selected = '';
+        if(strtolower($i) == strtolower($state))$selected ="selected";
+        $select_state .= "<option value=$i $selected>$d</option>";
+    }
+    $select_state .= "</select>";
+
+
+    $founded = $Data_A->founded;
+
+
+    $numofemp = $Data_A->empnum;
+
+    $year = date("Y");
+    $yearOption = "";
+    for($i = $year; $i >= 1930; $i--)
+    {
+        $selected = '';
+        if($founded == $i)$selected = "selected";
+        $yearOption .= "<option $selected>$i</option>";
+    }
+$html ="
+    <div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                <tr><td style='width:35%'>Founded in:</td><td><select name='founded' style='width:140px;'><option></option>${yearOption}</select></td></tr>
+                <tr><td>Number Of Employees:</td><td><input type=text name=empnum value='$numofemp'></td></tr>
+                <tr><td>Address Line 1:</td><td><input type=text name=street1 value='$street1'></td></tr>
+                <tr><td>Address Line 2:</td><td><input type=text name=street2 value='$street2'></td></tr>
+                <tr><td>City:</td><td><input type=text name=city value='$city'></td></tr>
+                <tr><td>State:</td><td>${select_state}</td></tr>
+                <tr><td>Zip Code:</td><td><input type=text name=zip value='$zip'></td></tr>
+                <tr><td>Website:</td><td><input type=text name=website value='$website'></td></tr>
+                <tr><td>Phone:</td><td><input type=text name=phone value='$phone'></td></tr>
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=a value='companies'><input type=hidden name=type value='company_detail'>
+            <input type=hidden name=update_section  value='company_name' >
+            <input type=hidden name=companyid  value='$companyid' >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+
+function edit_research_company_brief_info()
+{
+    global $user;
+    $uid = $user->uid;
+    $recordid = sget($_REQUEST,'data');
+    $sql = "select * from research_company where recordid = $recordid ";
+    $result = db_query($sql);
+    $Data_A = db_fetch_object($result);
+
+    $website = ($Data_A->web);
+    $street1 = ($Data_A->address1);
+    $street2 = ($Data_A->address2);
+    $city = ($Data_A->city);
+    $state = ($Data_A->state);
+    $desc = ($Data_A->description);
+    $phone = ($Data_A->phone);
+
+    // State select code
+    $S = get_us_states();
+    $select_state = "<select name=state>";
+    foreach($S as $i => $d)
+    {
+        $selected = '';
+        if(strtolower($i) == strtolower($state))$selected ="selected";
+        $select_state .= "<option value=$i $selected>$d</option>";
+    }
+    $select_state .= "</select>";
+
+
+    $founded = $Data_A->founded;
+
+
+    $numofemp = $Data_A->empnum;
+
+    $year = date("Y");
+    $yearOption = "";
+    for($i = $year; $i >= 1930; $i--)
+    {
+        $selected = '';
+        if($founded == $i)$selected = "selected";
+        $yearOption .= "<option $selected>$i</option>";
+    }
+$html ="
+    <div style='width:500px;padding:20px 20px 20px 0;'>
+        <form method='post' action='/account'>
+            <table class='edit_table'>
+                <tr><td style='width:35%'>Founded in:</td><td><select name='founded' style='width:140px;'><option></option>${yearOption}</select></td></tr>
+                <tr><td>Number Of Employees:</td><td><input type=text name=empnum value='$numofemp'></td></tr>
+                <tr><td>Address Line 1:</td><td><input type=text name=street1 value='$street1'></td></tr>
+                <tr><td>Address Line 2:</td><td><input type=text name=street2 value='$street2'></td></tr>
+                <tr><td>City:</td><td><input type=text name=city value='$city'></td></tr>
+                <tr><td>State:</td><td>${select_state}</td></tr>
+                <tr><td>Website:</td><td><input type=text name=website value='$website'></td></tr>
+                <tr><td>Phone:</td><td><input type=text name=phone value='$phone'></td></tr>
+                <tr><td></td><td><input type=submit value='submit'></td></tr>
+            </table>
+            <input type=hidden name=tab value='research'><input type=hidden name=page value='research_company_detail'>
+            <input type=hidden name=update_section  value='research_company_brief_info' >
+            <input type=hidden name=recordid  value='$recordid' >
+        </form>
+    </div>";
+    return json_nl($html);
+}
+function editwnd_company_logo()
+{
+    $companyid = sget($_REQUEST,'data');
+
+    global $user;
+    $uid = $user->uid;
+    if(empty($companyid)) return '';
+
+    $sql = "select * from maenna_company_data where data_type = 'logo' and companyid = '$companyid'";
+    $result = db_query($sql);
+    $row = db_fetch_object($result);
+    $dataid = $row->dataid;
+
+    $html =  "<div style='width:400px;padding:20px 20px 20px 0;'>
+    <form method='post' action='/account' enctype='multipart/form-data'>
+    <input type=file name='logo'><br><br><input type='submit' value='upload'>
+    <input type=hidden name=a value='companies'>
+    <input type=hidden name=type value='company_detail'>
+    <input type=hidden name=dataid value='$dataid'>
+    <input type=hidden name=companyid value='$companyid'>
+    <input type=hidden name=update_section value='maenna_company_logo'></form></div>";
+
+    return json_nl($html);
+}
+function update_company_logo()
+{
+    global $user;
+    $uid = $user->uid;
+    $sql = "select * from users_data where data_type='logo' and uid=$uid ";
+    $result = db_query($sql);
+    $row = db_fetch_object($result);
+    $recid = $row->data_id;
+    $html =  "<div style='width:400px;padding:20px 20px 20px 0;'>
+    <form method='post' action='/account' enctype='multipart/form-data'>
+    <input type=file name='logo'><br><br><input type='submit' value='upload'>
+    <input type=hidden name=a value='cactivities'>
+    <input type=hidden name=p value='edit_company_detail'>
+    <input type=hidden name=recid value='$recid'>
+    <input type=hidden name=o value='view'>
+    <input type=hidden name=update_section value='company_logo'></form></div>";
+
+    return json_nl($html);
+}
+function  ranStr($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+    $string ='';
+
+    for ($p = 0; $p < $length; $p++) {
+        $string .= $characters[mt_rand(0, strlen($characters))];
+    }
+
+    return $string;
+}
+function get_filetype($filename = '')
+{
+    if(! $filename ) return false;
+    $temp = pathinfo($filename );
+    $ext = strtolower($temp['extension']);
+    if(in_array($ext,array('jpg','jpeg','gif','png','bmp','tiff','pdf','doc','txt','docx','xsl','xslx')))
+    {
+        return $ext;
+    }else{
+        return false;
+    }
+}
+function json_nl($text) {
+    // Damn pesky carriage returns...
+    $text = str_replace("\r\n", "\n", $text);
+    $text = str_replace("\r", "\n", $text);
+
+    // JSON requires new line characters be escaped
+    $text = str_replace("\n", "\\n", $text);
+    return $text;
+}
+
+function pagination($array = null)
+{
+	if(! $array) return "";
+	$total = sget($array,'total');
+	$limit = sget($array,'limit');
+	$baseurl = sget($array,'baseurl');
+    $page = sget($array,'_page');
+	$num_of_links = (sget($array, 'num_of_links')) ? sget($array, 'num_of_links') : 5 ;
+        $num_of_links = 5;
+	$num_of_pages = ceil( $total / $limit);
+	if ($page == '') $cur_page = sget($_REQUEST, '_page') ? sget($_REQUEST,'_page') : 1;
+    else $cur_page = $page;
+
+	$query = $_GET;
+	unset($query['q']);
+	if(isset($query['_page'])) unset($query['_page']);
+
+	$q = $baseurl . http_build_query($query) . "&_page=";
+	$m = '';
+	if($num_of_pages <= $num_of_links)
+	{
+		for($i = $num_of_pages; $i >= 1; $i--)
+		{
+			if($i == $cur_page)  $m .=  "\n<a href='${q}$i' class='on pagination_btn' page='$i' >$i</a>";
+			else $m .=  "\n<a href='${q}$i'  class='pagination_btn' page='$i' >$i</a>";
+		}
+	}else{
+		$left = (int)($num_of_links / 2);
+		$aa = array();
+		for($i = 1; $i <= $num_of_pages; $i++)
+		{
+			if($i <= $num_of_links) array_push($aa, $i);
+			else{
+				if($i - $cur_page <= $left)
+                {
+                   // echo "$i - $cur_page <= $left<br>";
+                        array_shift($aa);
+                        array_push($aa, $i);
+                }
+			}
+		}
+        //test_array($aa);
+        $len = count($aa) ;
+		for($i = $len -1 ; $i >= 0; $i-- ) //Originally, there was >= sign but Damjan changed it because of the differences in coding depending on the number of pages
+		{
+			if($aa[$i] == $cur_page)  $m .=  "\n<a href='${q}".$aa[$i]."' class='on pagination_btn' page='$aa[$i]' >".$aa[$i]."</a>";
+			else $m .=  "\n<a href='${q}".$aa[$i]."'  class='pagination_btn' page='$aa[$i]' >".$aa[$i]."</a>";
+		}
+	}
+    $m ="<a href='${q}$num_of_pages' style='width:40px;'  class='pagination_btn last' page='$num_of_pages' >Last</a>"  . $m ."<a href='${q}1' style='width:40px;'  class='pagination_btn first' page='1'>First</a>" ;
+	$min = ($cur_page - 1) * $limit + 1;
+	$max = $min + $limit - 1;
+	if($max > $total) $max = $total;
+	$block = "<div id='pagination'>";
+    $block .= $m;
+    if($total == 0)$min = 0;
+	$block .= "\n<!--div style='float:right;padding-right:20px;'>showing $min to $max of $total result(s).</div-->";
+
+	$block .= "</div>";
+	return $block;
+
+}
+
+function sget($array, $key, $flag = "")
+{
+    /*if( ( ! isset($array)) || (! isset($key)))
+    {
+        echo "SGET::invalid parameters";
+        return false;
+    }*/
+    if(isset($array["$key"])){
+        if( $flag == "string" ) return trim($array["$key"]);
+        elseif($flag == 'int') return preg_replace("/[^0-9\.\-]/", '', $array["$key"]);
+        elseif( $flag == "decimal" ) return preg_replace("/[^0-9\.\-]/", '', $array["$key"]);
+        else return htmlspecialchars_decode($array["$key"]);
+    }else{
+        return "";
+    }
+}
+
+if (!function_exists('get_var')) {
+    function get_var($key, $default = '', $data_type = '', $escape = true)
+    {
+        $param = $default;
+        if (isset($_REQUEST[$key]) && $_REQUEST[$key] !== '') {
+            $param = $_REQUEST[$key];
+            if (!is_array($param)) {
+                if(get_magic_quotes_gpc()) {
+                    $param = stripslashes($param);
+                }
+
+                if ($escape) {
+                    $param = @mysql_real_escape_string($param);
+                }
+            }
+        }
+
+        if (!is_array($param) && $data_type == 'int') {
+            $param = intval($param);
+        }
+
+        return $param;
+    }
+}
+
+function notify_user($type, $Param)
+{
+    require_once __DIR__ . '/../../../../lib/init.php';
+
+    $Mail = array();
+    $from = $Param['from'];
+    $Mail['to'] = $Param['to'];
+    $bcc = isset($Param['bcc']) ? $Param['bcc'] : $from;
+    $Mail['headers'] = array('From' => $from,
+                        'MIME-Version' => '1.0',
+                        'Bcc' => $bcc,
+                        'Content-Type' => 'text/html;charset=utf-8',);
+    switch($type)
+    {
+        case 'new_user_account':
+            $Mail['id'] = 'new_user_account';
+            $Mail['subject'] = 'Thank you for registering on Clewed.com!';
+            $message = file_get_contents(ROOT . '/templates/notification/professional-registered/body.twig');
+            $message = preg_replace('/{{ firstname }}/im', ucwords($Param['firstname']), $message);
+            $Mail['body'] = $message;
+            $Mail['headers']['Bcc'] = 'hnega@clewed.com';
+            break;
+        case 'new_user_request':
+            $Mail['id'] = 'new_user_request';
+            $node = node_load(36);
+            $Mail['subject'] = $node->title;
+            $message = $node->body;
+            $message = preg_replace('/%firstname%/im', ucwords($Param['firstname']), $message);
+            $message = preg_replace('/%lastname%/im', ucwords($Param['lastname']), $message);
+            $message = preg_replace('/%mail%/im', $Param['to'], $message);
+            $message = preg_replace('/%pass%/im', $Param['pass'], $message);
+            $Mail['body'] = $message;
+            $Mail['headers']['Bcc'] = 'hnega@clewed.com';
+            break;
+        case 'new_company_account':
+            $Mail['id'] = 'new_company_account';
+            $Mail['subject'] = 'Thank you for registering your company with Clewed!';
+            $message = file_get_contents(ROOT . '/templates/notification/company-registered/body.twig');
+            $message = preg_replace('/{{ firstname }}/im', ucwords($Param['firstname']), $message);
+            $Mail['body'] = $message;
+            $Mail['headers']['Bcc'] = 'hnega@clewed.com';
+        break;
+        case 'new_referral':
+            $Mail['id'] = 'new_referral';
+            $Mail['subject'] = "New Referral - Clewed Referral Partner Program";
+            $Mail['body'] = $Param["message"];
+        break;
+    }
+    drupal_mail_send($Mail);
+}
+function output_table($TABLE = array())
+{
+    $Table = "";
+    if(isset($TABLE) && is_array($TABLE) && count($TABLE) > 0)
+    {
+
+    }
+
+}
+function test_array($array)
+{
+    echo "<pre>";
+    print_r($array);
+    echo "</pre>";
+}
+function check_duplicate_email($email)
+{
+    $SQL = 'select mail from {users} where mail = "%s" and status = 1';
+    $Result = db_query($SQL, $email);
+    $count = 0;
+    while($rowObj = db_fetch_object($Result))
+    {
+        return false;
+    }
+    return true;
+}
+function password_strength($str)
+{
+    $str = trim($str);
+    if(strlen($str) < 8 ) return false;
+    if( ! preg_match("#[0-9]+#", $str) ) return false;
+    return true;
+}
+
+function check_email($email)
+{
+    if(!isset($email) || empty($email))return false;
+    if(eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $email))
+    {
+        return true;
+    }else
+    { return false; }
+}
+
+function get_topnavmenu($tag = 0)
+{
+    $top_nav_menu = menu_navigation_links("menu-top-nav-menu");
+    /*
+    if (isset($top_nav_menu))
+    {
+        echo '<div id="top-nav-menu" class="text-13 navigation font-myriad">';
+        print theme('links', $top_nav_menu, array('class' => 'top-nav-menu-item') );
+        echo '</div>';
+    }*/
+    $m = array_keys($top_nav_menu);
+
+    $path = "/". path_to_theme() . "/images/";
+    echo "<div id='top-nav-menu' class='text-13 navigation font-myriad'><div class='button-links'>";
+    echo "<a href='/overview' class='".$m[0]. "'><img src='${path}menu_about.png' alt='about'></a><div><img src='${path}menu_bar.png'></div>" .
+        "<a href='/companies' class='".$m[1]. "'><img src='${path}menu_companies1.png' alt='companies'></a><div><img src='${path}menu_bar.png'></div>"  .
+        "<a href='/people' class='".$m[2]. "'><img src='${path}menu_pro1.png' alt='professionals'></a><div><img src='${path}menu_bar.png'></div>"   .
+        "<a href='/investors' class='".$m[3]. "'><img src='${path}menu_investors1.png' alt='investors'></a>" ;
+    echo "</div></div>";
+}
+
+function maenna_helper_form_alter(&$form, $form_state, $form_id)
+{
+
+    switch($form_id){
+        case 'contact_mail_page':
+            $form['contact_information'] = array('#value' => filter_xss_admin(variable_get('contact_form_information', ('If you have any question or feedback, please fill the form below or just send an email to<br><a href="mailto:support@clewed.com">support@clewed.com</a>. '))));
+            $form['name'] = array(
+                '#type' => 'textfield',
+                '#title' => 'Name',
+                '#size' => 60,
+                '#required' => TURE,
+                '#prefix' => '<div style="height:20px;"></div>',
+            );
+            break;
+        case 'local_contactblock_page':
+            $form['contact_information'] = array('#value' => filter_xss_admin(variable_get('contact_form_information', ('If you have any question or feedback, please fill the form below or just send an email to<br><a href="mailto:feedback@clewed.com">feedback@clewed.com</a>. '))));
+            $form['name'] = array(
+                '#type' => 'textfield',
+                '#title' => 'Name',
+                '#size' => 60,
+                '#required' => TURE,
+                '#prefix' => '<div style="height:20px;"></div>',
+            );
+
+            break;
+    }
+}
+function get_people_menu($tag = 0)
+{
+    $title = '';
+    if($tag == 1) {$top_nav_menu = menu_navigation_links("menu-people"); $title = 'People';}
+    elseif($tag == 2) { $top_nav_menu = menu_navigation_links("menu-companies");$title = 'Companies';}
+    elseif($tag == 3) { $top_nav_menu =  menu_navigation_links("menu-about-meanna"); $title = 'About';}
+    elseif($tag == 4) { $top_nav_menu =  menu_navigation_links("menu-investors"); $title = 'Investors';}
+    if (isset($top_nav_menu))
+    {
+        //if($title) echo "<div style='margin-left:18px;'><h2 class='nav-title'>$title</h2></div>";
+        echo "<div  class='about-menu-div'>";
+        print theme('links', $top_nav_menu, array('class' => 'top-nav-menu-item') );
+        echo '</div>';
+    }
+}
+
+function _maenna_roles()
+{
+    $result = db_query("select * from {role} order by rid", array());
+    $array = array();
+    while($R = db_fetch_object($result))
+    {
+        $role = strtolower($R->name);
+        $array["$role"] = $R->rid;
+    }
+    return $array;
+}
+function button_links($array)
+{
+    if(is_array($array) && count($array) > 0)
+    {
+        echo "<div class='button-links'>";
+        foreach($array as  $image)
+        {
+            $class = isset($image['class']) ? $image['class'] : '';
+            echo "<a href='". $image['href'] ."' class=''><img src='". path_to_theme() . "/images/" .$image['src']."' alt='".$image['alt']."'></a>";
+        }
+        echo "</div>";
+    }
+}
+function maenna_tab_menu($flag, $node)
+{
+    if($flag == 2)
+    {
+        $array = array(
+                       array('url'=>'analysts','title'=>'Analyst'),
+                       array('url'=>'executives', 'title'=>'Operator'),
+                       array('url'=>'business-talents', 'title'=>'Business Talents')
+                       );
+    }
+    echo "<div class='about-menu-div'>";
+    foreach($array as $key => $val)
+    {
+        $class = '';
+        if($node->path == $val['url']) $class = 'class="current"';
+        echo '<a href="/'. $val['url'] .'" '.$class.'>' . $val['title'] . '</a>';
+    }
+    echo '</div>';
+}
+
+function get_user_status_home($user)
+{
+    if ( $user->uid ) {
+        //print "<div class='button-links'><a href='/logout' style='margin:15px;float:right;'><img src='/" . path_to_theme() ."/images/logout.png'></a></div>";
+    } else {
+
+        $res = "<div style='float:right;'>" . drupal_get_form('maenna_login_form_home') . "</div>";
+        if(!empty($_SESSION['login_error'])) {
+            $res .= "<script type='text/javascript'>alert('".$_SESSION['login_error']."');</script>";
+            unset($_SESSION['login_error']);
+        }
+
+        echo $res;
+
+
+
+        //echo    "<div style='float:right;'>
+        //            <table cellpadding=0 cellspacing=0>
+        //                <tr>
+        //                    <td ><a href='/maenna-user-login'>
+        //                        <img src='/" . path_to_theme() .  "/images/login.jpg' border=0 height=20></a>
+        //                    </td>
+        //                </tr>
+        //            </table>
+        //        </div>";
+
+    }
+}
+
+function get_user_status($user)
+{
+global $base_url;
+	if ( $user->uid )
+   	 {
+         //print "<div class='button-links'><a href='".$base_url."/logout' class='logout-button' style='margin:15px;float:right; margin-top:34px;'>LOG OUT</a></div>";
+		 print "<div class='logoutbutton' ><a href='".$base_url."/logout' >logout</a></div>";
+    	}
+    else {
+
+
+        echo    "<div style='float:right;'>
+                    <table cellpadding=0 cellspacing=0>
+                        <tr>
+                            <td ><a class= \"logout-button\" href=\"/\">LOG IN
+                               </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>";
+
+    }
+}
+function _education_degree()
+{
+     return array(
+            '0'  => " ",
+            "10" => "Phd",
+            '20' => "Master",
+            "30" => "Undergraduate",
+            );
+}
+function convert_mil($mil)
+{
+    return str_replace('mil', '000000', $mil);
+}
+
+function maenna_check_plain($Array)
+{
+    foreach($Array as $key => $val)
+    {
+        if(!empty($val) && is_string($val) ) $Array["$key"] = check_plain($val);
+    }
+    return $Array;
+}
+function alert_admin($message)
+{
+    //mail("neongeo@gmail.com", "Clewed Notification", $message);
+}
+
+function encrypt_string($string) {
+
+    $encryptionMethod = "AES-256-CBC";  // AES is used by the U.S. gov't to encrypt top secret documents.
+    $secretHash = md5("kyarata75");
+
+    return openssl_encrypt($string, $encryptionMethod, $secretHash);
+
+}
+
+function decrypt_string ($string) {
+
+    $encryptionMethod = "AES-256-CBC";  // AES is used by the U.S. gov't to encrypt top secret documents.
+    $secretHash = md5("kyarata75");
+
+    return openssl_decrypt($string, $encryptionMethod, $secretHash);
+
+}
+
+
+/* EOF */

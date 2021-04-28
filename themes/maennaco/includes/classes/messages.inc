@@ -1,0 +1,8 @@
+<?php
+class Messages
+{
+    
+}
+
+
+/* EOF */

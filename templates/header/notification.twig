@@ -1,0 +1,6 @@
+<div class="header-notification-list-item {{ notification.is_new == 1 ? 'is-new' : '' }}" data-id="{{ notification.id }}">
+    <div class="header-notification-list-item-date">{{ notification.elapsed_time }}</div>
+    <div class="header-notification-list-body">{{ notification.body | raw }}</div>
+    {#<span class="header-notification-list-item-mark-read-label">mark read</span>#}
+    {#<div class="header-notification-list-item-new-label">new</div>#}
+</div>

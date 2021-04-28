@@ -1,0 +1,4112 @@
+/************************************************** start => variables **************************************************/
+/************************************************** end => variables **************************************************/
+/************************************************** start => custom bootstrap class **************************************************/
+.d-n {
+  display: none !important;
+}
+
+.d-b {
+  display: block !important;
+}
+
+.m-10-0 {
+  margin: 10px 0 !important;
+}
+
+.pt-15pt {
+  padding-top: 20px;
+}
+
+.f-20-px {
+  font-size: 20px !important;
+}
+
+.j-c-fl-end {
+  justify-content: flex-end !important;
+}
+
+.ml-10-px {
+  margin-left: 10px;
+}
+
+.ml-0 {
+  margin-left: 0;
+}
+
+.pl-0 {
+  padding-left: 0;
+}
+
+.pl-2 {
+  padding-left: 8px;
+}
+
+.pl-30 {
+  padding-left: 30px;
+}
+
+.pr-15 {
+  padding-right: 15px;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.fs-12 {
+  font-size: 12px;
+}
+
+.text-d-n {
+  text-decoration: none;
+}
+
+.ml-30 {
+  margin-left: 30px;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}
+
+.mt-25 {
+  margin-top: 25px;
+}
+
+.mb-15 {
+  margin-bottom: 15px !important;
+}
+
+#wrapper #container {
+  width: unset;
+  max-width: 1000px;
+}
+
+/************************************************** end => custom bootstrap class **************************************************/
+/************************************************** start => menu styles **************************************************/
+.navbar-menu {
+  display: flex;
+  width: 100%;
+  height: auto;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 40px;
+  background-color: white;
+}
+.navbar-menu ul {
+  list-style: unset;
+}
+.navbar-menu .navbar-logo a img {
+  width: 180px;
+}
+.navbar-menu .custom-nav-top {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+}
+.navbar-menu .custom-nav-top .navbar-item-content {
+  width: max-content;
+  height: auto;
+}
+.navbar-menu .custom-nav-top .navbar-item-content .nav-item-content {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.navbar-menu .custom-nav-top .navbar-item-content .nav-item-content .nav-item {
+  padding: 13px 18px;
+  border-radius: 6px;
+  transition: 0.1s ease-out;
+  margin: 0 2px;
+  text-transform: capitalize;
+}
+.navbar-menu .custom-nav-top .navbar-item-content .nav-item-content .nav-item a {
+  color: #626567;
+  font-size: 11px;
+}
+.navbar-menu .custom-nav-top .navbar-item-content .nav-item-content .nav-item:hover {
+  background-color: #e6f6f8 !important;
+}
+.navbar-menu .custom-nav-top .navbar-item-content .nav-item-content .nav-item:hover a {
+  color: #2cb8d2;
+}
+.navbar-menu .custom-nav-top .navbar-item-content .nav-item-content .nav-item.selected {
+  background-color: #e6f6f8 !important;
+}
+.navbar-menu .custom-nav-top .navbar-item-content .nav-item-content .nav-item.selected a {
+  color: #2cb8d2 !important;
+  font-weight: 700;
+}
+.navbar-menu .custom-nav-top .navbar-login-register {
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+}
+.navbar-menu .custom-nav-top .navbar-login-register .l-r-content {
+  display: flex;
+  width: 100%;
+}
+.navbar-menu .custom-nav-top .navbar-login-register .l-r-content .nav-login, .navbar-menu .custom-nav-top .navbar-login-register .l-r-content .nav-register {
+  width: max-content;
+  height: auto;
+  padding: 5px 30px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: "Lato Black";
+  transition: 0.1s ease-out;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.navbar-menu .custom-nav-top .navbar-login-register .l-r-content .nav-login {
+  border: 2px solid #284b5a;
+  background-color: #284b5a;
+  color: white;
+  align-items: center;
+  display: flex;
+}
+.navbar-menu .custom-nav-top .navbar-login-register .l-r-content .nav-login:hover {
+  border: 2px solid #00a1be;
+  background-color: #00a1be;
+}
+.navbar-menu .custom-nav-top .navbar-login-register .l-r-content .nav-register {
+  border: 2px solid #00a1be;
+  background-color: #00a1be;
+  color: white;
+  align-items: center;
+  display: flex;
+}
+.navbar-menu .custom-nav-top .navbar-login-register .l-r-content .nav-register:hover {
+  border: 2px solid #284b5a;
+  background-color: #284b5a;
+}
+.navbar-menu .custom-nav-top .navbar-login-register .loginstuff_div {
+  width: 100%;
+  display: flex;
+}
+.navbar-menu .custom-nav-top .navbar-login-register .loginstuff_div .a-child-1 {
+  margin-right: auto;
+}
+.navbar-menu .custom-nav-top .navbar-login-register .loginstuff_div .a-child-2 {
+  margin-left: auto;
+}
+.navbar-menu .custom-nav-bottom {
+  display: none;
+  position: absolute;
+  width: 100%;
+  min-height: 1px;
+  top: 100px;
+  z-index: 11111;
+  padding-bottom: 25px;
+  background: white;
+  margin: 0;
+  flex-wrap: wrap;
+  box-shadow: 0 20px 5px 0 #c0c0c021;
+  flex-direction: column;
+}
+.navbar-menu .custom-nav-bottom .navbar-item-content {
+  width: max-content;
+  min-height: 150px;
+  padding-left: 15px;
+}
+.navbar-menu .custom-nav-bottom .navbar-item-content .nav-item-content {
+  width: max-content;
+  /* display: flex; */
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.navbar-menu .custom-nav-bottom .navbar-item-content .nav-item-content .nav-item {
+  padding: 13px 25px;
+  border-radius: 6px;
+  transition: 0.1s ease-out;
+}
+.navbar-menu .custom-nav-bottom .navbar-item-content .nav-item-content .nav-item a {
+  color: #626567;
+  font-size: 11px;
+}
+.navbar-menu .custom-nav-bottom .navbar-item-content .nav-item-content .nav-item:hover {
+  background-color: #e6f6f8 !important;
+}
+.navbar-menu .custom-nav-bottom .navbar-item-content .nav-item-content .nav-item:hover a {
+  color: #2cb8d2;
+}
+.navbar-menu .custom-nav-bottom .navbar-item-content .nav-item-content .nav-item.selected {
+  background-color: #e6f6f8 !important;
+}
+.navbar-menu .custom-nav-bottom .navbar-item-content .nav-item-content .nav-item.selected a {
+  color: #2cb8d2 !important;
+  font-weight: 700;
+}
+.navbar-menu .custom-nav-bottom .navbar-login-register {
+  width: max-content;
+  display: flex;
+  justify-content: space-between;
+  height: max-content;
+  padding-left: 24px;
+  flex-direction: column;
+}
+.navbar-menu .custom-nav-bottom .navbar-login-register .l-r-content {
+  display: flex;
+  width: 100%;
+}
+.navbar-menu .custom-nav-bottom .navbar-login-register .l-r-content .nav-login, .navbar-menu .custom-nav-bottom .navbar-login-register .l-r-content .nav-register {
+  width: max-content;
+  height: auto;
+  padding: 12px 35px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  transition: 0.1s ease-out;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.navbar-menu .custom-nav-bottom .navbar-login-register .l-r-content .nav-login {
+  border: 2px solid #10303f;
+  background-color: white;
+  color: #10303f;
+}
+.navbar-menu .custom-nav-bottom .navbar-login-register .l-r-content .nav-login:hover {
+  background-color: #10303f;
+  color: white;
+}
+.navbar-menu .custom-nav-bottom .navbar-login-register .l-r-content .nav-register {
+  border: 2px solid #00a2bf;
+  background-color: #00a2bf;
+  color: white;
+}
+.navbar-menu .custom-nav-bottom .navbar-login-register .l-r-content .nav-register:hover {
+  background-color: white;
+  color: #00a2bf;
+}
+.navbar-menu .custom-nav-bottom .navbar-login-register .loginstuff_div {
+  width: 100%;
+  display: flex;
+}
+.navbar-menu .custom-nav-bottom .navbar-login-register .loginstuff_div .a-child-1 {
+  margin-right: auto;
+}
+.navbar-menu .custom-nav-bottom .navbar-login-register .loginstuff_div .a-child-2 {
+  margin-left: auto;
+}
+.navbar-menu .custom-open-close {
+  width: max-content;
+  height: auto;
+  position: relative;
+  display: none;
+}
+.navbar-menu .custom-open-close img {
+  width: 30px;
+  cursor: pointer;
+}
+
+/************************************************** end => menu styles **************************************************/
+/************************************************** start => companies page styles **************************************************/
+/* start => open opportunities section styles */
+.open-opportunities-content {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.open-opportunities-content .open-title {
+  font-size: 35px;
+  color: #10303f;
+  height: auto;
+  width: max-content;
+  font-family: "Lato Light";
+}
+.open-opportunities-content .open-title b {
+  font-weight: 700;
+  font-family: "Lato Bold";
+}
+.open-opportunities-content p {
+  font-weight: 300;
+  font-size: 16px;
+  color: #3a606e;
+  font-family: "Lato Light";
+}
+
+.custom_content_box {
+  position: relative;
+  width: 100%;
+  padding-bottom: 10px;
+}
+.custom_content_box #custom-cardholder {
+  margin-bottom: 60px;
+  float: left;
+  width: 100%;
+  min-height: 50px;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap {
+  display: flex;
+  margin-top: 32px;
+  background: #f4f8f9;
+  width: 99%;
+  cursor: pointer;
+  height: 250px;
+  padding: 15px 0 15px 15px;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner {
+  flex-direction: column;
+  width: 100%;
+  max-width: 200px;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right {
+  flex-direction: column;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-right-top-content {
+  display: flex;
+  margin-left: 25px;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-right-top-content .custom-card-inner-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 15px;
+  color: #3c505b;
+  text-transform: uppercase;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-right-top-content .custom-card-inner-wrapper .custom-card-inner-item .custom-categories-span {
+  color: #779099;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-right-top-content .custom-card-inner-wrapper .custom-card-inner-item:hover a {
+  color: #00a2bf;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-text {
+  cursor: pointer;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-text .custom-card-inner-text-child {
+  height: max-content;
+  max-width: 620px;
+  margin-left: 25px;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-text .custom-card-inner-text-child .custom-subtitile {
+  font-family: "Lato Light";
+  font-size: 22px;
+  color: #10303f;
+  height: max-content;
+  padding: 10px 0;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-text .custom-card-inner-text-child .custom-mission {
+  font-family: "Lato Light";
+  font-size: 15px;
+  color: #3a606e;
+  margin-bottom: 15px;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content {
+  width: 93%;
+  margin-left: 25px;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-content-icon {
+  width: max-content;
+  display: flex;
+  justify-content: space-between;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-content-icon .custom-media-mini {
+  display: flex;
+  align-items: center;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-content-icon .custom-media-mini .custom-style-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #cee7ed;
+  border-radius: 40px;
+  text-align: center;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-content-icon .custom-media-mini .custom-style-img img {
+  width: 22px;
+  max-width: 100%;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-content-icon .custom-media-mini .custom-media-body-mini h6 {
+  font-weight: 700;
+  font-size: 18px;
+  color: #3c505b;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-content-icon .custom-media-mini .custom-media-body-mini p {
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  margin: 0;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-view-opportunity {
+  width: max-content;
+  height: auto;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-view-opportunity .view-opportunity {
+  width: max-content;
+  height: auto;
+  padding: 12px 35px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: "Lato Bold";
+  transition: 0.1s ease-out;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 2px solid #00a1be;
+  background-color: #00a1be;
+  color: white;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-view-opportunity .view-opportunity:hover {
+  border: 2px solid #284b5a;
+  background-color: #284b5a;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom-status-bar-wrapper {
+  position: relative;
+  width: 100%;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom-status-bar-wrapper .custom-status-bar {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background-color: #e8e9ea;
+  border-radius: 4px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  overflow: hidden;
+  -moz-border-radius: 3px;
+}
+.custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom-status-bar-wrapper .custom-status-bar .custom-status-bar-progress {
+  height: 7px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #00a2bf;
+}
+
+/* end => open opportunities section styles */
+/* start => coming soon project section styles */
+.custom-coming-soon {
+  width: 100%;
+  height: auto;
+  text-align: left;
+  display: flex;
+}
+.custom-coming-soon .open-title {
+  font-size: 35px;
+  color: #10303f;
+  height: auto;
+  width: max-content;
+  font-family: "Lato Light";
+}
+.custom-coming-soon .open-title b {
+  font-weight: 700;
+  font-family: "Lato Bold";
+}
+
+/* end => coming soon project section styles */
+/* start => explore completed projects section styles */
+.custom-completed-projects {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  text-transform: capitalize;
+  display: flex;
+}
+.custom-completed-projects .open-title {
+  font-size: 35px;
+  color: #10303f;
+  height: auto;
+  width: 100%;
+  font-family: "Lato Light";
+  margin-bottom: 40px;
+}
+.custom-completed-projects .open-title b {
+  font-weight: 700;
+  font-family: "Lato Bold";
+}
+
+.pastable {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.pastable .custom-completed-card {
+  width: 25%;
+  margin: 0 auto;
+  float: left;
+  background-color: #f4f8f9;
+  padding: 10px;
+  margin-bottom: 25px;
+}
+.pastable .custom-completed-card .custom-completed-href {
+  cursor: pointer;
+}
+.pastable .custom-completed-card .custom-completed-href:hover {
+  color: #00a2bf;
+}
+.pastable .custom-completed-card .custom-completed-href .custom-completed-project-name {
+  font-size: 13px;
+  color: #00a2bf;
+  width: 100%;
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+}
+.pastable .custom-completed-card .custom-completed-href .custom-completed-avatar {
+  height: 200px;
+  overflow: hidden;
+}
+.pastable .custom-completed-card .custom-completed-href .custom-completed-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pastable .custom-completed-card .custom-completed-href .custom-sector-revenue {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #cde7ed;
+}
+.pastable .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-sector {
+  color: #10303f;
+  font-size: 17px;
+  font-weight: 300;
+}
+.pastable .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-revenue {
+  color: #3c505b;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.pastable .custom-completed-card .custom-completed-href .custom-mission {
+  color: #686b83;
+  font-size: 13px;
+  font-family: "Lato Light";
+}
+.pastable .custom-button-by-show-more {
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+}
+.pastable .custom-button-by-show-more .custom-show_more_cmp {
+  width: max-content;
+  height: auto;
+  padding: 12px 35px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: "Lato Bold";
+  transition: 0.1s ease-out;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 2px solid #00a1be;
+  background-color: #00a1be;
+  color: white;
+  margin: 0 auto;
+}
+.pastable .custom-button-by-show-more .custom-show_more_cmp:hover {
+  border: 2px solid #284b5a;
+  background-color: #284b5a;
+}
+
+/* end => explore completed projects section styles */
+/* start => join section  styles */
+.custom-join-section {
+  width: 100%;
+  height: max-content;
+  padding: 90px 0;
+  background: url(../custom-images/left.png) no-repeat left bottom, #eaf4f6 url(../custom-images/right.png) no-repeat 95% 0;
+}
+.custom-join-section .custom-join-title {
+  width: 380px;
+  margin: 0 auto;
+  height: auto;
+  text-align: center;
+}
+.custom-join-section .custom-join-title h1 {
+  font-weight: 300;
+  width: 100%;
+  font-size: 40px;
+  line-height: 1;
+  color: #10303f;
+  height: auto;
+  font-family: "Lato Light";
+}
+.custom-join-section .custom-join-title h1 b {
+  font-weight: 700;
+  font-family: "Lato Bold";
+}
+.custom-join-section .custom-join-title p {
+  font-weight: 300;
+  font-size: 16px;
+  color: #3a606e;
+  font-family: "Lato Light";
+  text-align: center;
+  padding: 10px 0;
+}
+.custom-join-section .custom-join-title .custom-get-started {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  padding: 20px 0;
+  margin: 0 auto;
+}
+.custom-join-section .custom-join-title .custom-get-started .custom-get-button {
+  width: max-content;
+  height: auto;
+  padding: 12px 35px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  transition: 0.1s ease-out;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 2px solid #00a1be;
+  background-color: #00a1be;
+  color: white;
+  text-decoration: none;
+}
+.custom-join-section .custom-join-title .custom-get-started .custom-get-button:hover {
+  border: 2px solid #284b5a;
+  background-color: #284b5a;
+}
+
+/* end =>  join section  styles */
+/************************************************** end => companies page styles **************************************************/
+/************************************************** start => footer styles **************************************************/
+.container-footer {
+  width: 100%;
+  height: auto;
+  background-color: #10303f;
+  padding: 50px 100px 10px;
+  box-sizing: border-box;
+}
+.container-footer .footer-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  height: auto;
+}
+.container-footer .footer-content .custom-our-schema {
+  display: flex;
+}
+.container-footer .footer-content .custom-our-schema .custom-schema-parts {
+  width: 33%;
+  height: auto;
+}
+.container-footer .footer-content .custom-our-schema .custom-schema-parts .custom-icon-content .custom-icon-ul {
+  display: flex;
+  width: max-content;
+}
+.container-footer .footer-content .custom-our-schema .custom-schema-parts .custom-icon-content .custom-icon-ul .custom-align-self-center a {
+  width: 30px;
+  height: 30px;
+  border: 2px solid silver;
+  border-radius: 50px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.container-footer .footer-content .custom-our-schema .custom-schema-parts .custom-icon-content .custom-icon-ul .custom-align-self-center a img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+.container-footer .footer-content .custom-our-schema .custom-response-768 {
+  display: flex;
+  width: 100%;
+}
+.container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts {
+  width: 50%;
+}
+.container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts {
+  width: max-content;
+  margin: 0 auto;
+}
+.container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts h6 {
+  font-weight: 900;
+  color: #fff;
+  font-size: 17px;
+  text-transform: uppercase;
+}
+.container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts .custom-list-unstyled {
+  padding-left: 0;
+  margin-left: 0;
+}
+.container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts .custom-list-unstyled .custom-list-item {
+  padding: 10px 0;
+  margin-left: 0;
+}
+.container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts .custom-list-unstyled .custom-list-item a {
+  color: #b6c3c9;
+}
+.container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts {
+  width: max-content;
+  margin: 0 auto;
+}
+.container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts h6 {
+  font-weight: 900;
+  color: #fff;
+  font-size: 17px;
+  text-transform: uppercase;
+}
+.container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts .custom-list-unstyled {
+  padding-left: 0;
+  margin-left: 0;
+}
+.container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts .custom-list-unstyled .custom-list-item {
+  padding: 10px 0;
+  margin-left: 0;
+}
+.container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts .custom-list-unstyled .custom-list-item a {
+  color: #b6c3c9;
+}
+.container-footer .footer-content-bottom {
+  max-width: 1000px;
+  margin: 0 auto;
+  height: auto;
+}
+.container-footer .footer-content-bottom .custom-bottom-block-footer {
+  border-top: 1px solid #264452;
+  padding: 44px 0;
+  margin: 35px 0 0 0;
+}
+.container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content.custom-full {
+  max-height: 100%;
+}
+.container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content.custom-full .custom-full-ul:before, .container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content.custom-full .custom-full-ul:after {
+  background: transparent;
+  content: "";
+}
+.container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content {
+  position: relative;
+  max-height: 170px;
+  overflow: hidden;
+}
+.container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer .custom-full-ul:before {
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  height: 30px;
+  background: -moz-linear-gradient(bottom, #10303f, transparent);
+  background: -webkit-linear-gradient(bottom, #10303f, transparent);
+  background: -o-linear-gradient(bottom, #10303f, transparent);
+  background: -ms-linear-gradient(bottom, #10303f, transparent);
+  background: linear-gradient(bottom, #10303f, transparent);
+  cursor: pointer;
+  transition: all 0.4s linear;
+  -webkit-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+}
+.container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer .custom-full-ul:after {
+  position: absolute;
+  content: attr(data-val-op);
+  font-size: 17px;
+  font-weight: 900;
+  color: #fff;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.4s linear;
+  -webkit-transition: all 0.4s linear;
+}
+.container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer ul {
+  color: #b6c3c9;
+  width: 90%;
+  margin: 0 auto;
+  font-family: "Lato Light";
+}
+.container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer ul li {
+  padding: 10px 0;
+  font-size: 13px;
+}
+.container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer ul li a {
+  color: #b6c3c9;
+}
+.container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer ul li a:hover {
+  color: #2cb8d2;
+}
+.container-footer .footer-content-bottom .footer-bottom-title {
+  border-top: 1px solid #264452;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  font-weight: 400;
+  font-size: 13px;
+  padding-top: 15px;
+  color: #b6c3c9;
+}
+
+/************************************************** end => footer  styles **************************************************/
+/************************************************** start => home page styles **************************************************/
+/*-------------- start => let your business --------------*/
+.custom-let-your-business {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  padding: 90px 0;
+  background-image: url(../custom-images/custom-transparent-image/fon1.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.custom-let-your-business .c-container {
+  width: 60%;
+  margin: 0 auto;
+  height: auto;
+}
+.custom-let-your-business .c-container .custom-let-your-title {
+  width: 380px;
+  height: auto;
+  text-align: left;
+}
+.custom-let-your-business .c-container .custom-let-your-title h1 {
+  font-weight: 300;
+  width: 100%;
+  font-size: 40px;
+  line-height: 1;
+  color: #10303f;
+  height: auto;
+  font-family: "Lato Light";
+}
+.custom-let-your-business .c-container .custom-let-your-title h1 b {
+  font-weight: 700;
+  font-family: "Lato Bold";
+}
+.custom-let-your-business .c-container .custom-let-your-title p {
+  font-weight: 300;
+  font-size: 16px;
+  color: #3a606e;
+  font-family: "Lato Light";
+  text-align: left;
+  padding: 10px 0;
+}
+.custom-let-your-business .c-container .custom-let-your-title .custom-started-demo {
+  width: max-content;
+  display: flex;
+  justify-content: space-between;
+}
+.custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-started, .custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-a-demo {
+  width: max-content;
+  height: auto;
+  padding: 12px 35px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: "Lato Bold";
+  transition: 0.1s ease-out;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-started {
+  border: 2px solid #00a1be;
+  background-color: #00a1be;
+  color: white;
+  align-items: center;
+  display: flex;
+}
+.custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-started:hover {
+  border: 2px solid #284b5a;
+  background-color: #284b5a;
+  color: white;
+}
+.custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-a-demo {
+  border: 2px solid #284b5a;
+  background-color: #284b5a;
+  color: white;
+  align-items: center;
+  display: flex;
+}
+.custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-a-demo:hover {
+  border: 2px solid #00a1be;
+  background-color: #00a1be;
+  color: white;
+}
+
+/*-------------- end => let your business --------------*/
+/*-------------- start => whole new way --------------*/
+.custom-whole-content {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  padding: 85px 0;
+  background-image: url(../custom-images/build.png);
+  background-size: cover;
+  position: relative;
+}
+.custom-whole-content:after {
+  content: "";
+  background: linear-gradient(to right, #132a3c, #132a3c, #132a3ce6, #132a3c17);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.custom-whole-content .c-container {
+  width: 60%;
+  margin: 0 auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.custom-whole-content .c-container .whole-title {
+  display: flex;
+  width: 38%;
+  height: auto;
+}
+.custom-whole-content .c-container .whole-title h1 {
+  font-family: "Lato Light";
+  font-weight: 200;
+  width: 100%;
+  font-size: 34px;
+  line-height: 1.3;
+  color: white;
+  height: auto;
+}
+.custom-whole-content .c-container .whole-title h1 b {
+  font-weight: 700;
+  font-family: "Lato Bold";
+}
+.custom-whole-content .c-container .whole-point {
+  display: flex;
+  width: 57%;
+  height: auto;
+}
+.custom-whole-content .c-container .whole-point ul {
+  color: #d6e6f1;
+  width: max-content;
+  opacity: 0.85;
+  height: auto;
+  list-style: none;
+  font-size: 16px;
+  font-family: "Lato Light";
+}
+.custom-whole-content .c-container .whole-point ul li {
+  padding-top: 10px;
+  font-family: "Lato Light";
+}
+
+/*-------------- end => whole new way --------------*/
+/*-------------- start => explore sample project --------------*/
+.custom-explore-sample {
+  padding-top: 50px;
+  width: 100%;
+  height: auto;
+  background: white;
+}
+.custom-explore-sample .c-container {
+  width: 60%;
+  height: auto;
+  margin: 0 auto;
+}
+.custom-explore-sample .c-container .custom-sample-projects {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  display: flex;
+}
+.custom-explore-sample .c-container .custom-sample-projects .open-title {
+  width: 100%;
+  line-height: 1;
+}
+.custom-explore-sample .c-container .custom-sample-projects .open-title h1 {
+  font-size: 30px;
+  color: #10303f;
+  height: auto;
+  width: 100%;
+  font-family: "Lato Light";
+  margin-bottom: 40px;
+}
+.custom-explore-sample .c-container .custom-sample-projects .open-title h1 .bold-black {
+  color: #10303f;
+  font-family: "Lato Bold";
+}
+.custom-explore-sample .c-container .custom-sample-projects .open-title h1 b {
+  color: #00a2bf;
+  font-family: "Lato Bold Italic";
+}
+.custom-explore-sample .c-container .custom-sample-projects .open-title p {
+  font-size: 16px;
+  text-align: center;
+  color: #3a606e;
+  width: 100%;
+  padding-bottom: 10px;
+  margin: 0 auto;
+  font-family: "Lato Light";
+}
+.custom-explore-sample .c-container .custom-cardholder-explore {
+  margin-bottom: 60px;
+  width: 100%;
+  min-height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card {
+  width: 28%;
+  background-color: #f4f8f9;
+  padding: 10px;
+  margin: 0 1.2% 25px;
+}
+.custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href {
+  cursor: pointer;
+}
+.custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href:hover {
+  color: #00a2bf;
+}
+.custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-completed-project-name {
+  font-size: 13px;
+  color: #00a2bf;
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  font-family: "Lato Bold";
+}
+.custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-completed-avatar {
+  height: 170px;
+  overflow: hidden;
+}
+.custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-completed-avatar img {
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+}
+.custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-sector-revenue {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #cde7ed;
+}
+.custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-sector {
+  color: #10303f;
+  font-size: 17px;
+  font-family: "Lato Light";
+}
+.custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-revenue {
+  color: #3c505b;
+  font-size: 14px;
+  font-family: "Lato Bold";
+  text-transform: uppercase;
+}
+.custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-mission {
+  color: #686b83;
+  font-size: 13px;
+  font-family: "Lato Light";
+  padding-bottom: 20px;
+}
+.custom-explore-sample .c-container .custom-cardholder-explore .custom-button-by-show-more {
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+}
+.custom-explore-sample .c-container .custom-cardholder-explore .custom-button-by-show-more .custom-show_more_cmp {
+  width: max-content;
+  height: auto;
+  padding: 12px 35px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: "Lato Bold";
+  transition: 0.1s ease-out;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 2px solid #00a1be;
+  background-color: #00a1be;
+  color: white;
+  margin: 0 auto;
+}
+.custom-explore-sample .c-container .custom-cardholder-explore .custom-button-by-show-more .custom-show_more_cmp:hover {
+  border: 2px solid #284b5a;
+  background-color: #284b5a;
+}
+
+/*-------------- end => explore sample project --------------*/
+/*-------------- start => company register content --------------*/
+.custom-register-company {
+  width: 100%;
+  height: auto;
+  padding-bottom: 60px;
+  background: white;
+}
+.custom-register-company .c-container {
+  width: 60%;
+  margin: 0 auto;
+  height: auto;
+}
+.custom-register-company .c-container .custom-company-title {
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+.custom-register-company .c-container .custom-company-title .open-title {
+  color: #10303f;
+  width: 60%;
+  margin: 0 auto;
+}
+.custom-register-company .c-container .custom-company-title .open-title h1 {
+  font-size: 30px;
+  color: #10303f;
+  height: auto;
+  width: 100%;
+  font-family: "Lato Light";
+  line-height: 1;
+}
+.custom-register-company .c-container .custom-company-title .open-title h1 b {
+  font-family: "Lato Bold";
+}
+.custom-register-company .c-container .register-wrapper-bottom {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 0;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-point {
+  width: 42%;
+  height: auto;
+  align-items: center;
+  display: flex;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li {
+  margin-left: 0;
+  padding-left: 0;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point .custom-style-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+  width: 25px;
+  height: 25px;
+  border: 2px solid #10303f;
+  border-radius: 40px;
+  text-align: center;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point .custom-style-img img {
+  width: 13px;
+  max-width: 100%;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point h1 {
+  color: #113041;
+  font-size: 20px;
+  padding-left: 10px;
+  font-weight: 600;
+  font-family: "Lato Light";
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li p {
+  font-weight: 300;
+  font-size: 16px;
+  color: #3a606e;
+  font-family: "Lato Light";
+  line-height: 1.5;
+  margin-top: 3px;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form {
+  width: 58%;
+  height: auto;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form {
+  width: 75%;
+  height: auto;
+  margin-left: auto;
+  background: url(../custom-images/custom-transparent-image/BG.png) no-repeat center center;
+  padding: 25px;
+  background-size: cover;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content {
+  width: 100%;
+  height: 100%;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name, .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .reg-input {
+  border-radius: 5px;
+  height: 50px !important;
+  padding-left: 13px;
+  font-size: 14px;
+  font-family: "Lato Light" !important;
+  color: #465257;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name::placeholder, .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .reg-input::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #465257;
+  font-family: "Lato Bold" !important;
+  font-weight: bold !important;
+  opacity: 1;
+  /* Firefox */
+  text-transform: uppercase !important;
+  font-size: 12px;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name-content {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name-content .first-last-name {
+  width: 44.4% !important;
+  margin: 10px 0 !important;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .reg-input-content {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .reg-input-content .reg-input {
+  width: 100% !important;
+  margin-right: 0 !important;
+  outline: none !important;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .reg-input-content .reg-input:active, .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .reg-input-content .reg-input:focus {
+  outline: none !important;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-reg-select {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  position: relative;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-reg-select .reg-sel-arrow {
+  height: auto;
+  position: relative;
+  width: 48% !important;
+  border-radius: 5px;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-reg-select .reg-sel-arrow .reg-select {
+  width: 100% !important;
+  margin-right: 0 !important;
+  height: 50px !important;
+  border-radius: 5px;
+  outline: none !important;
+  padding-left: 13px;
+  font-family: "Lato Bold" !important;
+  color: #465257;
+  font-weight: bold;
+  appearance: none;
+  position: relative;
+  text-transform: uppercase;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-reg-select .reg-sel-arrow .reg-select:active, .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-reg-select .reg-sel-arrow .reg-select:focus {
+  outline: none !important;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-reg-select .reg-sel-arrow:after {
+  border: 2px solid #2cb8d2;
+  border-top: none;
+  border-right: none;
+  content: "";
+  height: 6px;
+  right: 20px;
+  opacity: 1;
+  position: absolute;
+  top: 20px;
+  transform: rotate(-45deg);
+  width: 7px;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-agree-terms .round {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-agree-terms .round label {
+  border: 2px solid #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  width: 15px;
+  left: 0;
+  height: 15px;
+  top: 0;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-agree-terms .round label:after {
+  border: 2px solid white;
+  border-top: none;
+  border-right: none;
+  content: "";
+  height: 4px;
+  left: 3px;
+  opacity: 0;
+  position: absolute;
+  top: 4px;
+  transform: rotate(-45deg);
+  width: 7px;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-agree-terms .round .custom-span {
+  font-size: 12px;
+  color: #a6b4bc;
+  padding-left: 5px;
+  font-family: "Lato Light" !important;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-agree-terms .round .custom-span a {
+  font-family: "Lato Light" !important;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-agree-terms .round input[type=checkbox] {
+  visibility: hidden;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-agree-terms .round input[type=checkbox]:checked + label:after {
+  opacity: 1;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-button-by-show-more {
+  width: 100%;
+  height: auto;
+  display: flex;
+  margin-top: 20px;
+  text-align: center;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-button-by-show-more .custom-show_more_cmp {
+  width: 100%;
+  height: auto;
+  padding: 15px 35px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: "Lato Bold";
+  transition: 0.1s ease-out;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 2px solid #00a1be;
+  background-color: #00a1be;
+  color: white;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-button-by-show-more .custom-show_more_cmp:hover {
+  border: 2px solid #284b5a;
+  background-color: #284b5a;
+}
+.custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .already-have-account {
+  width: 100%;
+  text-align: center;
+  height: auto;
+  text-transform: uppercase;
+  font-family: "Lato Bold";
+  font-size: 12px;
+  color: white;
+  padding-top: 15px;
+}
+
+/*-------------- end => company register content --------------*/
+/*-------------- start => insight and research --------------*/
+.custom-insight-and-research {
+  padding-top: 50px;
+  width: 100%;
+  height: auto;
+  background: #f4f8f9;
+}
+.custom-insight-and-research .c-container {
+  width: 60%;
+  height: auto;
+  margin: 0 auto;
+}
+.custom-insight-and-research .c-container .custom-research-projects {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  display: flex;
+}
+.custom-insight-and-research .c-container .custom-research-projects .open-title {
+  width: 100%;
+  height: auto;
+}
+.custom-insight-and-research .c-container .custom-research-projects .open-title h1 {
+  font-size: 37px;
+  color: #10303f;
+  height: auto;
+  width: 100%;
+  font-family: "Lato Light";
+  line-height: 1.2;
+  margin-bottom: 40px;
+}
+.custom-insight-and-research .c-container .custom-research-projects .open-title h1 b {
+  font-weight: 700;
+  font-family: "Lato Bold";
+}
+.custom-insight-and-research .c-container .custom-research-projects .open-title p {
+  font-weight: 300;
+  font-size: 16px;
+  text-align: center;
+  color: #3a606e;
+  width: 100%;
+  padding-bottom: 10px;
+  margin: 0 auto;
+  font-family: "Lato Light";
+}
+.custom-insight-and-research .c-container .custom-cardholder-research {
+  padding-bottom: 60px;
+  width: 100%;
+  min-height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 35px;
+  justify-content: center;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card {
+  width: 28%;
+  /* margin: 0 auto; */
+  background-color: white;
+  padding: 10px;
+  /* margin-bottom: 25px; */
+  margin: 0 1.2% 25px;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href {
+  cursor: pointer;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href:hover {
+  color: #00a2bf;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-project-name {
+  font-size: 15px;
+  color: #00a2bf;
+  width: max-content;
+  text-align: center;
+  font-weight: 700;
+  padding-bottom: 10px;
+  justify-content: center;
+  flex-flow: row-reverse;
+  align-items: center;
+  display: flex;
+  margin: 0 auto;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-project-name ul {
+  width: max-content;
+  height: auto;
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-project-name ul li {
+  margin: 0;
+  padding: 0 0 0 5px;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-project-name ul li img {
+  width: 15px;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-project-name ul .count-like {
+  width: max-content;
+  height: auto;
+  font-size: 14px;
+  font-weight: "Lato Light";
+  color: black;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-project-name .count-like {
+  font-size: 14px;
+  font-weight: "Lato Light";
+  color: black;
+  margin-left: 10px;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar {
+  height: 170px;
+  overflow: hidden;
+  position: relative;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #425a66f0;
+  transition: 0.1s ease-out;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content {
+  width: max-content;
+  height: auto;
+  padding-left: 10px;
+  display: flex;
+  padding-top: 10px;
+  align-items: center;
+  text-transform: uppercase;
+  color: white;
+  font-weight: "Lato Bold";
+  font-size: 12px;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border {
+  border-radius: 100%;
+  border: 2px solid white;
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  overflow: hidden;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar:hover .custom-avatar-layer {
+  opacity: 1;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-sector-revenue {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #cde7ed;
+  color: #3b5867;
+  font-size: 13px;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-mission {
+  color: #686b83;
+  font-size: 13px;
+  font-family: "Lato Light";
+  padding-bottom: 20px;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-sector-revenue-bottom-pricing {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid #cde7ed;
+  text-transform: uppercase;
+  color: #3c505b;
+  font-size: 11px;
+  font-weight: 900;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-button-by-show-more {
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  font-weight: 900;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-button-by-show-more .custom-show_more_cmp {
+  width: max-content;
+  height: auto;
+  padding: 12px 35px;
+  border-radius: 6px;
+  font-weight: "Lato Bold";
+  font-size: 12px;
+  transition: 0.1s ease-out;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin: 0 auto;
+  border: 2px solid #284b5a;
+  background-color: #284b5a;
+  color: white;
+  align-items: center;
+  display: flex;
+}
+.custom-insight-and-research .c-container .custom-cardholder-research .custom-button-by-show-more .custom-show_more_cmp:hover {
+  border: 2px solid #00a1be;
+  background-color: #00a1be;
+}
+
+.rateit .rateit-range {
+  transform: scale(1.3);
+  height: 11px !important;
+}
+
+/*-------------- end => insight and research --------------*/
+/*-------------- start => insight and expert --------------*/
+.custom-insights-and-expert {
+  padding-top: 50px;
+  width: 100%;
+  height: auto;
+  background: white;
+}
+.custom-insights-and-expert .c-container {
+  width: 60%;
+  height: auto;
+  margin: 0 auto;
+}
+.custom-insights-and-expert .c-container .custom-expert-projects {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  display: flex;
+}
+.custom-insights-and-expert .c-container .custom-expert-projects .open-title {
+  width: 100%;
+  height: auto;
+}
+.custom-insights-and-expert .c-container .custom-expert-projects .open-title h1 {
+  font-weight: 300;
+  font-size: 30px;
+  color: #10303f;
+  line-height: 1;
+  height: auto;
+  width: 100%;
+  font-family: "Lato Light";
+  margin-bottom: 40px;
+}
+.custom-insights-and-expert .c-container .custom-expert-projects .open-title h1 b {
+  font-weight: 700;
+  font-family: "Lato Bold";
+}
+.custom-insights-and-expert .c-container .custom-expert-projects .open-title p {
+  font-weight: 300;
+  font-size: 16px;
+  text-align: center;
+  color: #3a606e;
+  width: 100%;
+  padding-bottom: 10px;
+  margin: 0 auto;
+  font-family: "Lato Light";
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert {
+  padding-bottom: 60px;
+  width: 100%;
+  min-height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 35px;
+  justify-content: center;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card {
+  width: 28%;
+  background-color: #f4f8f9;
+  padding: 10px;
+  margin: 0 1.2% 25px;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href {
+  cursor: pointer;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href:hover {
+  color: #00a2bf;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-project-name {
+  font-size: 15px;
+  color: #00a2bf;
+  width: max-content;
+  text-align: center;
+  font-weight: 700;
+  padding-bottom: 10px;
+  justify-content: center;
+  flex-flow: row-reverse;
+  align-items: center;
+  display: flex;
+  margin: 0 auto;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-project-name ul {
+  width: max-content;
+  height: auto;
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-project-name ul li {
+  margin: 0;
+  padding: 0 0 0 5px;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-project-name ul li img {
+  width: 15px;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-project-name ul .count-like {
+  width: max-content;
+  height: auto;
+  font-size: 14px;
+  font-weight: "Lato Light";
+  color: black;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-project-name .count-like {
+  font-size: 14px;
+  font-weight: "Lato Light";
+  color: black;
+  margin-left: 10px;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar {
+  height: 170px;
+  overflow: hidden;
+  position: relative;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #425a66f0;
+  transition: 0.1s ease-out;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content {
+  width: max-content;
+  height: auto;
+  padding-left: 10px;
+  display: flex;
+  padding-top: 10px;
+  align-items: center;
+  text-transform: uppercase;
+  color: white;
+  font-weight: "Lato Bold";
+  font-size: 12px;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border {
+  border-radius: 100%;
+  border: 2px solid white;
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  overflow: hidden;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar:hover .custom-avatar-layer {
+  opacity: 1;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-sector-revenue {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #cde7ed;
+  color: #3b5867;
+  font-size: 13px;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-mission {
+  color: #686b83;
+  font-size: 13px;
+  font-family: "Lato Light";
+  padding-bottom: 20px;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-sector-revenue-bottom-pricing {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid #cde7ed;
+  text-transform: uppercase;
+  color: #3c505b;
+  font-size: 11px;
+  font-weight: 900;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-button-by-show-more {
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  font-weight: 900;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-button-by-show-more .custom-show_more_cmp {
+  width: max-content;
+  height: auto;
+  padding: 12px 35px;
+  border-radius: 6px;
+  font-weight: "Lato Bold";
+  font-size: 12px;
+  transition: 0.1s ease-out;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin: 0 auto;
+  border: 2px solid #284b5a;
+  background-color: #284b5a;
+  color: white;
+  align-items: center;
+  display: flex;
+}
+.custom-insights-and-expert .c-container .custom-cardholder-expert .custom-button-by-show-more .custom-show_more_cmp:hover {
+  border: 2px solid #00a1be;
+  background-color: #00a1be;
+}
+
+/*-------------- end => insight and expert --------------*/
+/*-------------- start => carousel content --------------*/
+.custom-carousel-content {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  padding: 90px 0;
+  background-image: url(../custom-images/custom-transparent-image/fon-carousel.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.custom-carousel-content .c-container {
+  width: 60%;
+  margin: 0 auto;
+  height: auto;
+}
+.custom-carousel-content .c-container .slider-content {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item {
+  text-align: center;
+  color: #d1e3e7;
+  height: max-content;
+  width: 55%;
+  padding: 10px 0;
+  margin: 0 auto;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .open-title {
+  font-size: 35px;
+  height: auto;
+  line-height: 1.4;
+  width: 100%;
+  text-align: left;
+  font-family: "Lato Light";
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .open-title b {
+  color: white;
+  font-weight: 700;
+  font-family: "Lato Bold";
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content {
+  width: max-content;
+  height: auto;
+  padding-left: 10px;
+  border-left: 4px solid #12cdee;
+  text-align: left;
+  margin-top: 30px;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content h1 {
+  font-size: 15px;
+  font-weight: 500;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content p {
+  font-size: 13px;
+  font-family: "Lato Light";
+  letter-spacing: 0.8px;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .owl-nav {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  position: absolute;
+  height: 0;
+  top: 45%;
+  width: 100%;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .owl-nav button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid white;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.1s ease-out;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .owl-nav button span {
+  transition: 0.1s ease-out;
+  margin-top: -4px;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .owl-nav button:hover {
+  outline: 0;
+  background: rgba(255, 255, 255, 0.9);
+  color: #2cb8d2;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .owl-nav button:focus {
+  outline: 0;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .owl-nav .owl-next {
+  right: 0;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .owl-dots {
+  width: 100%;
+  text-align: center;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .owl-dots .owl-dot {
+  color: inherit;
+  width: 10px;
+  padding: 5px !important;
+  font: inherit;
+  height: 10px;
+  border-radius: 100%;
+  margin: 0 5px;
+  outline: 0;
+  position: relative;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .owl-dots .owl-dot.active {
+  background: white;
+}
+.custom-carousel-content .c-container .slider-content .owl-carousel .owl-dots .owl-dot:after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  left: -3px;
+  top: -3px;
+  border: solid 1px white;
+  border-radius: 100%;
+}
+
+/*-------------- end => carousel content --------------*/
+/*-------------- start => unlock opportunities --------------*/
+.custom-unlock-opportunities {
+  width: 100%;
+  height: auto;
+  padding: 90px 0;
+  background-color: white;
+}
+.custom-unlock-opportunities .c-container {
+  width: 60%;
+  margin: 0 auto;
+  height: auto;
+}
+.custom-unlock-opportunities .c-container .custom-unlock-projects {
+  width: 100%;
+  height: auto;
+}
+.custom-unlock-opportunities .c-container .custom-unlock-projects .open-title {
+  font-size: 27px;
+  color: #10303f;
+  height: auto;
+  width: 100%;
+  font-family: "Lato Light";
+  margin-bottom: 40px;
+  text-align: center;
+  line-height: 1;
+}
+.custom-unlock-opportunities .c-container .custom-unlock-projects .open-title b {
+  font-weight: 700;
+  font-family: "Lato Bold";
+}
+.custom-unlock-opportunities .c-container .custom-card-content {
+  width: 100%;
+  height: auto;
+  display: flex;
+  padding-top: 50px;
+}
+.custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card {
+  width: 30%;
+  margin: 0 15px;
+}
+.custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .image-content {
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+.custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .image-content img {
+  width: 80px;
+}
+.custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .text-content {
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+.custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .text-content h1 {
+  font-size: 17px;
+  color: #102f3e;
+  padding: 20px 0 7px;
+  font-family: "Lato Light";
+  font-weight: bold;
+}
+.custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .text-content p {
+  text-align: center;
+  font-size: 14px;
+  color: #a1abb3;
+  font-family: "Lato Light";
+}
+
+/*-------------- end => unlock opportunities --------------*/
+/************************************************** end => home page styles **************************************************/
+/************************************************** start => responsive  styles **************************************************/
+@media (max-width: 1600px) {
+  /*-------------- start => section 4 --------------*/
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-reg-select {
+    flex-direction: column;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-reg-select .reg-sel-arrow {
+    width: 100% !important;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-reg-select .reg-sel-arrow-two {
+    margin-top: 10px;
+  }
+
+  /*-------------- end => section 4 --------------*/
+}
+@media (min-width: 1367px) {
+  /*-------------- start => bootstrap class --------------*/
+  .fs-12 {
+    font-size: 15px;
+  }
+
+  .f-20-px {
+    font-size: 28px !important;
+  }
+
+  .mb-15 {
+    margin-bottom: 25px !important;
+  }
+
+  /*-------------- end => bootstrap class --------------*/
+  #wrapper #container {
+    width: unset;
+    max-width: 90%;
+  }
+
+  .c-container {
+    width: 80% !important;
+  }
+
+  /*-------------- start => menu --------------*/
+  .navbar-menu .navbar-logo a img {
+    width: 200px;
+  }
+  .navbar-menu .custom-nav-top {
+    justify-content: space-around;
+  }
+  .navbar-menu .custom-nav-top .navbar-item-content {
+    margin: 0 auto;
+  }
+  .navbar-menu .custom-nav-top .navbar-item-content .nav-item-content .nav-item {
+    padding: 13px 19px;
+    border-radius: 6px;
+    transition: 0.1s ease-out;
+    margin-left: 0;
+  }
+  .navbar-menu .custom-nav-top .navbar-item-content .nav-item-content .nav-item a {
+    color: #626567;
+    font-size: 16px;
+  }
+  .navbar-menu .custom-nav-top .navbar-login-register {
+    width: max-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 100%;
+  }
+  .navbar-menu .custom-nav-top .navbar-login-register .nav-login, .navbar-menu .custom-nav-top .navbar-login-register .nav-register {
+    padding: 4px 25px;
+    font-size: 15px;
+  }
+  .navbar-menu .custom-nav-top .navbar-login-register .loginstuff_div {
+    padding-top: 5px;
+  }
+
+  /*-------------- menu => menu --------------*/
+  /************************************************** start => responsive home page styles **************************************************/
+  /*-------------- start => section 1 --------------*/
+  .custom-let-your-business .c-container .custom-let-your-title {
+    width: 490px;
+  }
+  .custom-let-your-business .c-container .custom-let-your-title h1 {
+    font-size: 54px;
+  }
+  .custom-let-your-business .c-container .custom-let-your-title p {
+    font-size: 21px;
+  }
+  .custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-started, .custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-a-demo {
+    padding: 17px 47px;
+    font-size: 16px;
+  }
+
+  /*-------------- end => section 1 --------------*/
+  /*-------------- start => section 2 --------------*/
+  .custom-whole-content .c-container .whole-title {
+    width: 30%;
+  }
+  .custom-whole-content .c-container .whole-title h1 {
+    font-size: 50px;
+    line-height: 1.5;
+  }
+  .custom-whole-content .c-container .whole-point {
+    width: 54%;
+  }
+  .custom-whole-content .c-container .whole-point ul {
+    font-size: 21px;
+    line-height: 1.5;
+    padding-left: 80px;
+  }
+
+  /*-------------- end => section 2 --------------*/
+  /*-------------- start => section 3 --------------*/
+  .custom-explore-sample .c-container .custom-sample-projects .open-title h1 {
+    font-size: 46px;
+    color: #10303f;
+    height: auto;
+    width: 100%;
+    margin-bottom: 40px;
+  }
+  .custom-explore-sample .c-container .custom-sample-projects .open-title p {
+    font-size: 22px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-completed-project-name {
+    font-size: 19px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-completed-avatar {
+    height: 230px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-sector {
+    font-size: 23px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-revenue {
+    font-size: 19px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-mission {
+    font-size: 17px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-button-by-show-more .custom-show_more_cmp {
+    padding: 17px 47px;
+    font-size: 16px;
+  }
+
+  /*-------------- end => section 3 --------------*/
+  /*-------------- start => section 4 <----- company register content ----> --------------*/
+  .custom-register-company .c-container .custom-company-title .open-title h1 {
+    font-size: 46px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom {
+    padding: 60px 0 40px 0;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point h1 {
+    font-size: 27px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li p {
+    font-size: 22px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name, .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .reg-input {
+    font-size: 19px;
+    height: 70px !important;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name-content .first-last-name {
+    width: 45.2% !important;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-agree-terms .round .custom-span {
+    font-size: 17px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-button-by-show-more .custom-show_more_cmp {
+    padding: 17px 47px;
+    font-size: 16px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .already-have-account {
+    font-size: 17px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-reg-select .reg-sel-arrow .reg-select {
+    height: 70px !important;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-reg-select .reg-sel-arrow:after {
+    top: 47%;
+  }
+
+  /*-------------- end => section 4 <----- company register content ----> --------------*/
+  /*-------------- start => section 5  <----- insight and research  ---->  --------------*/
+  .custom-insight-and-research .c-container .custom-research-projects .open-title h1 {
+    font-size: 46px;
+  }
+  .custom-insight-and-research .c-container .custom-research-projects .open-title p {
+    font-size: 22px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-project-name ul li img {
+    width: 19px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar {
+    height: 230px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-sector-revenue {
+    font-size: 18px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-mission {
+    font-size: 17px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-sector-revenue-bottom-pricing {
+    font-size: 16px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-button-by-show-more .custom-show_more_cmp {
+    font-size: 16px;
+    padding: 17px 47px;
+  }
+
+  /*-------------- end => section 5  <----- insight and research  ---->  --------------*/
+  /*-------------- start => section 6 <----- insight and expert ----> --------------*/
+  .custom-insights-and-expert .c-container .custom-expert-projects .open-title h1 {
+    font-size: 46px;
+  }
+  .custom-insights-and-expert .c-container .custom-expert-projects .open-title p {
+    font-size: 20px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-project-name ul li img {
+    width: 19px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar {
+    height: 230px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content {
+    font-size: 15px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border {
+    width: 38px;
+    height: 38px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border img {
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-sector-revenue {
+    font-size: 18px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-mission {
+    font-size: 17px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-sector-revenue-bottom-pricing {
+    font-size: 16px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-button-by-show-more .custom-show_more_cmp {
+    font-size: 15px;
+    padding: 15px 44px;
+  }
+
+  /*-------------- end => section 6 <----- insight and expert ----> --------------*/
+  /*-------------- start => section 7 <----- carousel content  ----> --------------*/
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .open-title {
+    font-size: 46px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content h1 {
+    font-size: 21px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content p {
+    font-size: 19px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .owl-nav button {
+    font-size: 38px;
+    width: 50px;
+    height: 50px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .owl-dots .owl-dot {
+    margin: 0 8px;
+    width: 13px;
+    height: 13px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .owl-dots .owl-dot:after {
+    width: 17px;
+    height: 17px;
+  }
+
+  /*-------------- end => section 7 <----- carousel content  ----> --------------*/
+  /*-------------- start => section 8 <----- unlock opportunities ---->  --------------*/
+  .custom-unlock-opportunities .c-container .custom-unlock-projects .open-title {
+    font-size: 46px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .image-content img {
+    width: 100px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .text-content h1 {
+    font-size: 23px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .text-content p {
+    font-size: 19px;
+  }
+
+  /*-------------- end => section 8 <----- unlock opportunities ---->  --------------*/
+  /*-------------- start => section 9 <----- join section ---->  --------------*/
+  .custom-join-section .custom-join-title {
+    width: 510px;
+  }
+  .custom-join-section .custom-join-title h1 {
+    font-size: 54px;
+  }
+  .custom-join-section .custom-join-title p {
+    font-size: 21px;
+  }
+  .custom-join-section .custom-join-title .custom-get-started .custom-get-button {
+    padding: 17px 47px;
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 9 <----- join section ---->  --------------*/
+  /*-------------- start =>   footer section  --------------*/
+  .container-footer .footer-content {
+    max-width: 1250px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts .custom-icon-content .custom-icon-ul .custom-align-self-center a {
+    width: 38px;
+    height: 38px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts .custom-icon-content .custom-icon-ul .custom-align-self-center a img {
+    width: 20px;
+    height: 20px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts {
+    margin: unset;
+    margin-left: auto;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts h6 {
+    font-size: 21px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts .custom-list-unstyled .custom-list-item a {
+    font-size: 17px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts h6 {
+    font-size: 21px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts .custom-list-unstyled .custom-list-item a {
+    font-size: 17px;
+  }
+  .container-footer .footer-content-bottom {
+    max-width: 1250px;
+  }
+  .container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer ul li {
+    font-size: 15px;
+  }
+  .container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer .custom-full-ul:after {
+    font-size: 21px;
+  }
+  .container-footer .footer-content-bottom .footer-bottom-title {
+    font-size: 16px;
+  }
+
+  /*-------------- end =>   footer section  --------------*/
+  /************************************************** end => responsive home page styles **************************************************/
+  /************************************************** start => responsive companies page styles **************************************************/
+  /*-------------- start => open opportunities section styles --------------*/
+  .open-opportunities-content .open-title {
+    font-size: 44px;
+  }
+
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner {
+    max-width: 250px;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-content-icon .custom-media-mini .custom-media-body-mini p {
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-view-opportunity .view-opportunity {
+    padding: 15px 44px;
+    font-size: 15px;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-text .custom-card-inner-text-child .custom-subtitile {
+    font-size: 27px;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-text .custom-card-inner-text-child .custom-mission {
+    font-size: 18px;
+  }
+
+  /*-------------- end => open opportunities section styles --------------*/
+  /*-------------- start => coming soon project section styles --------------*/
+  .custom-coming-soon .open-title {
+    font-size: 44px;
+  }
+
+  /*-------------- end => coming soon project section styles --------------*/
+  /*-------------- start => explore completed projects section styles --------------*/
+  .custom-completed-projects .open-title {
+    font-size: 44px;
+  }
+
+  .pastable .custom-completed-card .custom-completed-href .custom-completed-project-name {
+    font-size: 16px;
+  }
+  .pastable .custom-completed-card .custom-completed-href .custom-completed-avatar {
+    height: 190px;
+  }
+  .pastable .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-sector {
+    font-size: 21px;
+  }
+  .pastable .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-revenue {
+    font-size: 17px;
+  }
+  .pastable .custom-completed-card .custom-completed-href .custom-mission {
+    font-size: 16px;
+  }
+  .pastable .custom-button-by-show-more .custom-show_more_cmp {
+    padding: 15px 44px;
+    font-size: 15px;
+  }
+
+  /*-------------- end => explore completed projects section styles --------------*/
+  /************************************************** end => responsive companies page styles **************************************************/
+}
+@media (max-width: 1366px) {
+  /*-------------- start => bootstrap class --------------*/
+  .fs-12 {
+    font-size: 15px;
+  }
+
+  .f-20-px {
+    font-size: 20px !important;
+  }
+
+  .mb-15 {
+    margin-bottom: 25px !important;
+  }
+
+  /*-------------- end => bootstrap class --------------*/
+  #wrapper #container {
+    width: unset;
+    max-width: 90%;
+  }
+
+  .c-container {
+    width: 80% !important;
+  }
+
+  /*-------------- start => menu --------------*/
+  .navbar-menu .custom-nav-top {
+    justify-content: space-around;
+  }
+  .navbar-menu .custom-nav-top .navbar-item-content {
+    margin: 0 auto;
+  }
+  .navbar-menu .custom-nav-top .navbar-item-content .nav-item-content .nav-item a {
+    font-size: 13px;
+  }
+
+  /*-------------- menu => menu --------------*/
+  /************************************************** start => responsive home page styles **************************************************/
+  /*-------------- start => section 1 --------------*/
+  .custom-let-your-business .c-container .custom-let-your-title {
+    width: 410px;
+  }
+  .custom-let-your-business .c-container .custom-let-your-title h1 {
+    font-size: 44px;
+  }
+  .custom-let-your-business .c-container .custom-let-your-title p {
+    font-size: 19px;
+  }
+  .custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-started, .custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-a-demo {
+    padding: 15px 44px;
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 1 --------------*/
+  /*-------------- start => section 2 --------------*/
+  .custom-whole-content .c-container .whole-title {
+    width: 32%;
+  }
+  .custom-whole-content .c-container .whole-title h1 {
+    font-size: 40px;
+    line-height: 1.3;
+  }
+  .custom-whole-content .c-container .whole-point {
+    width: 55%;
+  }
+  .custom-whole-content .c-container .whole-point ul {
+    padding-left: 30px;
+    font-size: 19px;
+    line-height: 1.5;
+  }
+
+  /*-------------- end => section 2 --------------*/
+  /*-------------- start => section 3 --------------*/
+  .custom-explore-sample .c-container .custom-sample-projects .open-title h1 {
+    font-size: 37px;
+    color: #10303f;
+    height: auto;
+    width: 100%;
+  }
+  .custom-explore-sample .c-container .custom-sample-projects .open-title p {
+    font-size: 20px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-completed-project-name {
+    font-size: 15px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-completed-avatar {
+    height: 190px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-sector {
+    font-size: 19px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-revenue {
+    font-size: 16px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-mission {
+    font-size: 15px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-button-by-show-more .custom-show_more_cmp {
+    padding: 15px 44px;
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 3 --------------*/
+  /*-------------- start => section 4 <----- company register content ----> --------------*/
+  .custom-register-company .c-container .custom-company-title .open-title h1 {
+    font-size: 37px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point h1 {
+    font-size: 23px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li p {
+    font-size: 19px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name, .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .reg-input {
+    font-size: 17px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name-content .first-last-name {
+    width: 44.4% !important;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-agree-terms .round .custom-span {
+    font-size: 15px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-button-by-show-more .custom-show_more_cmp {
+    padding: 15px 44px;
+    font-size: 15px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .already-have-account {
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 4 <----- company register content ----> --------------*/
+  /*-------------- start => section 5  <----- insight and research  ---->  --------------*/
+  .custom-insight-and-research .c-container .custom-research-projects .open-title h1 {
+    font-size: 37px;
+  }
+  .custom-insight-and-research .c-container .custom-research-projects .open-title p {
+    font-size: 20px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-project-name ul li img {
+    width: 17px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar {
+    height: 190px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content {
+    font-size: 14px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border {
+    width: 36px;
+    height: 36px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-sector-revenue {
+    font-size: 15px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-mission {
+    font-size: 15px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-sector-revenue-bottom-pricing {
+    font-size: 13px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-button-by-show-more .custom-show_more_cmp {
+    font-size: 15px;
+    padding: 15px 44px;
+  }
+
+  /*-------------- end => section 5  <----- insight and research  ---->  --------------*/
+  /*-------------- start => section 6 <----- insight and expert ----> --------------*/
+  .custom-insights-and-expert .c-container .custom-expert-projects .open-title h1 {
+    font-size: 37px;
+  }
+  .custom-insights-and-expert .c-container .custom-expert-projects .open-title p {
+    font-size: 20px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-project-name ul li img {
+    width: 17px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar {
+    height: 190px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content {
+    font-size: 14px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border {
+    width: 36px;
+    height: 36px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-sector-revenue {
+    font-size: 15px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-mission {
+    font-size: 15px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-sector-revenue-bottom-pricing {
+    font-size: 13px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-button-by-show-more .custom-show_more_cmp {
+    font-size: 15px;
+    padding: 15px 44px;
+  }
+
+  /*-------------- end => section 6 <----- insight and expert ----> --------------*/
+  /*-------------- start => section 7 <----- carousel content  ----> --------------*/
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .open-title {
+    font-size: 40px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content h1 {
+    font-size: 19px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content p {
+    font-size: 15px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .owl-nav button {
+    font-size: 38px;
+    width: 45px;
+    height: 45px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .owl-dots .owl-dot {
+    margin: 0 8px;
+    width: 13px;
+    height: 13px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .owl-dots .owl-dot:after {
+    width: 17px;
+    height: 17px;
+  }
+
+  /*-------------- end => section 7 <----- carousel content  ----> --------------*/
+  /*-------------- start => section 8 <----- unlock opportunities ---->  --------------*/
+  .custom-unlock-opportunities {
+    padding: 50px 0 90px 0;
+  }
+  .custom-unlock-opportunities .c-container .custom-unlock-projects .open-title {
+    font-size: 37px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .image-content img {
+    width: 90px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .text-content h1 {
+    font-size: 20px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .text-content p {
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 8 <----- unlock opportunities ---->  --------------*/
+  /*-------------- start => section 9 <----- join section ---->  --------------*/
+  .custom-join-section .custom-join-title {
+    width: 420px;
+  }
+  .custom-join-section .custom-join-title h1 {
+    font-size: 44px;
+  }
+  .custom-join-section .custom-join-title p {
+    font-size: 19px;
+  }
+  .custom-join-section .custom-join-title .custom-get-started .custom-get-button {
+    padding: 15px 44px;
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 9 <----- join section ---->  --------------*/
+  /*-------------- start =>   footer section  --------------*/
+  .container-footer .footer-content {
+    max-width: 95%;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts {
+    padding-left: 40px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts .custom-icon-content .custom-icon-ul .custom-align-self-center a {
+    width: 36px;
+    height: 36px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts .custom-icon-content .custom-icon-ul .custom-align-self-center a img {
+    width: 19px;
+    height: 19px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts {
+    margin: unset;
+    margin-left: auto;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts h6 {
+    font-size: 19px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts .custom-list-unstyled .custom-list-item a {
+    font-size: 16px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts h6 {
+    font-size: 19px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts .custom-list-unstyled .custom-list-item a {
+    font-size: 16px;
+  }
+  .container-footer .footer-content-bottom {
+    max-width: 95%;
+  }
+  .container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer ul li {
+    font-size: 14px;
+  }
+  .container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer .custom-full-ul:after {
+    font-size: 19px;
+  }
+  .container-footer .footer-content-bottom .footer-bottom-title {
+    font-size: 15px;
+  }
+
+  /*-------------- end =>   footer section  --------------*/
+  /************************************************** end => responsive home page styles **************************************************/
+  /************************************************** start => responsive companies page styles **************************************************/
+  /*-------------- start => open opportunities section styles --------------*/
+  /*-------------- end => open opportunities section styles --------------*/
+  /*-------------- start => coming soon project section styles --------------*/
+  /*-------------- end => coming soon project section styles --------------*/
+  /*-------------- start => explore completed projects section styles --------------*/
+  /*-------------- end => explore completed projects section styles --------------*/
+  /************************************************** end => responsive companies page styles **************************************************/
+}
+@media (max-width: 1200px) {
+  /************************************************** start => responsive home page styles **************************************************/
+  /*-------------- start => section 1 <---- snowball ----> --------------*/
+  .custom-let-your-business {
+    background-position-x: 14%;
+  }
+
+  /*-------------- end => section 1  <---- snowball ----> --------------*/
+  /*-------------- start => section 2 <---- unlocking ----> --------------*/
+  .custom-whole-content {
+    background-position: right top;
+  }
+  .custom-whole-content .c-container .whole-title {
+    width: 35%;
+  }
+  .custom-whole-content .c-container .whole-point {
+    width: 65%;
+  }
+
+  /*-------------- end => section 2  <---- unlocking ----> --------------*/
+  /*-------------- start => section 4 <----  registrartion form content ----> --------------*/
+  .custom-register-company .c-container .custom-company-title .open-title {
+    width: 100%;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name, .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .reg-input {
+    padding-left: 2.3%;
+  }
+
+  /*-------------- end => section 4  <---- registrartion form content ----> --------------*/
+  /************************************************** end => responsive home page styles **************************************************/
+}
+@media (max-width: 1100px) {
+  #wrapper #container {
+    max-width: 100%;
+  }
+
+  /*-------------- start => section 4 <----  registrartion form content ----> --------------*/
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point h1 {
+    font-size: 21px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li p {
+    font-size: 17px;
+  }
+
+  /*-------------- end => section 4  <---- registrartion form content ----> --------------*/
+}
+@media (max-width: 1030px) {
+  .custom-clear-block {
+    max-width: 964px !important;
+  }
+}
+@media (max-width: 991px) {
+  /************************************************** start => variables **************************************************/
+  /************************************************** end => variables **************************************************/
+  /********************** start => menu section *************************/
+  #wrapper #container {
+    width: unset;
+    max-width: 100%;
+  }
+
+  .navbar-menu .navbar-logo {
+    margin-left: 30px;
+  }
+  .navbar-menu .custom-nav-top {
+    display: none;
+  }
+  .navbar-menu .custom-open-close {
+    margin-right: 30px;
+    display: block;
+  }
+
+  /********************** end => menu section *************************/
+  /********************** start => open opportunities section *************************/
+  .open-opportunities-content {
+    flex-direction: column;
+  }
+  .open-opportunities-content .open-title {
+    padding-bottom: 10px;
+  }
+
+  .custom_content_box #custom-cardholder .custom-card-wrap {
+    width: 98%;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner {
+    flex-direction: column;
+    width: 100%;
+    max-width: 155px;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content {
+    padding: 10px 5px;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-view-opportunity .view-opportunity {
+    padding: 12px 20px;
+  }
+
+  /********************** end => open opportunities section *************************/
+  /********************** start => coming soon projects section *************************/
+  .custom-coming-soon .open-title {
+    margin: 0 auto;
+  }
+
+  /********************** end =>  coming soon projects section *************************/
+  /********************** start => join section *************************/
+  .custom-join-section .custom-join-title {
+    width: 360px;
+  }
+  .custom-join-section .custom-join-title h1 {
+    font-size: 34px;
+  }
+  .custom-join-section .custom-join-title p {
+    font-size: 14px;
+  }
+
+  /********************** end => join section *************************/
+  /********************** start => footer section *************************/
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts .custom-about-parts {
+    margin: unset;
+    margin-left: auto;
+  }
+
+  /********************** end => footer section *************************/
+  /************************************************** start => responsive home page styles **************************************************/
+  /*-------------- start => section 1 --------------*/
+  .custom-let-your-business .c-container .custom-let-your-title {
+    width: 410px;
+  }
+  .custom-let-your-business .c-container .custom-let-your-title h1 {
+    font-size: 40px;
+  }
+  .custom-let-your-business .c-container .custom-let-your-title p {
+    font-size: 17px;
+  }
+  .custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-started, .custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-a-demo {
+    padding: 13px 40px;
+    font-size: 14px;
+  }
+
+  /*-------------- end => section 1 --------------*/
+  /*-------------- start => section 2 --------------*/
+  .custom-whole-content .c-container {
+    flex-direction: column;
+  }
+  .custom-whole-content .c-container .whole-title {
+    width: 100%;
+  }
+  .custom-whole-content .c-container .whole-title h1 {
+    font-size: 33px;
+    line-height: 1.3;
+  }
+  .custom-whole-content .c-container .whole-point {
+    width: 100%;
+  }
+  .custom-whole-content .c-container .whole-point ul {
+    padding-left: 0;
+    font-size: 17px;
+  }
+
+  /*-------------- end => section 2 --------------*/
+  /*-------------- start => section 3 --------------*/
+  .custom-explore-sample .c-container .custom-sample-projects .open-title h1 {
+    font-size: 31px;
+    color: #10303f;
+    height: auto;
+    width: 100%;
+  }
+  .custom-explore-sample .c-container .custom-sample-projects .open-title p {
+    font-size: 17px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card {
+    width: 45%;
+    margin: 0 1% 25px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-completed-project-name {
+    font-size: 14px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-completed-avatar {
+    height: 190px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-sector {
+    font-size: 17px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-revenue {
+    font-size: 14px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-mission {
+    font-size: 14px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-button-by-show-more .custom-show_more_cmp {
+    padding: 13px 40px;
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 3 --------------*/
+  /*-------------- start => section 4 <----- company register content ----> --------------*/
+  .custom-register-company .c-container .custom-company-title .open-title h1 {
+    font-size: 31px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point h1 {
+    font-size: 23px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li p {
+    font-size: 19px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name, .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .reg-input {
+    font-size: 17px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name-content .first-last-name {
+    width: 44.4% !important;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-agree-terms .round .custom-span {
+    font-size: 14px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-button-by-show-more .custom-show_more_cmp {
+    padding: 13px 40px;
+    font-size: 15px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .already-have-account {
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 4 <----- company register content ----> --------------*/
+  /*-------------- start => section 5  <----- insight and research  ---->  --------------*/
+  .custom-insight-and-research .c-container .custom-research-projects .open-title h1 {
+    font-size: 31px;
+  }
+  .custom-insight-and-research .c-container .custom-research-projects .open-title p {
+    font-size: 17px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card {
+    width: 45%;
+    margin: 0 1% 25px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-project-name ul li img {
+    width: 17px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar {
+    height: 190px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content {
+    font-size: 14px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border {
+    width: 36px;
+    height: 36px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-sector-revenue {
+    font-size: 15px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-mission {
+    font-size: 15px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-sector-revenue-bottom-pricing {
+    font-size: 13px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-button-by-show-more .custom-show_more_cmp {
+    font-size: 15px;
+    padding: 13px 40px;
+  }
+
+  /*-------------- end => section 5  <----- insight and research  ---->  --------------*/
+  /*-------------- start => section 6 <----- insight and expert ----> --------------*/
+  .custom-insights-and-expert .c-container .custom-expert-projects .open-title h1 {
+    font-size: 31px;
+  }
+  .custom-insights-and-expert .c-container .custom-expert-projects .open-title p {
+    font-size: 17px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card {
+    width: 45%;
+    margin: 0 1% 25px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-project-name ul li img {
+    width: 17px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar {
+    height: 190px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content {
+    font-size: 14px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border {
+    width: 36px;
+    height: 36px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-sector-revenue {
+    font-size: 15px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-mission {
+    font-size: 15px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-sector-revenue-bottom-pricing {
+    font-size: 13px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-button-by-show-more .custom-show_more_cmp {
+    font-size: 15px;
+    padding: 13px 40px;
+  }
+
+  /*-------------- end => section 6 <----- insight and expert ----> --------------*/
+  /*-------------- start => section 7 <----- carousel content  ----> --------------*/
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .open-title {
+    font-size: 36px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content h1 {
+    font-size: 16px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content p {
+    font-size: 14px;
+    width: 90%;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .owl-nav button {
+    font-size: 35px;
+    width: 40px;
+    height: 40px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .owl-dots .owl-dot {
+    margin: 0 5px;
+    width: 10px;
+    height: 10px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .owl-dots .owl-dot:after {
+    width: 14px;
+    height: 14px;
+  }
+
+  /*-------------- end => section 7 <----- carousel content  ----> --------------*/
+  /*-------------- start => section 8 <----- unlock opportunities ---->  --------------*/
+  .custom-unlock-opportunities .c-container .custom-unlock-projects .open-title {
+    font-size: 31px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .image-content img {
+    width: 90px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .text-content h1 {
+    font-size: 18px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .text-content p {
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 8 <----- unlock opportunities ---->  --------------*/
+  /*-------------- start => section 9 <----- join section ---->  --------------*/
+  .custom-join-section .custom-join-title {
+    width: 420px;
+  }
+  .custom-join-section .custom-join-title h1 {
+    font-size: 40px;
+  }
+  .custom-join-section .custom-join-title p {
+    font-size: 17px;
+  }
+  .custom-join-section .custom-join-title .custom-get-started .custom-get-button {
+    padding: 13px 40px;
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 9 <----- join section ---->  --------------*/
+  /*-------------- start =>   footer section  --------------*/
+  .container-footer .footer-content {
+    max-width: 95%;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts {
+    padding-left: 40px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts .custom-icon-content .custom-icon-ul .custom-align-self-center a {
+    width: 36px;
+    height: 36px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts .custom-icon-content .custom-icon-ul .custom-align-self-center a img {
+    width: 19px;
+    height: 19px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts {
+    margin: unset;
+    margin-left: auto;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts h6 {
+    font-size: 19px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts .custom-list-unstyled .custom-list-item a {
+    font-size: 16px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts h6 {
+    font-size: 19px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts .custom-list-unstyled .custom-list-item a {
+    font-size: 16px;
+  }
+  .container-footer .footer-content-bottom {
+    max-width: 95%;
+  }
+  .container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer ul li {
+    font-size: 14px;
+  }
+  .container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer .custom-full-ul:after {
+    font-size: 19px;
+  }
+  .container-footer .footer-content-bottom .footer-bottom-title {
+    font-size: 15px;
+  }
+
+  /*-------------- end =>   footer section  --------------*/
+  /************************************************** end => responsive home page styles **************************************************/
+}
+@media (max-width: 890px) {
+  /*-------------- start => section 3 --------------*/
+  .custom-register-company .c-container .register-wrapper-bottom {
+    flex-direction: column;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form {
+    width: max-content;
+    margin: 0 auto;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form {
+    width: max-content;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name, .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .reg-input {
+    padding-left: 2.8%;
+  }
+
+  /*-------------- end => section 3 --------------*/
+  /*-------------- start => section 7 <----- carousel content  ----> --------------*/
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .open-title {
+    font-size: 32px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content h1 {
+    font-size: 14px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content p {
+    font-size: 13px;
+    width: 92%;
+  }
+
+  /*-------------- end => section 7 <----- carousel content  ----> --------------*/
+  /********************** start => footer section *************************/
+  .container-footer .footer-content .custom-our-schema {
+    flex-direction: column;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts {
+    padding-left: 0;
+    width: max-content;
+    height: auto;
+    margin: 0 auto;
+  }
+  .container-footer .footer-content .custom-our-schema .parts-one-logo .navbar-logo {
+    display: flex;
+  }
+  .container-footer .footer-content .custom-our-schema .parts-one-logo .navbar-logo a {
+    margin: 0 auto;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts {
+    margin-left: 0;
+    margin: 0 auto;
+  }
+
+  /********************** end => footer section *************************/
+}
+@media (max-width: 850px) {
+  /*-------------- start => section 3 --------------*/
+  .custom-explore-sample .c-container .custom-cardholder-explore {
+    justify-content: space-between;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card {
+    width: 44%;
+    margin: 0 1% 25px;
+  }
+
+  /*-------------- start => section 3 --------------*/
+  /*-------------- start => section 4 --------------*/
+  .custom-register-company .c-container .register-wrapper-bottom {
+    flex-direction: column;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point h1 {
+    font-size: 21px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point .custom-style-img {
+    width: 22px;
+    height: 22px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point .custom-style-img img {
+    width: 12px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li p {
+    font-size: 17px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form {
+    width: max-content;
+    margin: 0 auto;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form {
+    width: max-content;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name, .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .reg-input {
+    padding-left: 2.8%;
+  }
+
+  /*-------------- end => section 4 --------------*/
+  /*-------------- start => section 5  <----- insight and research  ---->  --------------*/
+  .custom-insight-and-research .c-container .custom-cardholder-research {
+    justify-content: space-between;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card {
+    width: 44%;
+  }
+
+  /*-------------- end => section 5  <----- insight and research  ---->  --------------*/
+  /*-------------- start => section 6 <----- insight and expert ----> --------------*/
+  .custom-insights-and-expert .c-container .custom-cardholder-expert {
+    justify-content: space-between;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card {
+    width: 44%;
+  }
+
+  /*-------------- end => section 6 <----- insight and expert ----> -------------
+  /*-------------- start => section 8 <----- unlock opportunities ---->  --------------*/
+  .custom-unlock-opportunities .c-container .custom-unlock-projects .open-title {
+    font-size: 37px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 0;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card {
+    width: 70%;
+    margin: 15px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .image-content img {
+    width: 90px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .text-content h1 {
+    font-size: 20px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .text-content p {
+    font-size: 16px;
+  }
+
+  /*-------------- end => section 8 <----- unlock opportunities ---->  --------------*/
+}
+@media (max-width: 768px) {
+  /************************************************** start => responsive home page styles **************************************************/
+  /*-------------- start => section 1 --------------*/
+  .custom-let-your-business .c-container .custom-let-your-title {
+    width: 410px;
+  }
+  .custom-let-your-business .c-container .custom-let-your-title h1 {
+    font-size: 36px;
+  }
+  .custom-let-your-business .c-container .custom-let-your-title p {
+    font-size: 16px;
+  }
+  .custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-started, .custom-let-your-business .c-container .custom-let-your-title .custom-started-demo .get-a-demo {
+    padding: 12px 35px;
+    font-size: 14px;
+  }
+
+  /*-------------- end => section 1 --------------*/
+  /*-------------- start => section 2 --------------*/
+  .custom-whole-content .c-container {
+    flex-direction: column;
+  }
+  .custom-whole-content .c-container .whole-title {
+    width: 100%;
+  }
+  .custom-whole-content .c-container .whole-title h1 {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+  .custom-whole-content .c-container .whole-point {
+    width: 100%;
+  }
+  .custom-whole-content .c-container .whole-point ul {
+    padding-left: 0;
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 2 --------------*/
+  /*-------------- start => section 3 --------------*/
+  .custom-explore-sample .c-container .custom-sample-projects .open-title h1 {
+    font-size: 27px;
+    color: #10303f;
+    height: auto;
+    width: 100%;
+  }
+  .custom-explore-sample .c-container .custom-sample-projects .open-title p {
+    font-size: 15px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card {
+    width: 70%;
+    margin: 10px auto;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-completed-project-name {
+    font-size: 14px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-completed-avatar {
+    height: 190px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-sector {
+    font-size: 17px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-sector-revenue .custom-revenue {
+    font-size: 14px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card .custom-completed-href .custom-mission {
+    font-size: 14px;
+  }
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-button-by-show-more .custom-show_more_cmp {
+    padding: 12px 35px;
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 3 --------------*/
+  /*-------------- start => section 4 <----- company register content ----> --------------*/
+  .custom-register-company .c-container .custom-company-title .open-title h1 {
+    font-size: 27px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point h1 {
+    font-size: 21px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li p {
+    font-size: 17px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form {
+    width: 90%;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name, .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .reg-input {
+    font-size: 17px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name-content .first-last-name {
+    width: 44.4% !important;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-agree-terms .round .custom-span {
+    font-size: 15px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-button-by-show-more .custom-show_more_cmp {
+    padding: 12px 35px;
+    font-size: 15px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .already-have-account {
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 4 <----- company register content ----> --------------*/
+  /*-------------- start => section 5  <----- insight and research  ---->  --------------*/
+  .custom-insight-and-research .c-container .custom-research-projects .open-title h1 {
+    font-size: 27px;
+  }
+  .custom-insight-and-research .c-container .custom-research-projects .open-title p {
+    font-size: 15px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card {
+    width: 70%;
+    margin: 10px auto;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-project-name ul li img {
+    width: 17px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar {
+    height: 190px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content {
+    font-size: 14px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border {
+    width: 36px;
+    height: 36px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-sector-revenue {
+    font-size: 15px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-mission {
+    font-size: 15px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card .custom-completed-href .custom-sector-revenue-bottom-pricing {
+    font-size: 13px;
+  }
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-button-by-show-more .custom-show_more_cmp {
+    font-size: 15px;
+    padding: 12px 35px;
+  }
+
+  /*-------------- end => section 5  <----- insight and research  ---->  --------------*/
+  /*-------------- start => section 6 <----- insight and expert ----> --------------*/
+  .custom-insights-and-expert .c-container .custom-expert-projects .open-title h1 {
+    font-size: 27px;
+  }
+  .custom-insights-and-expert .c-container .custom-expert-projects .open-title p {
+    font-size: 15px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card {
+    width: 70%;
+    margin: 10px auto;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-project-name ul li img {
+    width: 17px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar {
+    height: 190px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content {
+    font-size: 14px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border {
+    width: 36px;
+    height: 36px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-completed-avatar .custom-avatar-layer .avatar-layer-content .avatar-border img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-sector-revenue {
+    font-size: 15px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-mission {
+    font-size: 15px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card .custom-completed-href .custom-sector-revenue-bottom-pricing {
+    font-size: 13px;
+  }
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-button-by-show-more .custom-show_more_cmp {
+    font-size: 15px;
+    padding: 12px 35px;
+  }
+
+  /*-------------- end => section 6 <----- insight and expert ----> --------------*/
+  /*-------------- start => section 7 <----- carousel content  ----> --------------*/
+  .custom-carousel-content .c-container .slider-content {
+    width: 99%;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item {
+    width: 95%;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .owl-nav {
+    display: none;
+  }
+
+  /*-------------- end => section 7 <----- carousel content  ----> --------------*/
+  /*-------------- start => section 8 <----- unlock opportunities ---->  --------------*/
+  .custom-unlock-opportunities .c-container .custom-unlock-projects .open-title {
+    font-size: 27px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .image-content img {
+    width: 90px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .text-content h1 {
+    font-size: 18px;
+  }
+  .custom-unlock-opportunities .c-container .custom-card-content .custom-completed-card .text-content p {
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 8 <----- unlock opportunities ---->  --------------*/
+  /*-------------- start => section 9 <----- join section ---->  --------------*/
+  .custom-join-section .custom-join-title {
+    width: 420px;
+  }
+  .custom-join-section .custom-join-title h1 {
+    font-size: 40px;
+  }
+  .custom-join-section .custom-join-title p {
+    font-size: 15px;
+  }
+  .custom-join-section .custom-join-title .custom-get-started .custom-get-button {
+    padding: 12px 35px;
+    font-size: 15px;
+  }
+
+  /*-------------- end => section 9 <----- join section ---->  --------------*/
+  /*-------------- start =>   footer section  --------------*/
+  .container-footer .footer-content {
+    max-width: 95%;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts {
+    padding-left: 40px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts .custom-icon-content .custom-icon-ul .custom-align-self-center a {
+    width: 36px;
+    height: 36px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts .custom-icon-content .custom-icon-ul .custom-align-self-center a img {
+    width: 19px;
+    height: 19px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts {
+    margin: unset;
+    margin-left: auto;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts h6 {
+    font-size: 19px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts .custom-list-unstyled .custom-list-item a {
+    font-size: 16px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts h6 {
+    font-size: 19px;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts .custom-list-unstyled .custom-list-item a {
+    font-size: 16px;
+  }
+  .container-footer .footer-content-bottom {
+    max-width: 95%;
+  }
+  .container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer ul li {
+    font-size: 14px;
+  }
+  .container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer .custom-full-ul:after {
+    font-size: 19px;
+  }
+  .container-footer .footer-content-bottom .footer-bottom-title {
+    font-size: 15px;
+  }
+
+  /*-------------- end =>   footer section  --------------*/
+  /************************************************** end => responsive home page styles **************************************************/
+  /********************** start => open opportunities section *************************/
+  .open-opportunities-content {
+    flex-direction: column;
+  }
+  .open-opportunities-content .open-title {
+    font-size: 28px;
+  }
+  .open-opportunities-content p {
+    font-size: 14px;
+  }
+
+  .custom_content_box #custom-cardholder .custom-card-wrap {
+    width: 97%;
+    flex-direction: column;
+    min-height: 250px;
+    height: 100%;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner {
+    width: 100%;
+    max-width: 97%;
+    height: 200px;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-text .custom-card-inner-text-child {
+    height: max-content;
+    max-width: 90%;
+    margin-left: 25px;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-text .custom-card-inner-text-child .custom-subtitile {
+    font-size: 18px;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-text .custom-card-inner-text-child .custom-mission {
+    font-size: 12px;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-content-icon .custom-media-mini .custom-media-body-mini h6 {
+    font-size: 15px;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-content-icon .custom-media-mini .custom-media-body-mini p {
+    font-size: 9px;
+  }
+
+  .fs-12 {
+    font-size: 10px;
+  }
+
+  /********************** end => open opportunities section *************************/
+  /********************** start => coming soon projects section *************************/
+  .custom-coming-soon .open-title {
+    font-size: 28px;
+  }
+
+  /********************** end =>  coming soon projects section *************************/
+  /********************** start => explore completed projects section *************************/
+  .custom-completed-projects .open-title {
+    font-size: 28px;
+  }
+
+  .pastable .custom-completed-card {
+    width: 45%;
+  }
+
+  /********************** end => explore completed projects section *************************/
+}
+@media (min-width: 748px) {
+  .ui-dialog {
+    max-width: 747px;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-1 #reg-form #pro-firstname {
+    width: 203px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-1 #reg-form #pro-lastname {
+    width: 205px !important;
+    margin-left: -7px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-2 #reg-form #pro-firstname {
+    width: 203px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-2 #reg-form #pro-lastname {
+    width: 205px !important;
+    margin-left: -7px !important;
+  }
+  .ui-dialog #footer-login-dialog #reg-form #login-email {
+    width: 295px !important;
+  }
+  .ui-dialog #footer-login-dialog #reg-form #login-password {
+    width: 297px !important;
+  }
+}
+@media (max-width: 747px) {
+  .ui-dialog {
+    max-width: 302px;
+  }
+  .ui-dialog #footer-register-dialog {
+    width: auto !important;
+    min-height: 85px !important;
+    height: auto !important;
+    max-width: 302px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs .register-step-1-buttons .register-step-1-section {
+    width: unset !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs .register-step-1-buttons .register-step-1-section .reg-but1, .ui-dialog #footer-register-dialog #footer-tabs .register-step-1-buttons .register-step-1-section .reg-but2 {
+    height: 44px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs .register-step-1-buttons .register-step-1-divider {
+    height: 1px !important;
+    width: 100% !important;
+    border: 0 !important;
+    border-top: 1px solid #b2b2b2 !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs .register-step-1-buttons .register-step-1-divider-text {
+    margin-top: -15px !important;
+    margin-left: 47% !important;
+    width: 25px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-1 #reg-form select {
+    max-width: max-content !important;
+    min-width: 250px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-1 #reg-form input[type=text] {
+    width: 241px !important;
+    max-width: max-content !important;
+    min-width: 241px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-1 #reg-form input[type=password] {
+    max-width: max-content !important;
+    min-width: 244px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-1 #reg-form .password-hint {
+    padding-left: 23px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-1 #reg-form .agree_terms label {
+    padding-left: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-1 #reg-form .agree_terms-1 {
+    padding-left: 22px !important;
+    display: flex;
+    align-items: center;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-2 #reg-form select {
+    max-width: max-content !important;
+    min-width: 250px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-2 #reg-form input[type=text] {
+    width: 241px !important;
+    max-width: max-content !important;
+    min-width: 241px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-2 #reg-form input[type=password] {
+    max-width: max-content !important;
+    min-width: 244px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-2 #reg-form .password-hint {
+    padding-left: 0px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-2 #reg-form .agree_terms label {
+    padding-left: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    font-size: 10.5px !important;
+  }
+  .ui-dialog #footer-register-dialog #footer-tabs #footer-tabs-2 #reg-form .agree_terms-2 {
+    padding-left: 22px !important;
+    display: flex;
+    align-items: center;
+  }
+}
+@media (max-width: 568px) {
+  .c-container {
+    width: 90% !important;
+  }
+
+  /********************** start => open opportunities section *************************/
+  .open-opportunities-content {
+    flex-direction: column;
+  }
+  .open-opportunities-content .open-title {
+    font-size: 22px;
+    padding-bottom: 0;
+  }
+  .open-opportunities-content p {
+    font-size: 12px;
+    text-align: center;
+    width: 90%;
+  }
+
+  .custom_content_box #custom-cardholder .custom-card-wrap {
+    width: 95%;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-right-top-content .custom-card-inner-wrapper {
+    flex-flow: wrap;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-right-top-content .custom-card-inner-wrapper li {
+    padding-left: 0;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content {
+    width: 97%;
+    margin-left: 0;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content {
+    padding: 10px 5px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-bottom: 20px;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-view-opportunity .view-opportunity {
+    padding: 12px 5px;
+    font-size: 10px;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom_status_bar_wrapper-content .custom-content-icon .custom-media-mini .custom-style-img {
+    width: 35px;
+    height: 35px;
+  }
+
+  /********************** end => open opportunities section *************************/
+  /********************** start => explore completed projects section *************************/
+  .custom-completed-projects .open-title {
+    font-size: 22px;
+  }
+
+  .pastable .custom-completed-card {
+    width: 70%;
+  }
+
+  /********************** end => explore completed projects section *************************/
+  /********************** start => coming soon projects section *************************/
+  .custom-coming-soon .open-title {
+    font-size: 22px;
+  }
+
+  /********************** end =>  coming soon projects section *************************/
+  /*-------------- start => section 4 <----- company register content ----> --------------*/
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form {
+    width: 90%;
+  }
+
+  /*-------------- end => section 4 <----- company register content ----> --------------*/
+  /*-------------- start => section 7 <----- carousel content  ----> --------------*/
+  .custom-carousel-content .c-container .slider-content {
+    width: 99%;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item {
+    width: 100%;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .open-title {
+    font-size: 26px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content p {
+    font-size: 12px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content h1 {
+    font-size: 13px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .owl-nav {
+    display: none;
+  }
+
+  /*-------------- end => section 7 <----- carousel content  ----> --------------*/
+  /********************** start => join section *************************/
+  .custom-join-section .custom-join-title {
+    width: 300px;
+  }
+  .custom-join-section .custom-join-title h1 {
+    font-size: 30px;
+  }
+  .custom-join-section .custom-join-title p {
+    font-size: 14px;
+  }
+
+  /********************** end => join section *************************/
+  /********************** start => footer section *************************/
+  .container-footer {
+    padding: 50px 10px 10px;
+  }
+  .container-footer .footer-content {
+    max-width: 100%;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-schema-parts {
+    padding-left: 0;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 {
+    flex-direction: column;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts {
+    width: 100%;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-about-parts {
+    margin: 0 auto;
+  }
+  .container-footer .footer-content .custom-our-schema .custom-response-768 .custom-schema-parts .custom-our-parts {
+    padding-left: 38px;
+  }
+
+  .container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer .custom-full-ul:after {
+    font-size: 14px;
+  }
+
+  /********************** end => footer section *************************/
+}
+@media (max-width: 460px) {
+  .custom-get-button {
+    padding: 10px 25px !important;
+    font-size: 13px;
+  }
+
+  .get-started {
+    padding: 10px 25px !important;
+    font-size: 13px;
+  }
+
+  .get-a-demo {
+    padding: 10px 25px !important;
+    font-size: 13px;
+  }
+
+  .custom-show_more_cmp {
+    padding: 10px 25px !important;
+    font-size: 13px;
+  }
+
+  .c-container {
+    width: 98% !important;
+  }
+
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-right-top-content {
+    display: flex;
+    margin-left: 5px;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom-flex-460 {
+    justify-content: center;
+  }
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-bottom-content .custom-flex-460 .custom-content-icon {
+    width: max-content;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+  }
+
+  .custom_content_box #custom-cardholder .custom-card-wrap .custom-card-inner-right .custom-card-inner-text .custom-card-inner-text-child {
+    margin-left: 8px;
+  }
+
+  .ml-0-460 {
+    margin-left: 0;
+  }
+
+  /*-------------- start => section 1  --------------*/
+  .custom-let-your-business .c-container .custom-let-your-title {
+    width: 300px;
+  }
+
+  /*-------------- end => section 1 --------------*/
+  /*-------------- start => section 4 <----- company register content ----> --------------*/
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form {
+    margin-left: unset;
+    margin: 0 auto;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name-content {
+    margin: 10px 0;
+    flex-direction: column;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name-content .first-last-name {
+    width: 95.4% !important;
+    margin: 0 !important;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .first-last-name-content #company-lastname {
+    margin-top: 10px !important;
+  }
+
+  /*-------------- end => section 4 <----- company register content ----> --------------*/
+}
+@media (min-width: 401px) {
+  .ui-dialog #footer-login-dialog #reg-form .login-email-response {
+    width: 240px !important;
+  }
+  .ui-dialog #footer-login-dialog #reg-form .register-password-response {
+    width: 242px !important;
+  }
+}
+@media (max-width: 400px) {
+  .c-container {
+    width: 98% !important;
+  }
+
+  /*-------------- start => section 3 <----- company register content ----> --------------*/
+  .custom-explore-sample .c-container .custom-cardholder-explore .custom-completed-card {
+    width: 85%;
+  }
+
+  /*-------------- end => section 3 <----- company register content ----> --------------*/
+  /*-------------- start => section 4 <----- company register content ----> --------------*/
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point .custom-style-img {
+    width: 18px;
+    height: 18px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point .custom-style-img img {
+    width: 9px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li .title-content-point h1 {
+    font-size: 19px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-point ul li p {
+    font-size: 14px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form {
+    padding: 15px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .custom-agree-terms .round .custom-span {
+    font-size: 12px;
+  }
+  .custom-register-company .c-container .register-wrapper-bottom .custom-register-form .custom-reg-form .custom-form-content .already-have-account {
+    font-size: 12px;
+  }
+
+  /*-------------- end => section 4 <----- company register content ----> --------------*/
+  /*-------------- start => section 5 <----- company register content ----> --------------*/
+  .custom-insight-and-research .c-container .custom-cardholder-research .custom-completed-card {
+    width: 85%;
+  }
+
+  /*-------------- end => section 5 <----- company register content ----> --------------*/
+  /*-------------- start => section 6 <----- company register content ----> --------------*/
+  .custom-insights-and-expert .c-container .custom-cardholder-expert .custom-completed-card {
+    width: 85%;
+  }
+
+  /*-------------- end => section 6 <----- company register content ----> --------------*/
+  /*-------------- start => section 7 <----- carousel content  ----> --------------*/
+  .custom-carousel-content .c-container .slider-content {
+    width: 99%;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item {
+    width: 90%;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .open-title {
+    font-size: 20px;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content h1 {
+    font-size: 12px;
+    width: 57%;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .custom-slider-item .custom-slider-bottom-content p {
+    font-size: 12px;
+    width: 60%;
+  }
+  .custom-carousel-content .c-container .slider-content .owl-carousel .owl-nav {
+    display: none;
+  }
+
+  /*-------------- end => section 7 <----- carousel content  ----> --------------*/
+  /*-------------- start => footer  --------------*/
+  .container-footer .footer-content-bottom .custom-bottom-block-footer .custom-full-content .custom-content-footer ul {
+    width: 100%;
+  }
+
+  /*-------------- end => footer  --------------*/
+  .ui-dialog #footer-login-dialog {
+    width: max-content !important;
+  }
+  .ui-dialog #footer-login-dialog .reg-top {
+    width: 313px;
+  }
+  .ui-dialog #footer-login-dialog .reg-choose {
+    width: 313px;
+  }
+  .ui-dialog #footer-login-dialog #reg-form {
+    width: 300px;
+  }
+  .ui-dialog #footer-login-dialog #reg-form .login-email-response {
+    width: 240px !important;
+  }
+  .ui-dialog #footer-login-dialog #reg-form .register-password-response {
+    width: 242px !important;
+  }
+}
+/************************************************** end => responsive  styles **************************************************/
+
+/*# sourceMappingURL=custom-style.css.map */

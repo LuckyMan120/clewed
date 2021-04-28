@@ -1,0 +1,86 @@
+<?php
+
+// defines the URL to the page created
+function maenna_login_form($form_state)
+{
+    $form['email'] = array(
+        '#type'         =>  'textfield',
+        '#title' => t('Your Email'),
+        '#required' => true,
+        '#default_value' => '',
+        '#description' => '',
+        '#maxlength' => 64,
+        '#prefix' => "<h3>Maenna User Login</h3><br>",
+    );
+    $form['password'] = array(
+        '#type'         =>  'password',
+        '#title' => t('Password'),
+        '#required' => true,
+        '#default_value' => '',
+        '#description' => '',
+        '#maxlength' => 30,
+        
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#default_value' => t('Submit'),
+        '#suffix' => "<br><br><a href='/user/password'>Request new password</a>",
+    );
+    return $form;
+}
+function maenna_login_form_validate($form, &$form_state)
+{
+    $_valid = true;
+    $Page_one = maenna_check_plain($form_state['values']);
+    $email = $Page_one['email'];
+    $password = $Page_one['password'];
+    if(strlen($email) < 8 || strlen($password) < 8 )
+    {
+        $_valid = false;
+    }
+    if($_valid)
+    {
+        if( $email != 'maenna_investor' && ! check_email($email) )
+        {
+            $_valid = false;
+        }
+    }
+    if( ! $_valid)
+    {
+        form_set_error('','Invalid email and password. Please try again');
+    }else{
+        if($email == 'maenna_investor' && $password = 'access604')
+        {
+            $_SESSION['investor_access'] = 1;
+            drupal_goto("investors");
+        }
+        $SQL = "select name, status from {users} where mail = '%s' ";
+        $result = db_query($SQL, $email);
+        $data = db_fetch_object($result);
+        $name = $data->name;
+        $status = $data->status;
+        if($name)
+        {
+            if($status == 0)
+            {
+                form_set_error('','We are in a private beta. Thanks for visiting.');
+                return;
+            }
+            user_authenticate(array('name'=>$name,'pass'=>$password));
+        }else
+        {
+            form_set_error('','Invalid email and password. Please try again');
+        }
+    }
+    
+}
+
+function maenna_login_form_submit($form, &$form_state)
+{
+    unset( $form_state['storage']);
+    $form_state['redirect'] = 'account';
+    
+}
+
+
+/* EOF */

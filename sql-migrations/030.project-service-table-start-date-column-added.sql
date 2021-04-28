@@ -1,0 +1,1 @@
+ALTER TABLE `maenna_company_events` ADD `start_date` TIMESTAMP NULL ;

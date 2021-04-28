@@ -1,0 +1,1 @@
+ALTER TABLE `user_rating` ADD COLUMN `service_id` INT NULL DEFAULT '0' AFTER `insight_id`;

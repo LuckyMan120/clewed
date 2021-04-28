@@ -1,0 +1,296 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #fcf7f7 !important;
+}
+
+a {
+    cursor: pointer;
+}
+
+div.links {
+    width: 100%;
+    text-align: center;
+}
+
+div.links a {
+    display: inline-block;
+    width: 222px;
+    height: 50px;
+    background-color: #D0D2D2;
+    color: #1f3947;
+    font-size: 21px;
+    text-transform: uppercase;
+    border: 2px solid #1f3a48;
+    font-family: "Lato Black", sans-serif;
+    position: relative;
+    line-height: 54px;
+    text-decoration: none;
+}
+
+div.links a div.line {
+    display: none;
+    position: absolute;
+    top: 8px;
+    left: 0;
+}
+
+div.links a.active, div.links a:hover {
+    color: #fbfbfb;
+    background: #1f3a48 url(/themes/maennaco/images/topline.png) no-repeat center 4px;
+}
+
+div.links a.active .line {
+    display: inline-block;
+    height: 2px;
+    background: white;
+    width: 100%;
+}
+
+#hiw {
+    font-family: "Lato Black", sans-serif;
+    font-size: 32px;
+    color: #1f3a48;
+    display: block;
+    text-align: center;
+    margin-top: 98px;
+    margin-bottom: 28px;
+}
+
+div.imageBlock {
+    margin: 25px 0 0 0;
+}
+
+div.imageBlock p {
+    /*font-family: "Lato Bold", sans-serif;*/
+    color: #537381;
+    font-size: 20px !important;
+    line-height: 24px;
+}
+
+div.imageBlock h2 {
+    color: #537381;
+    font-size: 24px;
+    padding-top: 85px;
+}
+
+div.imageLeft {
+
+}
+
+div.imageLeft img {
+    float: left;
+    margin-right: 25px;
+}
+
+div.imageRight {
+
+}
+
+div.imageRight img {
+    float: right;
+    margin-left: 25px;
+}
+
+html, body, #container {
+    height: 100%;
+    background: none !important;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    padding: .4em 1em;
+    position: relative;
+    background: none;
+    border-style: none;
+    color: #231F20;
+}
+
+.ui-dialog .ui-dialog-title {
+    float: left;
+    margin: .1em 16px .1em 0;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+    display: block !important;
+    background-image: url('/themes/maennaco/images/close-icon-off.png') !important;
+    width: 33px;
+    height: 32px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close span {
+    display: block;
+    margin: 1px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close:hover {
+    background-image: url('/themes/maennaco/images/close-icon-on.png') !important;
+}
+
+.ui-dialog .ui-dialog-titlebar-close:focus {
+    padding: 0;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+    position: absolute;
+    top: 23% !important;
+    right: -0.2em;
+    margin: -10px 0 0 0;
+    padding: 1px;
+}
+
+#wrapper {
+    margin-top: -25px;
+    background-color: #fbfbfb;
+}
+
+#container {
+    margin-top: 15px !important;
+}
+
+p {
+    font-family: 'LatoRegular', sans-serif;
+    font-size: 12px;
+}
+
+li {
+    font-family: 'LatoRegular', sans-serif;
+    font-size: 14px;
+}
+
+ul li, ul.menu li, .item-list ul li, li.leaf {
+    height: 30px;
+    background: #E8E8E9 !important;
+}
+
+ul li, ul.menu li, .item-list ul li, li.list-a {
+    background: none !important;
+    height: auto;
+}
+
+.ui-dialog .ui-dialog-content {
+    padding: 0 !important;
+}
+
+.ui-dialog {
+    padding: 0 !important;
+}
+
+.ui-widget-overlay {
+    opacity: 0.6 !important;
+}
+
+.clear-block {
+    min-height: 10px;
+}
+
+#hiw-banner {
+    background: url(/themes/maennaco/images/how-it-works-banner.png) no-repeat center bottom;
+    height: 448px;
+    color: #547381;
+}
+
+#hiw-banner-text {
+    font-family: 'Lato Light Italic', sans-serif;
+    font-size: 18px;
+    width: 590px;
+    margin-left: 34px;
+    line-height: 26px;
+}
+
+#hiw-banner h1 {
+    font-family: 'Lato Light', sans-serif;
+    font-size: 32px;
+    margin-bottom: 27px;
+    margin-left: 34px;
+}
+
+.hiw-line {
+    background-color: #1f3a48;
+    height: 6px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+#hiw-top-line {
+    top: 110px;
+}
+
+#hiw-bottom-line {
+    top: 595px;
+}
+
+#hiw-bottom-line:after {
+    top: 100%;
+    border: 14px solid transparent;
+    content: " ";
+    height: 0px;
+    width: 0px;
+    position: absolute;
+    pointer-events: none;
+}
+
+#hiw-bottom-line:after {
+    /*border: 14px rgba(31, 58, 72, 0);*/
+    border-top-color: #1f3a48;
+    left: 50%;
+    margin-left: -14px;
+}
+#hiw_tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 500px;
+    margin: 0 auto;
+}
+#hiw_tabs a {
+    position: relative;
+    display: block;
+    font-family: "Lato Bold";
+    font-size: 22px;
+    line-height: 50px;
+    border: 1px solid #1f3a48;
+    width: 240px;
+    height: 46px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: #dfeaee;
+    color: #1f3a48;
+}
+#hiw_tabs a.active span,#hiw_tabs a:hover span{
+    background-color: #ffffff;
+    height: 2px;
+    position: absolute;
+    left: 5px;
+    top: 3px;
+    z-index: 1;
+    width: 230px;
+}
+#hiw_tabs a.active span:after,#hiw_tabs a:hover span:after{
+    top: 100%;
+    border: 4px solid transparent;
+    content: " ";
+    height: 0px;
+    width: 0px;
+    position: absolute;
+    pointer-events: none;
+    border-top-color: #ffffff;
+    left: 50%;
+    margin-left: -4px;
+}
+#hiw_tabs a.active,#hiw_tabs a:hover{
+    color: #ffffff;
+    background-color: #1f3a48;
+}
+#policy {
+    overflow: auto;
+    height: 584px;
+}
+
+.footer-link {
+    margin-left: 20px;
+    cursor: pointer;
+    font-family: 'Lato Light', sans-serif;
+}

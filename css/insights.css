@@ -1,0 +1,7 @@
+.sold-out {
+    font-style: italic;
+    font-weight: bold;
+    color: #00A2BF;
+    float: left;
+    font-size: 12px;
+}

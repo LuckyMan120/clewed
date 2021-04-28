@@ -1,0 +1,74 @@
+#listOfPeople tr :hover {
+    background-color: #97D2FF;
+    cursor: pointer;
+}
+#errorMessageMaenna {
+  background-image: url("/themes/maennaco/images/s_error.png");
+  background-position: 5px 50%;
+  background-repeat: no-repeat;
+  background-color: #FFC4C4;
+  border-color: #333333;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 1px 1px #FFFFFF inset;
+  margin: 0.5em 0 1.3em;
+  padding: 10px 10px 10px 25px;
+  border: 1px solid maroon !important;
+  color: #000000;
+}
+.right-td .content_box {
+	padding: 0px 4%;
+	
+}
+#center table .right-td .content_box .box_content a {
+	color: #666;
+	font-size: 11px;
+	line-height: 1.3em;
+	text-align: justify;
+	font-family: Signika;
+	text-transform: uppercase;
+}
+.right-td .box_title {
+	display:none;
+}
+
+
+div.reply_delete_buttons {
+    float:right;
+    height:10px;
+    line-height:8px;
+    margin-left:40px;
+    padding-left:5px;
+    position:relative;
+    right:0;
+    top:5px;
+    width:30px;
+    z-index:10;
+}
+
+.box_content #newemailform textarea {
+	padding: 6px;
+	margin-top: 10px;
+	width:98%;
+	border: solid 2px #DCE6F5;
+}
+.box_content #newemailform .mesinp {
+	height:20px;
+	font: 15px/160% Verdana, sans-serif;
+	min-height: 26px;
+}
+
+.pGroup .pReload {
+	display: none;
+}
+.pGroup select {
+	display:none;
+}
+.pcontrol {
+	display:none;
+}
+.pDiv div.pGroup {
+	float: right; 
+}
+.box_content .flexigrid div.pDiv div.pDiv2 {
+	width: 900px;
+}

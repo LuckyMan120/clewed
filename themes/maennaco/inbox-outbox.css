@@ -1,0 +1,45 @@
+.flexigrid div.fbutton .new256 {
+	background-image: url(images/mail--plus.png);
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+
+.flexigrid div.fbutton .open {
+	background-image: url(images/mail-open-document.png);
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+
+.flexigrid div.fbutton .delete {
+	background-image: url(images/mail--minus.png);
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+
+.noaction .account-content-box table {
+	width:auto;
+
+}
+.right-td .content_box {
+	padding: 0px 4%;
+	
+}
+
+.right-td .box_title {
+	display:none;
+}
+#center .account-content-box table .right-td .box_content a {
+	margin-top: 7px;
+	font-size: 16px;
+	color: 
+	#000;
+	text-transform: uppercase;
+	font-family: 'Signika',arial;
+}
+#center .account-content-box table .right-td .box_content {
+	margin-top: 5px;
+}
+
+.box_content .flexigrid div.bDiv {
+	overflow: hidden;
+}

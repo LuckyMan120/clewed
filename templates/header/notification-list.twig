@@ -1,0 +1,199 @@
+<div class="header-notification"
+     data-user-id="{{ user.id }}"
+     data-time="{{ time }}"
+     data-hash="{{ hash }}"
+     data-user-type="{{ user.type }}" >
+    <div class="controls {{ counter > 0 ? 'has-new' : '' }}"
+         title="{{ notifications | length < 1 ? 'You haven\'t got any notifications yet' : 'Notifications' }}">
+        <div class="icon"></div>
+        <div class="counter">{{ counter }}</div>
+    </div>
+
+    <div class="header-notification-list-wrapper hidden">
+        <div class="header-notification-list-popup {{ notifications | length < 1 ? 'hidden' : '' }}">
+            <div class="header-notification-title">Your Recent Activities</div>
+            <div class="header-notification-list">
+                {% for notification in notifications %}
+                    {% include '/header/notification.twig' with { "notification": notification } %}
+                {% endfor %}
+            </div>
+            <div class="header-notification-list-loader"
+                 data-first-id="{{ firstId }}"
+                 data-last-id="{{ lastId }}">See More
+            </div>
+        </div>
+        <div class="header-notification-list-arrow {{ notifications | length < 1 ? 'hidden' : '' }}"></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/js/twig.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        var request = '{{ request }}';
+
+        if (request == '/account?tab=professionals&amp;page=pro_detail&amp;id='+{{ user.id }}) {
+
+            var container = $(".header-notification-list-wrapper");
+
+/*            if (container.parent().find(".controls").hasClass("has-new")) {
+
+                container.css("display", "block").delay(180000).queue(function (n) {
+
+                    $(this).css("display", "");
+                    n();
+                });
+            }*/
+
+            $(document).mouseup(function (e)
+            {
+                if (!container.is(e.target) // if the target of the click isn't the container...
+                    && container.has(e.target).length === 0) // ... nor a descendant of the container
+                {
+                    container.css("display","");
+                }
+            });
+        }
+
+
+
+        var $notificationContainer = $('.header-notification'),
+            $controls = $notificationContainer.find('.controls'),
+            $popup = $notificationContainer.find('.header-notification-list-popup'),
+            userId = $notificationContainer.data('userId'),
+            $wrapper = $('.header-notification-list-wrapper'),
+            $loader = $('.header-notification-list-loader'),
+            $list = $('.header-notification-list'),
+            $markReadBtn = $('.header-notification-list-item'),
+            $template = twig({
+                data: "{{ notificationTemplate | raw }}"
+            });
+
+        setInterval(function () {
+
+            var time = $notificationContainer.data('time'),
+                hash = $notificationContainer.data('hash'),
+                firstId = $loader.data('firstId');
+
+            $.post('/themes/maennaco/includes/notifications/fetch.php', {
+                userId: userId,
+                time: time,
+                hash: hash,
+                type: 'new',
+                firstId: firstId
+            }, function (response) {
+
+                if (response.success) {
+                    $notificationContainer.data('time', response.time);
+                    $notificationContainer.data('hash', response.hash);
+                    if ('' != response.data.firstId)
+                        $loader.data('firstId', response.data.firstId);
+
+                    $notificationContainer.find('.counter').html(response.data.counter);
+                    if (0 == response.data.counter)
+                        $controls.removeClass('has-new');
+                    else {
+                        $controls.addClass('has-new');
+                        $controls.attr('title', 'Notifications');
+                        $popup.removeClass('hidden');
+                        $('.header-notification-list-arrow').removeClass('hidden');
+                    }
+
+                    if (response.data.notifications.length > 0) {
+                        $.each(response.data.notifications.reverse(), function (i, notification) {
+                            if ($('.header-notification-list-item[data-id=' + notification.id + ']').length < 1) {
+                                var wrapperStyle = window.getComputedStyle($wrapper.get(0));
+                                if (wrapperStyle.display === 'none')
+                                    $list.prepend($template.render({
+                                        "notification": notification
+                                    }));
+                                else
+                                    $($template.render({
+                                        "notification": notification
+                                    })).hide().prependTo($list).show(1000);
+                            }
+                        });
+                    }
+                }
+
+            }, 'json');
+
+        }, 20000);
+
+        $loader.click(function(){
+
+            var time = $notificationContainer.data('time'),
+                hash = $notificationContainer.data('hash'),
+                lastId = $loader.data('lastId');
+
+            $.post('/themes/maennaco/includes/notifications/fetch.php', {
+                userId: userId,
+                time: time,
+                hash: hash,
+                type: 'past',
+                lastId: lastId
+            }, function (response) {
+
+                if (response.success) {
+
+                    if ('' != response.data.lastId)
+                        $loader.data('lastId', response.data.lastId);
+
+                    if (response.data.notifications.length > 0) {
+                        $.each(response.data.notifications.reverse(), function (i, notification) {
+                            if ($('.header-notification-list-item[data-id=' + notification.id + ']').length < 1) {
+                                var wrapperStyle = window.getComputedStyle($wrapper.get(0));
+                                if (wrapperStyle.display === 'none')
+                                    $list.append($template.render({
+                                        "notification": notification
+                                    }));
+                                else
+                                    $($template.render({
+                                        "notification": notification
+                                    })).hide().appendTo($list).show(1000);
+                            }
+                        });
+                    }
+                    else {
+                        $loader.unbind('click').html('No More Notifications');
+                    }
+                }
+
+            }, 'json');
+
+        });
+
+        $markReadBtn.livequery('click', function(){
+
+            var $that = $(this),
+                $notification = $that.closest('.header-notification-list-item'),
+                notificationId = $notification.data('id'),
+                time = $notificationContainer.data('time'),
+                hash = $notificationContainer.data('hash');
+
+            if(notificationId && $notification.hasClass('is-new'))
+                $.post('/themes/maennaco/includes/notifications/mark-read.php', {
+                    userId: userId,
+                    time: time,
+                    hash: hash,
+                    id: notificationId
+                }, function (response) {
+
+                    if (response.success) {
+
+                        $notificationContainer.find('.counter').html(response.data.counter);
+                        if (0 == response.data.counter)
+                            $controls.removeClass('has-new');
+
+                        var notification = response.data.notification;
+                        if ($('.header-notification-list-item[data-id=' + notification.id + ']').length > 0) {
+                            $notification.replaceWith($template.render({
+                                "notification": response.data.notification
+                            }));
+                        }
+                    }
+
+                }, 'json');
+        });
+    });
+</script>

@@ -1,0 +1,1 @@
+ALTER TABLE `maenna_company` ADD `featured` INT( 1 ) NOT NULL, ADD INDEX ( `featured` ) ;

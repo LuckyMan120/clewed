@@ -1,0 +1,25 @@
+; $Id: maennaco.info,v 1.5 2007/07/01 23:27:32 goba Exp $
+name = Maennaco
+description = Tableless, recolorable, multi-column, fluid width theme (default).
+version = VERSION
+core = 6.x
+engine = phptemplate
+
+regions[left] = Left sidebar
+regions[right] = Right sidebar
+regions[content] = Content
+regions[header] = Header
+regions[footer] = Footer
+regions[message] = Message
+
+stylesheets[all][] = style.css
+stylesheets[all][] = maennaco.css
+stylesheets[all][] = accounts.css
+stylesheets[print][] = print.css
+
+scripts[] = maennaco.js
+
+; Information added by drupal.org packaging script on 2010-12-15
+version = "6.20"
+project = "drupal"
+datestamp = "1292447789"

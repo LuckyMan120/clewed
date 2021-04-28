@@ -1,0 +1,216 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap");
+.card-wrap {
+    display: table;
+    width: 150px;
+    margin-left: 132px;
+    margin-top: -25px;
+    position: relative;
+}
+
+.card-wrap.is_active .card {
+    background: #ffffff;
+    color: black;
+    border: 1px solid;
+    transition: all .3s;
+}
+
+.link-wrapper {
+    margin-top: 10px !important;
+    margin-bottom: 20px !important;
+    width: 40%;
+    margin-left: 0;
+    margin-left: 0;
+    cursor: pointer;
+}
+
+.link-wrapper.is_active .card {
+    background: #a9daffde;
+    color: black;
+    transition: all .3s;
+}
+
+.link-wrapper .card {
+    max-width: unset;
+    display: flex;
+    justify-content: space-between;
+}
+
+.link-wrapper .card .bank_name {
+    padding-right: 25px;
+}
+
+.card {
+    max-width: 310px;
+    display: flex;
+    flex-direction: row-reverse;
+    border-radius: 8px;
+    height: 80px;
+    position: relative;
+    color: #929497;
+    font-family: "Ubuntu Mono", monospace;
+    box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.5);
+    background: #E3EEF2;
+    background: linear-gradient(to right, #ffffff 0%, #FFFFFF 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#004768', endColorstr='#00325b', GradientType=1);
+    cursor: pointer;
+}
+
+.bank_name {
+    text-align: left;
+    /* width: 150px; */
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: 20px;
+    font-family: 'Lato Italic';
+    font-size: 15px;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.card-wrap:hover .card-front {
+    transform: rotateY(180deg);
+    opacity: 0;
+}
+
+.card-wrap:hover .card-back {
+    transform: rotateY(0);
+    opacity: 1;
+}
+
+.flag {
+    border-top-right-radius: 8px;
+    max-width: 75px;
+    padding: 10px 0;
+}
+
+.flag img {
+    width: auto;
+    height: 100%;
+}
+
+.label {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-bottom: 5px;
+}
+
+.value {
+    text-transform: uppercase;
+    font-size: 18px;
+}
+
+.number {
+    font-size: 24px;
+    line-height: 1;
+    position: absolute;
+    top: 80px;
+    left: 15px;
+}
+
+.number span {
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.owner-data {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    padding: 15px;
+    justify-content: space-between;
+    box-sizing: border-box;
+    border-radius: 0 0 8px 8px;
+}
+
+.validate {
+    text-align: center;
+}
+
+.bar {
+    background-color: #ccc;
+    height: 40px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 50px;
+}
+
+.secret-code {
+    position: absolute;
+    top: 100px;
+    right: 15px;
+}
+
+.animate {
+    -webkit-transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -moz-transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+    -o-transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.link-wrap {
+    display: table;
+    width: 150px;
+    margin-left: 296px;
+    margin-top: -32px;
+    position: relative;
+}
+
+.linkcard {
+    border-radius: 8px;
+    height: 32px;
+    position: relative;
+    color: #929497;
+    font-family: "Ubuntu Mono", monospace;
+    box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.5);
+    background: #E3EEF2;
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#004768', endColorstr='#00325b', GradientType=1);
+}
+
+.bank-button-wrapper {
+    margin-top: 30px;
+    display: flex;
+}
+
+.bank-button-wrapper .custom-bank-button {
+    margin-right: 20px;
+    background-color: none;
+    width: 250px;
+    font-size: 12px;
+    background: unset;
+    color: black;
+    border: 1px solid black;
+    opacity: 1;
+    transition: all .3s;
+    display: inline-block;
+    font-family: 'LatoRegular';
+    padding: 6px 10px;
+    margin: 0px 4px 0px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 16px;
+    text-transform: capitalize;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.bank-button-wrapper .custom-bank-button:last-child {
+    /* background-color: red; */
+}
+
+.bank-button-wrapper .custom-bank-button:hover {
+    opacity: 0.5;
+}

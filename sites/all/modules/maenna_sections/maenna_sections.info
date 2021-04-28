@@ -1,0 +1,4 @@
+name = Maennaco Sections
+description = defines pages, tabs, sections, columns, positions of content functions
+core = 6.x
+
